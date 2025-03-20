@@ -4,11 +4,13 @@
 
 int main()
 {
-
+    sf::Clock clock; // starts the clock
     Game game;
     while (!game.isDone())
     {
         game.handleInput();
+        float dt=clock.restart().asSeconds();
+        game.update(dt);
         game.render();
     }
 

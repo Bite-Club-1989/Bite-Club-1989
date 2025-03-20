@@ -23,7 +23,7 @@ public:
     Player();
     ~Player() {};
 
-    void playerMove();
+    void playerMove(float);
     void playerDeath(sf::RenderWindow &window);
     void playerLose(sf::RenderWindow &window);
 
@@ -39,7 +39,7 @@ public:
     void playerHitPoints();
     void playerLevel();
 
-    void draw(sf::RenderWindow &window);
+    void draw(sf::RenderWindow &window, float);
 
     enum class PlayerState
     {
@@ -50,6 +50,7 @@ public:
 
     enum class PlayerAction
     {
+        Idle,
         Attack,
         Defend,
         LevelUp,

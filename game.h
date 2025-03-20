@@ -11,10 +11,12 @@ public:
     ~Game() {};
 
     void handleInput();
-    void update();
+    void update(float);
     void render();
     bool isDone() const;
 
+    float mDT;
+    sf::Clock mClock;
 
 private:
     Player player1;

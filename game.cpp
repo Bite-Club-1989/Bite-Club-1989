@@ -24,10 +24,15 @@ void Game::handleInput()
     }
 }
 
+void Game::update(float dt)
+{
+    mDT = dt;
+}
+
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
-    player1.draw(mWindow);
+    player1.draw(mWindow, mDT);
     mWindow.display();
 }
 

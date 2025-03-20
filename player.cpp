@@ -18,6 +18,9 @@ Player::Player()
     mPlayer.setFillColor(sf::Color::Green);
     mPlayer.setPosition(400, 400);
 
+    mState = PlayerState::Alive;
+    mAction = PlayerAction::Idle;
+
     mXP = 0;       // experience points
     mHP = 50;      // hit points
     mHealth = 100; // health
@@ -27,19 +30,19 @@ Player::Player()
 }
 
 // Move the player
-void Player::playerMove()
+void Player::playerMove(float dt)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        mPlayer.move(0, -0.1); // move up
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mPlayer.getPosition().y > 0)
+        mPlayer.move(0, -100 * dt); // move up
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        mPlayer.move(0, 0.1); // move down
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mPlayer.getPosition().y < 800)
+        mPlayer.move(0, 100 * dt); // move down
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        mPlayer.move(-0.1, 0); // move left
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mPlayer.getPosition().x > 0)
+        mPlayer.move(-100 * dt, 0); // move left
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        mPlayer.move(0.1, 0); // move right
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mPlayer.getPosition().x < 800)
+        mPlayer.move(100 * dt, 0); // move right
 }
 
 void Player::playerDeath(sf::RenderWindow &window)
@@ -69,13 +72,14 @@ void Player::playerLose(sf::RenderWindow &window)
 }
 
 // Draw the player
-void Player::draw(sf::RenderWindow &window)
+void Player::draw(sf::RenderWindow &window, float dt)
 {
-    playerMove();
+    playerMove(dt);
     window.draw(mPlayer);
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == PlayerState::Alive)
     {
+        mAction = PlayerAction::Attack;
         // playerAttack();
         mBullets.push_back(sf::CircleShape(5));
         mBullets.back().setFillColor(sf::Color::Yellow);
@@ -84,17 +88,14 @@ void Player::draw(sf::RenderWindow &window)
         angles.push_back(atan2(sf::Mouse::getPosition(window).y - mPlayer.getPosition().y,
                                sf::Mouse::getPosition(window).x - mPlayer.getPosition().x));
     }
+    else
+        mAction = PlayerAction::Idle;
 
     for (int i = 0; i < mBullets.size(); i++)
     {
         window.draw(mBullets[i]);
-        mBullets[i].move(cos(angles[i]) * 0.75, sin(angles[i]) * 0.75);
+        mBullets[i].move(cos(angles[i]) * 250 * dt, sin(angles[i]) * 250 * dt);
     }
-
-    // if (mHealth <= 0)
-    // {
-    //     mState = PlayerState::Dead;
-    // }
 
     if (mState == PlayerState::Dead)
     {
