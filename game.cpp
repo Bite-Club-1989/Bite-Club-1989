@@ -1,8 +1,10 @@
 #include "game.h"
+#include "player.hpp"
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989")
 {
     mIsDone = false;
+    Player player1;
 }
 
 void Game::handleInput()
@@ -25,6 +27,7 @@ void Game::handleInput()
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
+    player1.draw(mWindow);
     mWindow.display();
 }
 

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include "player.hpp"
 
 class Game
 {
@@ -16,6 +17,7 @@ public:
 
 
 private:
+    Player player1;
     sf::RenderWindow mWindow;
     bool mIsDone;
 };
