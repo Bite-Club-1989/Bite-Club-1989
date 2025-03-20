@@ -13,36 +13,55 @@
 // Player will be inside of the game window
 Player::Player()
 {
-    mPlayer.setRadius(20);
-    mPlayer.setOrigin(20, 20);
-    mPlayer.setFillColor(sf::Color::Green);
-    mPlayer.setPosition(400, 400);
+    // mPlayer.setRadius(20);
+    // mPlayer.setOrigin(20, 20);
+    // mPlayer.setFillColor(sf::Color::Green);
+    // mPlayer.setPosition(400, 400);
+
+    mTexture.loadFromFile("Bodyedit.png");
+    mSprite.setTexture(mTexture);
+    // mSprite.setTextureRect(sf::IntRect(40, 40, 40, 40));
+    mSprite.setPosition(400, 400);
+    mSprite.setOrigin(20, 20);
 
     mState = PlayerState::Alive;
     mAction = PlayerAction::Idle;
 
-    mXP = 0;       // experience points
-    mHP = 50;      // hit points
-    mHealth = 100; // health
-    mLevel = 1;    // level
-    mScore = 0;    // score
-    mSpeed = 0.1;  // speed
+    mXP = 0;            // experience points
+    mHP = 50;           // hit points
+    mHealth = 100;      // health
+    mLevel = 1;         // level
+    mScore = 0;         // score
+    mPlayerSpeed = 100; // player speed
+    mBulletSpeed = 750; // bullet speed
 }
 
 // Move the player
 void Player::playerMove(float dt)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mPlayer.getPosition().y > 0)
-        mPlayer.move(0, -100 * dt); // move up
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mPlayer.getPosition().y > 0)
+    //     mPlayer.move(0, -mPlayerSpeed * dt); // move up
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mPlayer.getPosition().y < 800)
-        mPlayer.move(0, 100 * dt); // move down
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mPlayer.getPosition().y < 800)
+    //     mPlayer.move(0, mPlayerSpeed * dt); // move down
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mPlayer.getPosition().x > 0)
-        mPlayer.move(-100 * dt, 0); // move left
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mPlayer.getPosition().x > 0)
+    //     mPlayer.move(-mPlayerSpeed * dt, 0); // move left
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mPlayer.getPosition().x < 800)
-        mPlayer.move(100 * dt, 0); // move right
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mPlayer.getPosition().x < 800)
+    //     mPlayer.move(mPlayerSpeed * dt, 0); // move right
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 0)
+        mSprite.move(0, -mPlayerSpeed * dt); // move up
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 800)
+        mSprite.move(0, mPlayerSpeed * dt); // move down
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 0)
+        mSprite.move(-mPlayerSpeed * dt, 0); // move left
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
+        mSprite.move(mPlayerSpeed * dt, 0); // move right
 }
 
 void Player::playerDeath(sf::RenderWindow &window)
@@ -50,6 +69,10 @@ void Player::playerDeath(sf::RenderWindow &window)
     // Player dies
     mPlayer.setFillColor(sf::Color::Red);
     mPlayer.setPosition(400, 400);
+
+    mSprite.setTextureRect(sf::IntRect(0, 40, 40, 40));
+    mSprite.setPosition(400, 400);
+    mSprite.setRotation(90);
 }
 
 void Player::playerLose(sf::RenderWindow &window)
@@ -71,22 +94,31 @@ void Player::playerLose(sf::RenderWindow &window)
     window.draw(text);
 }
 
+void Player::playerWin(sf::RenderWindow &window)
+{
+}
+
+void Player::playerAttack(sf::RenderWindow &window)
+{
+
+    mBullets.push_back(sf::CircleShape(2));
+    mBullets.back().setFillColor(sf::Color::White);
+    mBullets.back().setOrigin(5, 5);
+    mBullets.back().setPosition(mSprite.getPosition());
+    mAngles.push_back(atan2(sf::Mouse::getPosition(window).y - mSprite.getPosition().y,
+                            sf::Mouse::getPosition(window).x - mSprite.getPosition().x));
+}
+
 // Draw the player
 void Player::draw(sf::RenderWindow &window, float dt)
 {
     playerMove(dt);
-    window.draw(mPlayer);
+    window.draw(mSprite);
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == PlayerState::Alive)
     {
         mAction = PlayerAction::Attack;
-        // playerAttack();
-        mBullets.push_back(sf::CircleShape(5));
-        mBullets.back().setFillColor(sf::Color::Yellow);
-        mBullets.back().setOrigin(5, 5);
-        mBullets.back().setPosition(mPlayer.getPosition());
-        angles.push_back(atan2(sf::Mouse::getPosition(window).y - mPlayer.getPosition().y,
-                               sf::Mouse::getPosition(window).x - mPlayer.getPosition().x));
+        playerAttack(window);
     }
     else
         mAction = PlayerAction::Idle;
@@ -94,7 +126,7 @@ void Player::draw(sf::RenderWindow &window, float dt)
     for (int i = 0; i < mBullets.size(); i++)
     {
         window.draw(mBullets[i]);
-        mBullets[i].move(cos(angles[i]) * 250 * dt, sin(angles[i]) * 250 * dt);
+        mBullets[i].move(cos(mAngles[i]) * mBulletSpeed * dt, sin(mAngles[i]) * mBulletSpeed * dt);
     }
 
     if (mState == PlayerState::Dead)
