@@ -21,12 +21,13 @@ public:
     ~Player() {};
 
     void playerMove();
+    void playerDeath(sf::RenderWindow &window);
+    void playerLose(sf::RenderWindow &window);
+
     void playerAttack();
     void playerDefend();
     void playerLevelUp();
-    void playerDeath();
     void playerWin();
-    void playerLose();
     void playerScore();
     void playerHealth();
     void playerSpeed();
@@ -41,14 +42,14 @@ private:
     sf::CircleShape mPlayer;
     //sf::RenderWindow mWindow;
 
-    int xp;     // experience points
-    int hp;     // hit points
-    int health; // health
-    int level;  // level
-    int score;  // score
-    int speed;  // speed
-    int x;      // x position
-    int y;      // y position
+    int mXP;     // experience points
+    int mHP;     // hit points
+    int mHealth; // health
+    int mLevel;  // level
+    int mScore;  // score
+    int mSpeed;  // speed
+    int mX;      // x position
+    int mY;      // y position
 };
 
 #endif
