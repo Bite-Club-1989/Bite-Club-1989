@@ -12,6 +12,9 @@
 #define PLAYER_H
 
 #include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
 #include <SFML/Graphics.hpp>
 
 class Player
@@ -36,20 +39,35 @@ public:
     void playerHitPoints();
     void playerLevel();
 
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow &window);
+
+    enum class PlayerState
+    {
+        Alive,
+        Dead,
+        Win
+    };
+
+    enum class PlayerAction
+    {
+        Attack,
+        Defend,
+        LevelUp,
+    };
 
 private:
     sf::CircleShape mPlayer;
-    //sf::RenderWindow mWindow;
+    PlayerState mState;
+    PlayerAction mAction;
+    std::vector<sf::CircleShape> mBullets;
+    std::vector<float> angles;
 
-    int mXP;     // experience points
-    int mHP;     // hit points
-    int mHealth; // health
-    int mLevel;  // level
-    int mScore;  // score
-    int mSpeed;  // speed
-    int mX;      // x position
-    int mY;      // y position
+    int mXP;       // experience points
+    int mHP;       // hit points
+    int mHealth;   // health
+    int mLevel;    // level
+    int mScore;    // score
+    double mSpeed; // speed
 };
 
 #endif
