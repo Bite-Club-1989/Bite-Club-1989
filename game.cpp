@@ -3,7 +3,6 @@
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989")
 {
     mIsDone = false;
-
 }
 
 void Game::handleInput()
@@ -11,10 +10,14 @@ void Game::handleInput()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
+        switch (event.type)
         {
-            // Close window button clicked.
+        case sf::Event::Closed:
             mWindow.close();
+            break;
+
+        default:
+            break;
         }
     }
 }
