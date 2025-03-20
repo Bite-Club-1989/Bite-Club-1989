@@ -32,6 +32,14 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
+    mBackground.loadFromFile("testBasckground.png");
+    mSpriteBackground.setTexture(mBackground);
+    // mSprite.setTextureRect(sf::IntRect(40, 40, 40, 40));
+    // mSpriteBackground.setPosition(400, 400);
+    // mSpriteBackground.scale(0.2f, 0.2f);
+    mSpriteBackground.setScale(0.5f, 0.5f);
+    mSpriteBackground.setOrigin(20, 20);
+    mWindow.draw(mSpriteBackground);
     player1.draw(mWindow, mDT);
     mWindow.display();
 }

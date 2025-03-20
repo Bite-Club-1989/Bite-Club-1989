@@ -21,6 +21,8 @@ public:
 private:
     Player player1;
     sf::RenderWindow mWindow;
+    sf::Texture mBackground;
+    sf::Sprite mSpriteBackground;
     bool mIsDone;
 };
 
