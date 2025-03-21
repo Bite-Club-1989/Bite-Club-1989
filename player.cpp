@@ -18,7 +18,7 @@ Player::Player()
     // mPlayer.setFillColor(sf::Color::Green);
     // mPlayer.setPosition(400, 400);
 
-    mTexture.loadFromFile("Bodyedit.png");
+    mTexture.loadFromFile("assets/textures/Bodyedit.png");
     mSprite.setTexture(mTexture);
     // mSprite.setTextureRect(sf::IntRect(40, 40, 40, 40));
     mSprite.setPosition(400, 400);

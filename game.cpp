@@ -1,6 +1,7 @@
 #include "game.h"
 #include "player.hpp"
 
+
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989")
 {
     mIsDone = false;
@@ -32,7 +33,7 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
-    mBackground.loadFromFile("testBasckground.png");
+    mBackground.loadFromFile("assets/textures/testBackground.png");
     mSpriteBackground.setTexture(mBackground);
     // mSprite.setTextureRect(sf::IntRect(40, 40, 40, 40));
     // mSpriteBackground.setPosition(400, 400);
