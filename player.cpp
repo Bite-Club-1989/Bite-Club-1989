@@ -80,11 +80,11 @@ void Player::playerLose(sf::RenderWindow &window)
     // Player loses
     std::string message = "GAME OVER\nYOU SUCK!";
     sf::Font font;
-    if (!font.loadFromFile("Meta-Courage-TTF.ttf"))
+    if (!font.loadFromFile("assets/fonts/Meta-Courage-TTF.ttf"))
         std::cout << "No Text\n";
 
     sf::Text text;
-    font.loadFromFile("Meta-Courage-TTF.ttf");
+    font.loadFromFile("assets/fonts/Meta-Courage-TTF.ttf");
     text.setFont(font);
     text.setPosition(sf::Vector2f(window.getSize().x / 3.5, 70));
     text.setString(message);
