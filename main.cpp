@@ -1,3 +1,13 @@
+/**
+ * @file main.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2025-03-24
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #include <SFML/Graphics.hpp>
 #include "game.h"
 #include "player.hpp"
