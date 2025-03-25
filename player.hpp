@@ -1,74 +1,39 @@
 /**
- * @file player.hpp
+ * @file player2.hpp
  * @author your name (you@domain.com)
  * @brief
  * @version 0.1
- * @date 2025-03-20
+ * @date 2025-03-24
  *
  * @copyright Copyright (c) 2025
  *
  */
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 #include <iostream>
 #include <vector>
-#include <string>
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include "entity.hpp"
 
-class Player
+class Player : public Entity
 {
 public:
-    Player();
+    Player() : Entity("assets/textures/Bodyedit.png")
+    {
+        mSprite.setPosition(400, 400);
+        mBulletSpeed = 750; // bullet speed
+    };
     ~Player() {};
 
-    void playerMove(float);
-    void playerDeath(sf::RenderWindow &window);
-    void playerLose(sf::RenderWindow &window);
-    void playerWin(sf::RenderWindow &window);
-    void playerAttack(sf::RenderWindow &window);
-
-    void setPlayerExperience(int xp) { mXP = xp; };
-    void setPlayerHitPoints(int hp) { mHP = hp; };
-    void setPlayerHealth(int health) { mHealth = health; };
-    void setPlayerLevel(int level) { mLevel = level; };
-    void setPlayerScore(int score) { mScore = score; };
-    void setPlayerSpeed(float speed) { mPlayerSpeed = speed; };
-    void setBulletSpeed(float speed) { mBulletSpeed = speed; };
-
-    void draw(sf::RenderWindow &window, float);
-
-    enum class PlayerState
-    {
-        Alive,
-        Dead,
-        Win
-    };
-
-    enum class PlayerAction
-    {
-        Idle,
-        Attack,
-        Defend,
-        LevelUp,
-    };
+    void playerMove(float dt);                     // Move the player
+    void playerAttack(sf::RenderWindow &window);   // Player attacks
+    void draw(sf::RenderWindow &window, float dt); // Draw the player
 
 private:
-    sf::CircleShape mPlayer;
-    sf::Texture mTexture;
-    sf::Sprite mSprite;
-    PlayerState mState;
-    PlayerAction mAction;
     std::vector<sf::CircleShape> mBullets;
     std::vector<float> mAngles;
-
-    int mXP;             // experience points
-    int mHP;             // hit points
-    int mHealth;         // health
-    int mLevel;          // level
-    int mScore;          // score
-    double mPlayerSpeed; // speed
     double mBulletSpeed; // bullet speed
 };
 
