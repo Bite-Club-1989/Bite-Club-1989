@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "player.hpp"
+#include "enemy.hpp"
 
 class Game
 {
@@ -20,6 +21,7 @@ public:
 
 private:
     Player player1;
+    Enemy enemy1;
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
     sf::Sprite mSpriteBackground;
