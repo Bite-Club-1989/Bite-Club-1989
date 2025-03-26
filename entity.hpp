@@ -1,7 +1,7 @@
 /**
  * @file entity.hpp
- * @author your name (you@domain.com)
- * @brief
+ * @author Chris Bailey (cbailey@nic.edu)
+ * @brief The entity class
  * @version 0.1
  * @date 2025-03-24
  *
@@ -20,29 +20,40 @@ public:
     Entity()
     {
         mTexture.loadFromFile("assets/textures/ZombieShooter/Sprites/Zombie/Zombie.png");
-        mSprite.setTextureRect(sf::IntRect(35, 0, 35, 35));
+        sf::IntRect textureRect(42, 10, 13, 20);
+        mSprite.setTextureRect(textureRect);
         mSprite.setTexture(mTexture);
-        mSprite.setPosition(200, 400);
-        mSprite.setOrigin(20, 20);
 
+        // Positioning and scaling
+        mSprite.setPosition(200, 400);
+        mSprite.setOrigin(0, 0);
+        mSprite.setScale(2, 2);
+
+        // Attributes
         mXP = 0;
         mHP = 50;
         mHealth = 100;
-        mSpeed = 100;
+        mSpeed = 90;
 
+        // State and action
         mState = EntityState::Alive;
         mAction = EntityAction::Idle;
     };
     Entity(const std::string &texture)
     {
         mTexture.loadFromFile(texture);
-        mSprite.setTexture(mTexture);
 
+        // Positioning and scaling
+        mSprite.setOrigin(0, 0);
+        mSprite.setScale(2, 2);
+
+        // Attributes
         mXP = 0;
         mHP = 50;
         mHealth = 100;
         mSpeed = 100;
 
+        // State and action
         mState = EntityState::Alive;
         mAction = EntityAction::Idle;
     };
@@ -84,9 +95,11 @@ public:
     int mHP;
     int mHealth;
     float mSpeed;
+
     sf::CircleShape mEnemy;
     sf::Texture mTexture;
     sf::Sprite mSprite;
+
     EntityState mState;
     EntityAction mAction;
 
