@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include "game.h"
 #include "player.hpp"
+#include "weapon.h"
 
 int main()
 {
