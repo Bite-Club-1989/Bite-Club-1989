@@ -21,7 +21,7 @@
 class Player : public Entity
 {
 public:
-    Player() : Entity("assets/textures/Bodyedit.png")
+    Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 2, 1, 750, true)
     {
         mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20));
         mSprite.setTexture(mTexture);
@@ -31,7 +31,10 @@ public:
     void playerMove(float dt);                                     // Move the player
     void playerAttack(sf::RenderWindow &window);                   // Player attacks
     void playerDeath(sf::RenderWindow &window);                    // Player death
-    void draw(sf::RenderWindow &window, float dt, Weapon &weapon); // Draw the player
+    void draw(sf::RenderWindow &window, float dt); // Draw the player
+
+    private:
+    Weapon weapon;
 };
 
 #endif

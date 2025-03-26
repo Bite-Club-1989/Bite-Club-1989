@@ -23,7 +23,7 @@ public:
 private:
     Player player1;
     Enemy enemy1;
-    RangedWeapon weapon1;
+    
     
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
