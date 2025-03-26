@@ -21,6 +21,7 @@ class Enemy : public Entity
 {
 public:
     Enemy() {};
+    
     ~Enemy() {};
 
     void enemyDealDamage(Player &p)
@@ -30,6 +31,10 @@ public:
             std::cout << "Player Hit" << std::endl;
             p.takeDamage(10);
         }
+    }
+    void moveEnemy(Player &p)
+    {
+        p.getPosition()
     }
 };
 

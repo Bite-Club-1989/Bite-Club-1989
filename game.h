@@ -16,7 +16,9 @@ public:
     void update(float);
     void render();
     bool isDone() const;
-
+    //add game score
+    //add game level
+    //add game 
     float mDT;
     sf::Clock mClock;
 
