@@ -9,6 +9,7 @@
  * 
  */
 #include "player.hpp"
+#include "weapon.h"
 
 // Move the player
 void Player::playerMove(float dt)
@@ -38,7 +39,7 @@ void Player::playerAttack(sf::RenderWindow &window)
 }
 
 // Draw the player
-void Player::draw(sf::RenderWindow &window, float dt)
+void Player::draw(sf::RenderWindow &window, float dt, Weapon &weapon)
 {
     playerMove(dt);
     window.draw(mSprite);
@@ -46,16 +47,18 @@ void Player::draw(sf::RenderWindow &window, float dt)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == EntityState::Alive)
     {
         mAction = EntityAction::Attack;
-        playerAttack(window);
+        // playerAttack(window);
+        weapon.attack(window, mSprite);
     }
     else
         mAction = EntityAction::Idle;
 
-    for (int i = 0; i < mBullets.size(); i++)
-    {
-        window.draw(mBullets[i]);
-        mBullets[i].move(cos(mAngles[i]) * mBulletSpeed * dt, sin(mAngles[i]) * mBulletSpeed * dt);
-    }
+    // for (int i = 0; i < mBullets.size(); i++)
+    // {
+    //     window.draw(mBullets[i]);
+    //     mBullets[i].move(cos(mAngles[i]) * mBulletSpeed * dt, sin(mAngles[i]) * mBulletSpeed * dt);
+    // }
+    weapon.attackRender(window, dt);
 
     if (mState == EntityState::Dead)
     {

@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef GAME_H
-#define GAME_H
+#ifndef WEAPON_H
+#define WEAPON_H
 
 #include <SFML/Graphics.hpp>
 
@@ -23,22 +23,29 @@ public:
     void setRate(float r) { mRate = r; }
     void setWepDmg(float d) { mWepDmg = d; }
 
+    void attack(sf::RenderWindow &window, sf::Sprite &sprite);
+    void attackRender(sf::RenderWindow &window, float dt);
+
     float getRate() { return mRate; }
     float getWepDmg() { return mWepDmg; }
 
-private:
+protected:
     sf::Texture mTexture;
-    sf::Sprite mSprite;
+    // sf::Sprite mSprite;
+    sf::Clock mFireClock;
+    std::vector<sf::CircleShape> mBullets;
+    std::vector<float> mAngles;
+    double mBulletSpeed; // bullet speed
 
     std::string mName;
     int mID;
     float mWepDmg, mRate;
 };
 
-class Stick : public Weapon
+class RangedWeapon : public Weapon
 {
 public:
-    Stick() : Weapon("Stick", 2, 1) {}
+    RangedWeapon(std::string name, float d, float r, float b);
 };
 
 #endif

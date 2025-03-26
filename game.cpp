@@ -1,10 +1,10 @@
 #include "game.h"
 #include "player.hpp"
+#include "weapon.h"
 
-Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989")
+Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), weapon1("gun", 2, 1, 750)
 {
     mIsDone = false;
-    Player player1;
 }
 
 void Game::handleInput()
@@ -40,7 +40,7 @@ void Game::render()
     // mSpriteBackground.setScale(0.5f, 0.5f);
     // mSpriteBackground.setOrigin(20, 20);
     // mWindow.draw(mSpriteBackground);
-    player1.draw(mWindow, mDT);
+    player1.draw(mWindow, mDT, weapon1);
     enemy1.draw(mWindow);
     mWindow.display();
 }

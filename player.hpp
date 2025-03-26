@@ -16,6 +16,7 @@
 #include <cmath>
 #include <SFML/Graphics.hpp>
 #include "entity.hpp"
+#include "weapon.h"
 
 class Player : public Entity
 {
@@ -27,9 +28,9 @@ public:
     };
     ~Player() {};
 
-    void playerMove(float dt);                     // Move the player
-    void playerAttack(sf::RenderWindow &window);   // Player attacks
-    void draw(sf::RenderWindow &window, float dt); // Draw the player
+    void playerMove(float dt);                                     // Move the player
+    void playerAttack(sf::RenderWindow &window);                   // Player attacks
+    void draw(sf::RenderWindow &window, float dt, Weapon &weapon); // Draw the player
 
 private:
     std::vector<sf::CircleShape> mBullets;
