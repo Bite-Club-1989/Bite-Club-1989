@@ -43,7 +43,7 @@ void Player::playerDeath(sf::RenderWindow &window)
 }
 
 // Draw the player
-void Player::draw(sf::RenderWindow &window, float dt, Weapon &weapon)
+void Player::draw(sf::RenderWindow &window, float dt)
 {
     playerMove(dt);
     window.draw(mSprite);

@@ -9,11 +9,22 @@
  * @copyright Copyright (c) 2025
  *
  */
-Weapon::Weapon(std::string name, float d, float r)
+Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
 {
     mName = name;
     mWepDmg = d;
     mRate = r;
+    mBulletSpeed = b;
+    mRanged = ranged;
+}
+
+void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
+{
+    mName = name;
+    mWepDmg = d;
+    mRate = r;
+    mBulletSpeed = b;
+    mRanged = ranged;
 }
 
 void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
@@ -40,8 +51,3 @@ void Weapon::attackRender(sf::RenderWindow &window, float dt)
     }
 }
 
-RangedWeapon::RangedWeapon(std::string name, float d, float r, float b)
-    : Weapon(name, d, r)
-{
-    mBulletSpeed = b;
-}

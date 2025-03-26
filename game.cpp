@@ -2,7 +2,7 @@
 #include "player.hpp"
 #include "weapon.h"
 
-Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), weapon1("gun", 2, 1, 750), enemy1()
+Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), enemy1()
 {
     mIsDone = false;
 }
@@ -32,7 +32,7 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
-    player1.draw(mWindow, mDT, weapon1);
+    player1.draw(mWindow, mDT);
     enemy1.draw(mWindow);
     enemy1.enemyDealDamage(player1);
     mWindow.display();
