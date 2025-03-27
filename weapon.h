@@ -33,18 +33,16 @@ public:
 
 protected:
     sf::Texture mTexture;
-    // sf::Sprite mSprite;
+    // sf::Sprite mSprite; // this is commented out right for now until in use
     sf::Clock mFireClock;
-    std::vector<sf::CircleShape> mBullets;
+    std::vector<sf::CircleShape> mBullets; // this stores the bullets in a vector to be drawn to screen
     std::vector<float> mAngles;
     double mBulletSpeed; // bullet speed
-    bool mRanged;
+    bool mRanged;        // flag that will be used for ranged attacks
 
     std::string mName;
     int mID;
     float mWepDmg, mRate;
 };
-
-
 
 #endif
