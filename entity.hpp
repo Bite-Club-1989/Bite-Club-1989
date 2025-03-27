@@ -1,7 +1,7 @@
 /**
  * @file entity.hpp
  * @author Chris Bailey (cbailey@nic.edu)
- * @brief The entity class
+ * @brief The entity class that will be the base class for all character type classes
  * @version 0.1
  * @date 2025-03-24
  *
@@ -17,94 +17,52 @@
 class Entity
 {
 public:
-    Entity()
+    Entity();                           // Default constructor, enemy will use this
+    Entity(const std::string &texture); // Constructor with texture, player will use this
+    ~Entity();                          // Destructor that does nothing
+
+    enum class EntityState // States that the entity can be in
     {
-        mTexture.loadFromFile("assets/textures/ZombieShooter/Sprites/Zombie/Zombie.png");
-        sf::IntRect textureRect(42, 10, 13, 20);
-        mSprite.setTextureRect(textureRect);
-        mSprite.setTexture(mTexture);
-
-        // Positioning and scaling
-        mSprite.setPosition(200, 400);
-        mSprite.setOrigin(0, 0);
-        mSprite.setScale(2, 2);
-
-        // Attributes
-        mXP = 0;
-        mHP = 50;
-        mHealth = 100;
-        mSpeed = 90;
-
-        // State and action
-        mState = EntityState::Alive;
-        mAction = EntityAction::Idle;
-    };
-    Entity(const std::string &texture)
-    {
-        mTexture.loadFromFile(texture);
-
-        // Positioning and scaling
-        mSprite.setOrigin(0, 0);
-        mSprite.setScale(2, 2);
-
-        // Attributes
-        mXP = 0;
-        mHP = 50;
-        mHealth = 100;
-        mSpeed = 100;
-
-        // State and action
-        mState = EntityState::Alive;
-        mAction = EntityAction::Idle;
-    };
-    ~Entity() {};
-    virtual void experience(int xp) { mXP = xp; };
-    virtual void hitPoints(int hp) { mHP = hp; };
-    virtual void health(int health) { mHealth = health; };
-    virtual void speed(float speed) { mSpeed = speed; };
-    virtual void position(sf::Vector2f position) { mSprite.setPosition(position); };
-    virtual void draw(sf::RenderWindow &window) { window.draw(mSprite); };
-    virtual void takeDamage(int amount)
-    {
-        mHealth -= amount;
-        if (mHealth <= 0)
-            mState = EntityState::Dead;
-    }
-    virtual void setTexture(sf::Texture texture)
-    {
-        mTexture = texture;
-        mSprite.setTexture(mTexture);
-    };
-    virtual void setSprite(sf::Sprite sprite) { mSprite = sprite; };
-
-    enum class EntityState
-    {
-        Alive,
-        Dead
+        Alive, // Default state
+        Dead   // Dead state
     };
 
-    enum class EntityAction
+    enum class EntityAction // Actions that the entity can take
     {
-        Idle,
-        Moving,
-        Attack,
-        Defend,
+        Idle,   // Entity Default action non-moving
+        Moving, // Entity is moving
+        Attack, // Entity is executing attack
+        Defend, // Entity is executing defend
+        Hurt,   // Entity is hurt
     };
 
-    int mXP;
-    int mHP;
-    int mHealth;
-    float mSpeed;
+    // Functions that can be used or overided by derived classes
+    virtual void experience(int xp);                // Experience points used for leveling up
+    virtual void hitPoints(int hp);                 // Hit points used for damage calculations
+    virtual void health(int health);                // Health points used for health bar
+    virtual void speed(float speed);                // Speed of the entity
+    virtual void position(sf::Vector2f position);   // Position of the entity
+    virtual void draw(sf::RenderWindow &window);    // Draw the entity
+    virtual void takeDamage(int amount);            // Take damage from an attack
+    virtual void setTexture(sf::Texture texture);   // Set the texture of the entity
+    virtual void setSprite(sf::Sprite sprite);      // Set the sprite of the entity
+    virtual void changeState(EntityState state);    // Change the state of the entity
+    virtual void changeAction(EntityAction action); // Change the action of the entity
 
+    // Variables
+    int mXP;      // Member variable for experience points
+    int mHP;      // Member variable for hit points
+    int mHealth;  // Member variable for health points
+    float mSpeed; // Member variable for speed
+
+    // Shape and texture
     sf::CircleShape mEnemy;
-    sf::Texture mTexture;
-    sf::Sprite mSprite;
+    sf::Texture mTexture; // Member variable for the texture
+    sf::Sprite mSprite;   // Member variable for the sprite
 
-    EntityState mState;
-    EntityAction mAction;
-
-    virtual void changeState(EntityState state) { mState = state; };
-    virtual void changeAction(EntityAction action) { mAction = action; };
+    // State and action
+    EntityState mState;   // Member variable for the state
+    EntityAction mAction; // Member variable for the action
 };
 
 #endif
