@@ -1,12 +1,12 @@
 /**
  * @file main.cpp
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2025-03-24
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 #include <SFML/Graphics.hpp>
 #include "game.h"
@@ -20,7 +20,7 @@ int main()
     while (!game.isDone())
     {
         game.handleInput();
-        float dt=clock.restart().asSeconds();
+        float dt = clock.restart().asSeconds();
         game.update(dt);
         game.render();
     }
