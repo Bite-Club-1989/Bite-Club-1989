@@ -16,7 +16,7 @@
  * @param name name of the weapon
  * @param d damage
  * @param r fire rate / speed
- * @param b bullet speed
+ * @param b bullet projectile speed
  * @param ranged boolean flag for ranged weapon
  */
 Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
@@ -34,7 +34,7 @@ Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
  * @param name name of the weapon
  * @param d damage
  * @param r fire rate / speed
- * @param b bullet speed
+ * @param b bullet projectile speed
  * @param ranged boolean for ranged weapon
  */
 void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
@@ -49,8 +49,8 @@ void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
 /**
  * @brief Weapon attack function. Handles both ranged and melee based on the value in mRanged.
  *
- * @param window This is the game window passed in from the Game class.
- * @param sprite This is the player sprite passed in from the Player class.
+ * @param window This is the game window passed in from the Game class (render function).
+ * @param sprite This is the player sprite passed in from the Player class (draw function).
  */
 void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
 {
@@ -77,8 +77,8 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
 /**
  * @brief renders the appropriate attack to the screen
  * 
- * @param window This is the game window passed in from the Game class.
- * @param dt the clock that is passed from the Game class
+ * @param window This is the game window passed in from the Game class (render function).
+ * @param dt the clock that is passed from the Game class (render function).
  */
 void Weapon::attackRender(sf::RenderWindow &window, float dt)
 {

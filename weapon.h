@@ -33,7 +33,7 @@ public:
 
 protected:
     sf::Texture mTexture;
-    // sf::Sprite mSprite; // this is commented out right for now until in use
+    // sf::Sprite mSprite; // this is commented out for now until in use
     sf::Clock mFireClock;
     std::vector<sf::CircleShape> mBullets; // this stores the bullets in a vector to be drawn to screen
     std::vector<float> mAngles;
