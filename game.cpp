@@ -33,7 +33,8 @@ void Game::render()
 {
     mWindow.clear(sf::Color::Black);
     player1.draw(mWindow, mDT);
-    enemy1.draw(mWindow);
+    //enemy1.draw(mWindow);
+    enemy1.updateAndDraw(mWindow, player1, mDT);
     enemy1.enemyDealDamage(player1);
     mWindow.display();
 }
