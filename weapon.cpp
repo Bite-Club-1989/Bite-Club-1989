@@ -52,7 +52,7 @@ void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
  * @param window This is the game window passed in from the Game class (render function).
  * @param sprite This is the player sprite passed in from the Player class (draw function).
  */
-void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
+void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite, std::vector<sf::CircleShape> &mBullets)
 {
     if (mRanged) // if a ranged weapon
     {
@@ -80,7 +80,7 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
  * @param window This is the game window passed in from the Game class (render function).
  * @param dt the clock that is passed from the Game class (render function).
  */
-void Weapon::attackRender(sf::RenderWindow &window, float dt)
+void Weapon::attackRender(sf::RenderWindow &window, float dt, std::vector<sf::CircleShape> &mBullets)
 {
     if (mRanged)
     {

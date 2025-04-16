@@ -19,11 +19,11 @@ public:
 
     float mDT;
     sf::Clock mClock;
+    std::vector<sf::CircleShape> mBullets;
 
 private:
     Player player1;
     Enemy enemy1;
-    
     
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
