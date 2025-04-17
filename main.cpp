@@ -17,12 +17,13 @@
 int main()
 {
     Timer damageTimer(0.25f);
-    sf::Clock clock; // starts the clock
+    // Timer gameClock(1.0f);
+    sf::Clock gameClock;
     Game game;
     while (!game.isDone())
     {
         game.handleInput();
-        float dt = clock.restart().asSeconds();
+        float dt = gameClock.restart().asSeconds();
         game.update(dt);
         game.render(damageTimer);
     }

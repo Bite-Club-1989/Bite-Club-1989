@@ -13,12 +13,13 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "timer.hpp"
 
 class Timer
 {
 public:
     Timer(float delaySeconds) { delay = delaySeconds; }; // Default constructor
-    //~Timer();                                            // Destructor
+    ~Timer() {};                                         // Destructor
 
     // Functions
     bool ready()
@@ -30,6 +31,8 @@ public:
         }
         return false;
     };
+
+    float restartAsSec() { return clock.restart().asSeconds(); };
 
 private:
     float delay;
