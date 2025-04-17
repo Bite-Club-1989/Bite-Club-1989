@@ -81,7 +81,7 @@ void Player::playerDeath(sf::RenderWindow &window)
  * @param window The window to draw to (originating from game.cpp)
  * @param dt The delta time between frames (originating from main.cpp)
  */
-void Player::draw(sf::RenderWindow &window, float dt)
+void Player::draw(sf::RenderWindow &window, float dt, std::vector<sf::CircleShape> &mBullets)
 {
     playerMove(dt);
     window.draw(mSprite);
@@ -89,12 +89,12 @@ void Player::draw(sf::RenderWindow &window, float dt)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == EntityState::Alive)
     {
         mAction = EntityAction::Attack;
-        weapon.attack(window, mSprite);
+        weapon.attack(window, mSprite, mBullets);
     }
     else
         mAction = EntityAction::Idle;
 
-    weapon.attackRender(window, dt);
+    weapon.attackRender(window, dt, mBullets);
 
     if (mState == EntityState::Dead)
     {

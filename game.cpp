@@ -32,10 +32,20 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
-    player1.draw(mWindow, mDT);
-    //enemy1.draw(mWindow);
+    player1.draw(mWindow, mDT, mBullets);
+    // enemy1.draw(mWindow);
     enemy1.updateAndDraw(mWindow, player1, mDT);
     enemy1.enemyDealDamage(player1);
+
+    for (int i = 0; i < mBullets.size(); i++)
+    {
+        if (enemy1.mSprite.getGlobalBounds().intersects(mBullets[i].getGlobalBounds()))
+        {
+            enemy1.enemyDeath(mWindow);
+            std::cout << "ENEMY HIT!" << std::endl;
+        }
+    }
+
     mWindow.display();
 }
 
