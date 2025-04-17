@@ -26,7 +26,7 @@ public:
     // Deals damage to the player if their sprites intersect
     void enemyDealDamage(Player &p)
     {
-        if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()))
+        if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
         {
             std::cout << "Player Hit" << std::endl;
             p.takeDamage(10);
@@ -76,8 +76,15 @@ public:
     // needed to create new function to be able to pass player object.
     void updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
     {
-        enemyMove(p, dt);     // Update enemy position toward the player.
-        window.draw(mSprite); // Draw the enemy.
+        if (mState == EntityState::Alive)
+        {
+            enemyMove(p, dt);     // Update enemy position toward the player.
+            window.draw(mSprite); // Draw the enemy.
+        }
+        else
+        {
+            enemyDeath(window);
+        }
     }
     void enemyDeath(sf::RenderWindow &window)
     {
@@ -86,6 +93,7 @@ public:
         mSprite.setRotation(90);
         mSprite.move(0, 0);
         window.draw(mSprite);
+        mState = EntityState::Dead;
     }
 
 private:

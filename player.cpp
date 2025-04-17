@@ -24,6 +24,8 @@ Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 2, 1, 7
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
     mSprite.setTexture(mTexture);                       // Set the texture
     mSprite.setPosition(400, 400);                      // Set the position inside the window
+
+    setWpnDmg(30);
 };
 
 /**
