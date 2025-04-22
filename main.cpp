@@ -17,7 +17,6 @@
 int main()
 {
     Timer damageTimer(0.25f);
-    // Timer gameClock(1.0f);
     sf::Clock gameClock;
     Game game;
     while (!game.isDone())

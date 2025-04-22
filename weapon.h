@@ -13,7 +13,6 @@
 #define WEAPON_H
 
 #include <SFML/Graphics.hpp>
-#include "timer.hpp"
 
 class Weapon
 {

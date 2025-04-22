@@ -1,10 +1,9 @@
 #include "game.h"
 #include "player.hpp"
 #include "weapon.h"
-#include "timer.hpp"
 #include <ctime>
 
-Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), enemy1(), mClock(1.0f)
+Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), enemy1()
 {
     mIsDone = false;
 }

@@ -19,7 +19,6 @@ public:
     bool isDone() const;
 
     float mDT;
-    Timer mClock;
 
 private:
     Player player1;
