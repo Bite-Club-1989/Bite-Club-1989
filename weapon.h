@@ -35,16 +35,32 @@ public:
 
     struct Projectile
     {
-        sf::CircleShape bullet;
-        float angle;
-
         Projectile(const sf::Vector2f &pos, float ang) : angle(ang)
         {
             bullet.setRadius(2);
             bullet.setFillColor(sf::Color::White);
             bullet.setOrigin(-13, -10);
             bullet.setPosition(pos);
+            mState = BulletState::Active;
         }
+
+        enum class BulletState
+        {
+            Active,
+            Disabled
+        };
+
+        bool checkIfActive()
+        {
+            if (mState == BulletState::Active)
+                return true;
+            else
+                return false;
+        }
+
+        sf::CircleShape bullet;
+        float angle;
+        BulletState mState;
     };
 
     std::vector<Weapon::Projectile> mProjectiles;
@@ -59,7 +75,7 @@ public:
         return mBulletSpeed;
     };
 
-    protected:
+protected:
     sf::Texture mTexture;
     // sf::Sprite mSprite; // this is commented out for now until in use
     sf::Clock mFireClock;

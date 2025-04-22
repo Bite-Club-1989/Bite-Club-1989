@@ -5,7 +5,6 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "weapon.h"
-#include "timer.hpp"
 
 class Game
 {
@@ -15,7 +14,7 @@ public:
 
     void handleInput();
     void update(float);
-    void render(Timer &damageTimer);
+    void render();
     bool isDone() const;
 
     float mDT;

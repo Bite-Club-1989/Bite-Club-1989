@@ -12,11 +12,9 @@
 #include "game.h"
 #include "player.hpp"
 #include "weapon.h"
-#include "timer.hpp"
 
 int main()
 {
-    Timer damageTimer(0.25f);
     sf::Clock gameClock;
     Game game;
     while (!game.isDone())
@@ -24,7 +22,7 @@ int main()
         game.handleInput();
         float dt = gameClock.restart().asSeconds();
         game.update(dt);
-        game.render(damageTimer);
+        game.render();
     }
 
     return 0;

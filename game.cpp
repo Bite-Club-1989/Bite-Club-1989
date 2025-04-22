@@ -30,7 +30,7 @@ void Game::update(float dt)
     mDT = dt;
 }
 
-void Game::render(Timer &damageTimer)
+void Game::render()
 {
     mWindow.clear(sf::Color::Black);
     player1.draw(mWindow, mDT);
@@ -43,16 +43,13 @@ void Game::render(Timer &damageTimer)
     for (int i = 0; i < projectiles.size(); ++i)
     {
         // Check collision
-        if (enemy1.mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
+        if (projectiles[i].checkIfActive() && enemy1.mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
         {
-            if (damageTimer.ready())
-            {
-                enemy1.takeDamage(30);
-                std::cout << "ENEMY HIT!" << std::endl;
+            enemy1.takeDamage(30);
+            std::cout << "ENEMY HIT!" << std::endl;
 
-                projectiles.erase(projectiles.begin() + i);
-                --i;
-            }
+            projectiles.erase(projectiles.begin() + i);
+            --i;
         }
     }
 
