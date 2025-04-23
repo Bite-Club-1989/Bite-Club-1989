@@ -52,20 +52,28 @@ void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
  * @param window This is the game window passed in from the Game class (render function).
  * @param sprite This is the player sprite passed in from the Player class (draw function).
  */
-void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite, std::vector<sf::CircleShape> &mBullets)
+void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
 {
     if (mRanged) // if a ranged weapon
     {
+        // if (mFireClock.getElapsedTime().asSeconds() >= mRate) // checks if time since last attack is greater than the weapon rate
         if (mFireClock.getElapsedTime().asSeconds() >= mRate) // checks if time since last attack is greater than the weapon rate
         {
-            mBullets.push_back(sf::CircleShape(2));
-            mBullets.back().setFillColor(sf::Color::White);
-            mBullets.back().setOrigin(-13, -10);
-            mBullets.back().setPosition(sprite.getPosition()); // sets the bullet starting position to the player sprite
-            mAngles.push_back(atan2(sf::Mouse::getPosition(window).y - sprite.getPosition().y,
-                                    sf::Mouse::getPosition(window).x - sprite.getPosition().x));
+            // Get player and mouse positions
+            sf::Vector2f playerPosition = sprite.getPosition();
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
-            mFireClock.restart(); //restarts the fire rate clock
+            // Calculate angle between player and mouse
+            float angle = std::atan2(static_cast<float>(mousePosition.y) - playerPosition.y,
+                                     static_cast<float>(mousePosition.x) - playerPosition.x);
+
+            // Create a new projectile with that position and angle
+            Projectile projectile(playerPosition, angle);
+
+            // Add the projectile to the list
+            mProjectiles.push_back(projectile);
+
+            mFireClock.restart();
         }
     }
     else
@@ -76,18 +84,24 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite, std::vector<sf
 
 /**
  * @brief renders the appropriate attack to the screen
- * 
+ *
  * @param window This is the game window passed in from the Game class (render function).
  * @param dt the clock that is passed from the Game class (render function).
  */
-void Weapon::attackRender(sf::RenderWindow &window, float dt, std::vector<sf::CircleShape> &mBullets)
+void Weapon::attackRender(sf::RenderWindow &window, float dt)
 {
     if (mRanged)
     {
-        for (int i = 0; i < mBullets.size(); i++)
+
+        for (std::size_t i = 0; i < mProjectiles.size(); ++i)
         {
-            window.draw(mBullets[i]);
-            mBullets[i].move(cos(mAngles[i]) * mBulletSpeed * dt, sin(mAngles[i]) * mBulletSpeed * dt);
+            Projectile &projectile = mProjectiles[i];
+            window.draw(projectile.bullet);
+
+            // Move projectile
+            float dx = std::cos(projectile.angle) * mBulletSpeed * dt;
+            float dy = std::sin(projectile.angle) * mBulletSpeed * dt;
+            projectile.bullet.move(dx, dy);
         }
     }
     else

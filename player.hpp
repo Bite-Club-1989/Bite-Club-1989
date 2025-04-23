@@ -28,7 +28,10 @@ public:
     void playerMove(float dt);                     // Move the player
     void playerAttack(sf::RenderWindow &window);   // Player attacks
     void playerDeath(sf::RenderWindow &window);    // Player death
-    void draw(sf::RenderWindow &window, float dt, std::vector<sf::CircleShape> &mBullets); // Draw the player
+    void draw(sf::RenderWindow &window, float dt); // Draw the player
+    void setWpnDmg(float d) { weapon.setWepDmg(d); };
+
+    Weapon &getWeapon(){ return weapon; };
 
 private:
     Weapon weapon; // Weapon object

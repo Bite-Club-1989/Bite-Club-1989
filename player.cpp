@@ -24,6 +24,8 @@ Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 2, 1, 7
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
     mSprite.setTexture(mTexture);                       // Set the texture
     mSprite.setPosition(400, 400);                      // Set the position inside the window
+
+    setWpnDmg(30);
 };
 
 /**
@@ -39,17 +41,20 @@ Player::~Player() {};
  */
 void Player::playerMove(float dt)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 0)
-        mSprite.move(0, -mSpeed * dt); // move up
+    if (mState == EntityState::Alive)
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 0)
+            mSprite.move(0, -mSpeed * dt); // move up
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 800)
-        mSprite.move(0, mSpeed * dt); // move down
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 800)
+            mSprite.move(0, mSpeed * dt); // move down
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 0)
-        mSprite.move(-mSpeed * dt, 0); // move left
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 0)
+            mSprite.move(-mSpeed * dt, 0); // move left
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
-        mSprite.move(mSpeed * dt, 0); // move right
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
+            mSprite.move(mSpeed * dt, 0); // move right
+    }
 }
 
 /**
@@ -81,7 +86,7 @@ void Player::playerDeath(sf::RenderWindow &window)
  * @param window The window to draw to (originating from game.cpp)
  * @param dt The delta time between frames (originating from main.cpp)
  */
-void Player::draw(sf::RenderWindow &window, float dt, std::vector<sf::CircleShape> &mBullets)
+void Player::draw(sf::RenderWindow &window, float dt)
 {
     playerMove(dt);
     window.draw(mSprite);
@@ -89,12 +94,12 @@ void Player::draw(sf::RenderWindow &window, float dt, std::vector<sf::CircleShap
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == EntityState::Alive)
     {
         mAction = EntityAction::Attack;
-        weapon.attack(window, mSprite, mBullets);
+        weapon.attack(window, mSprite);
     }
     else
         mAction = EntityAction::Idle;
 
-    weapon.attackRender(window, dt, mBullets);
+    weapon.attackRender(window, dt);
 
     if (mState == EntityState::Dead)
     {

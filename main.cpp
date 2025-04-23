@@ -15,12 +15,12 @@
 
 int main()
 {
-    sf::Clock clock; // starts the clock
+    sf::Clock gameClock;
     Game game;
     while (!game.isDone())
     {
         game.handleInput();
-        float dt = clock.restart().asSeconds();
+        float dt = gameClock.restart().asSeconds();
         game.update(dt);
         game.render();
     }

@@ -18,8 +18,6 @@ public:
     bool isDone() const;
 
     float mDT;
-    sf::Clock mClock;
-    std::vector<sf::CircleShape> mBullets;
 
 private:
     Player player1;

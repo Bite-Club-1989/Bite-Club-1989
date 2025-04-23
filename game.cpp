@@ -1,6 +1,7 @@
 #include "game.h"
 #include "player.hpp"
 #include "weapon.h"
+#include <ctime>
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), enemy1()
 {
@@ -32,17 +33,23 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
-    player1.draw(mWindow, mDT, mBullets);
-    // enemy1.draw(mWindow);
+    player1.draw(mWindow, mDT);
     enemy1.updateAndDraw(mWindow, player1, mDT);
     enemy1.enemyDealDamage(player1);
 
-    for (int i = 0; i < mBullets.size(); i++)
+    std::vector<Weapon::Projectile> &projectiles = player1.getWeapon().getProjectiles();
+    float bulletSpeed = player1.getWeapon().getBulletSpeed();
+
+    for (int i = 0; i < projectiles.size(); ++i)
     {
-        if (enemy1.mSprite.getGlobalBounds().intersects(mBullets[i].getGlobalBounds()))
+        // Check collision
+        if (projectiles[i].checkIfActive() && enemy1.mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
         {
-            enemy1.enemyDeath(mWindow);
+            enemy1.takeDamage(30);
             std::cout << "ENEMY HIT!" << std::endl;
+
+            projectiles.erase(projectiles.begin() + i);
+            --i;
         }
     }
 
