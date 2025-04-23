@@ -48,6 +48,7 @@ public:
     virtual void setSprite(sf::Sprite sprite);      // Set the sprite of the entity
     virtual void changeState(EntityState state);    // Change the state of the entity
     virtual void changeAction(EntityAction action); // Change the action of the entity
+    virtual bool checkIfActive();                   // Pull state of entity
 
     // Variables
     int mXP;      // Member variable for experience points

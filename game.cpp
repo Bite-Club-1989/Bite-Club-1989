@@ -43,7 +43,7 @@ void Game::render()
     for (int i = 0; i < projectiles.size(); ++i)
     {
         // Check collision
-        if (projectiles[i].checkIfActive() && enemy1.mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
+        if (projectiles[i].checkIfActive() && enemy1.mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()) && enemy1.checkIfActive())
         {
             enemy1.takeDamage(30);
             std::cout << "ENEMY HIT!" << std::endl;
