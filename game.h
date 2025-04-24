@@ -17,15 +17,16 @@ public:
     void update(float);
     void render();
     bool isDone() const;
+    void checkCollision();
 
     float mDT;
-
-    std::vector<Enemy> Enemies;
 
 private:
     void resetGame(); // allows for restarting game
     Player player1;
-    Enemy enemy1;
+    std::vector<Enemy> Enemies;
+    Enemy e;
+
     int LEVEL = 1;
     int lastSpawnedLevel = 0;
 
@@ -35,7 +36,6 @@ private:
     bool mIsDone;
     sf::Music mMusic;
     // add button for quick restart
-   
 };
 
 #endif

@@ -50,14 +50,6 @@
              Disabled
          };
  
-         bool checkIfActive()
-         {
-             if (mState == BulletState::Active)
-                 return true;
-             else
-                 return false;
-         }
- 
          sf::CircleShape bullet;
          float angle;
          BulletState mState;
@@ -65,10 +57,10 @@
  
      std::vector<Weapon::Projectile> mProjectiles;
  
-     std::vector<Weapon::Projectile> &getProjectiles()
-     {
-         return mProjectiles;
-     }
+    //  std::vector<Weapon::Projectile> &getProjectiles()
+    //  {
+    //      return mProjectiles;
+    //  }
  
      double getBulletSpeed()
      {

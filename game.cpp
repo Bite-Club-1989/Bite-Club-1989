@@ -2,16 +2,18 @@
 #include "player.hpp"
 #include "weapon.h"
 #include <ctime>
-#include <thread>
-#include <chrono>
 
-Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1(), enemy1()
+Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
-    //can add soundtrack(s) here
-    if (!mMusic.openFromFile("assets/sounds/For Whom The Bell Tolls (Remastered).mp3")) {
+
+    // can add soundtrack(s) here
+    if (!mMusic.openFromFile("assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
+    {
         std::cerr << "Failed to load music\n";
-    } else {
+    }
+    else
+    {
         mMusic.setLoop(true);
         mMusic.play();
     }
@@ -40,12 +42,11 @@ void Game::update(float dt)
     // update splawned enemies if level changes
     if (LEVEL != lastSpawnedLevel)
     {
-        //clear old enemies
+        // clear old enemies
         Enemies.clear();
         // spawn new enemies based on level
         for (int i = 0; i < LEVEL; ++i)
         {
-            Enemy e;
             // position them however you like:
             e.position({100.f * (i + 1), 100.f});
             Enemies.push_back(e);
@@ -61,22 +62,27 @@ void Game::render()
     // draw player
     player1.draw(mWindow, mDT);
 
-    //loop through all enemies to draw and check damage
-    for (auto &e : Enemies) 
+    // loop through all enemies to draw and check damage
+    int enemyVecSize = static_cast<int>(Enemies.size());
+    for (int i = 0; i < enemyVecSize; i++)
     {
-        e.updateAndDraw(mWindow, player1, mDT);
-        e.enemyDealDamage(player1);
+        Enemies[i].updateAndDraw(mWindow, player1, mDT);
+        Enemies[i].enemyDealDamage(player1);
     }
 
     // check for colloisions beteen weapon attacks and enemies
-    auto &projectiles = player1.getWeapon().getProjectiles();
-    for (int i = 0; i < projectiles.size(); ++i) {
-        if (!projectiles[i].checkIfActive()) continue;
-        for (auto &e : Enemies) {
-            if (e.mSprite.getGlobalBounds()
-                   .intersects(projectiles[i].bullet.getGlobalBounds()))
+    std::vector<Weapon::Projectile> &projectiles = player1.getWeapon().mProjectiles;
+    for (int i = 0; i < static_cast<int>(projectiles.size()); i++)
+    {
+        if (projectiles[i].mState == Weapon::Projectile::BulletState::Disabled)
+            continue; // SKIP LOOP
+        for (int j = 0; j < enemyVecSize; j++)
+        {
+            if (Enemies[j].mState == Entity::EntityState::Dead)
+                continue; // SKIP LOOP
+            if (Enemies[j].mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
             {
-                e.takeDamage( player1.getWeapon().getWepDmg() );
+                Enemies[j].takeDamage(player1.getWeapon().getWepDmg());
                 projectiles.erase(projectiles.begin() + i);
                 --i;
                 break;
@@ -85,18 +91,21 @@ void Game::render()
     }
 
     // if enemies are alldead level uo
-    bool allDead = std::all_of(Enemies.begin(), Enemies.end(),[](const Enemy &e)
-    { return e.mState == Entity::EntityState::Dead; }
-    );
-    if (allDead) {
+    bool allDead = true;
+    for (int k = 0; k < enemyVecSize; k++)
+        if (Enemies[k].mState == Entity::EntityState::Alive)
+            allDead = false;
+    if (allDead)
         ++LEVEL;
-    }
 
     mWindow.display();
 }
 
-
 bool Game::isDone() const
 {
     return (!mWindow.isOpen() || mIsDone);
+}
+
+void Game::checkCollision()
+{
 }
