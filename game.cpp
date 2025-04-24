@@ -2,8 +2,6 @@
 #include "player.hpp"
 #include "weapon.h"
 #include <ctime>
-#include <thread>
-#include <chrono>
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
