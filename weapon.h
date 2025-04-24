@@ -50,14 +50,6 @@
              Disabled
          };
  
-         bool checkIfActive()
-         {
-             if (mState == BulletState::Active)
-                 return true;
-             else
-                 return false;
-         }
- 
          sf::CircleShape bullet;
          float angle;
          BulletState mState;

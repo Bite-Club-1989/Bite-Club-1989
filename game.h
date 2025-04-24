@@ -26,7 +26,7 @@ private:
     Player player1;
     std::vector<Enemy> Enemies;
     Enemy e;
-    // Enemy enemy1;
+
     int LEVEL = 1;
     int lastSpawnedLevel = 0;
 

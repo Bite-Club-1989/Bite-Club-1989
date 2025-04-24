@@ -6,6 +6,7 @@
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
+
     // can add soundtrack(s) here
     if (!mMusic.openFromFile("assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
     {
@@ -73,12 +74,12 @@ void Game::render()
     std::vector<Weapon::Projectile> &projectiles = player1.getWeapon().mProjectiles;
     for (int i = 0; i < static_cast<int>(projectiles.size()); i++)
     {
-        if (!projectiles[i].checkIfActive())
-            continue;
+        if (projectiles[i].mState == Weapon::Projectile::BulletState::Disabled)
+            continue; // SKIP LOOP
         for (int j = 0; j < enemyVecSize; j++)
         {
-            if (!Enemies[j].checkIfActive())
-                continue;
+            if (Enemies[j].mState == Entity::EntityState::Dead)
+                continue; // SKIP LOOP
             if (Enemies[j].mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
             {
                 Enemies[j].takeDamage(player1.getWeapon().getWepDmg());
