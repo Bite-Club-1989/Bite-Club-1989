@@ -12,18 +12,27 @@
 #include "game.h"
 #include "player.hpp"
 #include "weapon.h"
+#include "splashscreens.h"
 
 int main()
 {
-    sf::Clock gameClock;
-    Game game;
-    while (!game.isDone())
-    {
-        game.handleInput();
-        float dt = gameClock.restart().asSeconds();
-        game.update(dt);
-        game.render();
-    }
 
-    return 0;
+  sf::RenderWindow window({800, 800}, "Bite Club");
+  {
+    SplashScreen splash(
+        "assets/textures/splash/transitions/image0.jpg",
+        "assets/fonts/Meta-Courage-TTF.ttf");
+    splash.display(window);
+  }
+  sf::Clock gameClock;
+  Game game;
+  while (!game.isDone())
+  {
+    game.handleInput();
+    float dt = gameClock.restart().asSeconds();
+    game.update(dt);
+    game.render();
+  }
+
+  return 0;
 }
