@@ -156,11 +156,3 @@ void Entity::changeState(EntityState state) { mState = state; };
  * @param action The action to change to
  */
 void Entity::changeAction(EntityAction action) { mAction = action; };
-
-bool Entity::checkIfActive()
-{
-    if (mState == EntityState::Alive)
-        return true;
-    else
-        return false;
-};

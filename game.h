@@ -5,6 +5,7 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "weapon.h"
+#include <SFML/Audio.hpp>
 
 class Game
 {
@@ -16,17 +17,25 @@ public:
     void update(float);
     void render();
     bool isDone() const;
+    void checkCollision();
 
     float mDT;
 
 private:
+    void resetGame(); // allows for restarting game
     Player player1;
-    Enemy enemy1;
-    
+    std::vector<Enemy> Enemies;
+    Enemy e;
+
+    int LEVEL = 1;
+    int lastSpawnedLevel = 0;
+
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
     sf::Sprite mSpriteBackground;
     bool mIsDone;
+    sf::Music mMusic;
+    // add button for quick restart
 };
 
 #endif

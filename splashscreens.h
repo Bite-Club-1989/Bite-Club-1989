@@ -1,46 +1,80 @@
 #ifndef SPLASHSCREENS_H
 #define SPLASHSCREENS_H
+
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
+#include <stdexcept>
 
 struct SplashScreen
 {
+    sf::Texture   mTexture;
+    sf::Sprite    mSprite;
 
-    sf::Texture mTexture;
-    sf::SoundBuffer mSoundBuffer;
-    sf::Sound mSound;
-    float mDuration;
-    sf::Sprite mOverlayObject;
-    sf::Text mOverlayText;
-    SplashScreen(const std::string &texturepath, const std::string &soundpath, float duration)
-        : mTexture(), mSoundBuffer(), mSound(), mDuration(duration), mOverlayObject(), mOverlayText()
+    sf::Font      mFont;
+    sf::Text      mPrompt;         // blinking “Press Enter”
+    float         mBlinkTimer  = 0.f;
+    bool          mShowPrompt  = true;
+    const float   BLINK_PERIOD = 0.5f;
+
+    SplashScreen(const std::string& texturePath,
+                 const std::string& fontPath)
     {
-        if (!mTexture.loadFromFile(texturepath))
-        {
-            throw std::runtime_error("Failed to load texture");
-        }
-        if (!mSoundBuffer.loadFromFile(soundpath))
-        {
-            throw std::runtime_error("Failed to load sound");
-        }
-        mSound.setBuffer(mSoundBuffer);
-    };
-    ~SplashScreen();
-    void display(sf::RenderWindow &window);
-    void setTexture(const std::string &texturepath);
-    void setSound(const std::string &soundpath);
-    void setDuration(float duration);
-    void setPosition(float x, float y);
-    void setScale(float x, float y);
-    void setOverlayObject(const std::string &texturepath);
-    void setOverlayPosition(float x, float y);
-    void setOVerlayScale(float x, float y);
-    void setOverlayColor(sf::Color color);
-    void setOverlayText(const std::string &text, const std::string &fontpath, float size, sf::Color color, float x, float y);
+        // Load splash image
+        if (!mTexture.loadFromFile(texturePath))
+            throw std::runtime_error("Failed to load splash texture");
+        mSprite.setTexture(mTexture);
 
+        // Load font & setup prompt text
+        if (!mFont.loadFromFile(fontPath))
+            throw std::runtime_error("Failed to load font");
+        mPrompt.setFont(mFont);
+        mPrompt.setString("Press Enter to Start");
+        mPrompt.setCharacterSize(32);
+        mPrompt.setFillColor(sf::Color::White);
 
+        // Center prompt in an 800×800 window
+        auto tb = mPrompt.getLocalBounds();
+        mPrompt.setOrigin(tb.left + tb.width/2.f,
+                          tb.top  + tb.height/2.f);
+        mPrompt.setPosition(400.f, 600.f);
+    }
+
+    // Block here until Enter is pressed
+    void display(sf::RenderWindow& window)
+    {
+        sf::Clock clock;
+        while (window.isOpen())
+        {
+            float dt = clock.restart().asSeconds();
+
+            // Handle close / Enter
+            sf::Event evt;
+            while (window.pollEvent(evt))
+            {
+                if (evt.type == sf::Event::Closed)
+                    window.close();
+                if (evt.type == sf::Event::KeyPressed &&
+                    evt.key.code == sf::Keyboard::Enter)
+                {
+                    return;  // exit splash
+                }
+            }
+
+            // Blink the prompt text
+            mBlinkTimer += dt;
+            if (mBlinkTimer >= BLINK_PERIOD)
+            {
+                mBlinkTimer -= BLINK_PERIOD;
+                mShowPrompt = !mShowPrompt;
+            }
+
+            // Render splash
+            window.clear();
+            window.draw(mSprite);
+            if (mShowPrompt)
+                window.draw(mPrompt);
+            window.display();
+        }
+    }
 };
 
-#endif
+#endif // SPLASHSCREENS_H
