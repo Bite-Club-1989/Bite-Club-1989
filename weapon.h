@@ -65,10 +65,10 @@
  
      std::vector<Weapon::Projectile> mProjectiles;
  
-     std::vector<Weapon::Projectile> &getProjectiles()
-     {
-         return mProjectiles;
-     }
+    //  std::vector<Weapon::Projectile> &getProjectiles()
+    //  {
+    //      return mProjectiles;
+    //  }
  
      double getBulletSpeed()
      {
