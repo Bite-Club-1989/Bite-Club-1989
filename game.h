@@ -5,6 +5,7 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "weapon.h"
+#include "hud.hpp"
 #include <SFML/Audio.hpp>
 
 class Game
@@ -29,6 +30,8 @@ private:
 
     int LEVEL = 1;
     int lastSpawnedLevel = 0;
+
+    Hud hudOverlay;
 
     sf::RenderWindow mWindow;
     sf::Texture mBackground;

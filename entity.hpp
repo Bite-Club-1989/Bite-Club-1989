@@ -36,6 +36,9 @@ public:
         Hurt,   // Entity is hurt
     };
 
+    // Getter Functions
+    virtual int getHealth(); // Get health points
+
     // Functions that can be used or overided by derived classes
     virtual void experience(int xp);                // Experience points used for leveling up
     virtual void hitPoints(int hp);                 // Hit points used for damage calculations
