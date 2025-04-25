@@ -92,6 +92,8 @@ void Entity::hitPoints(int hp) { mHP = hp; };
  */
 void Entity::health(int health) { mHealth = health; };
 
+int Entity::getHealth() { return mHealth; };
+
 /**
  * @brief This function is used to set the member speed of the entity
  *

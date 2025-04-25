@@ -26,6 +26,7 @@ Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
     mRate = r;
     mBulletSpeed = b;
     mRanged = ranged;
+    mBulletsFired = 0;
 }
 
 /**
@@ -44,6 +45,7 @@ void Weapon::setWeapon(std::string name, float d, float r, float b, bool ranged)
     mRate = r;
     mBulletSpeed = b;
     mRanged = ranged;
+    mBulletsFired = 0;
 }
 
 /**
@@ -72,6 +74,11 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
 
             // Add the projectile to the list
             mProjectiles.push_back(projectile);
+
+            mBulletsFired++;
+
+            if (mBulletsFired >= 30)
+                mBulletsFired = 0;
 
             mFireClock.restart();
         }

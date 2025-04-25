@@ -1,6 +1,7 @@
 #include "game.h"
 #include "player.hpp"
 #include "weapon.h"
+#include "hud.hpp"
 #include <ctime>
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
@@ -59,6 +60,13 @@ void Game::render()
 {
     mWindow.clear(sf::Color::Black);
 
+    // Draw HUD Display
+    mWindow.draw(hudOverlay.getHealthBar());
+    mWindow.draw(hudOverlay.getPowerupBar());
+    mWindow.draw(hudOverlay.getLevelText());
+    mWindow.draw(hudOverlay.getBulletText());
+    mWindow.draw(hudOverlay.getPointText());
+
     // draw player
     player1.draw(mWindow, mDT);
 
@@ -72,6 +80,9 @@ void Game::render()
 
     // check for colloisions beteen weapon attacks and enemies
     std::vector<Weapon::Projectile> &projectiles = player1.getWeapon().mProjectiles;
+
+    hudOverlay.setCurrBullets(30 - player1.getWeapon().mBulletsFired);
+
     for (int i = 0; i < static_cast<int>(projectiles.size()); i++)
     {
         if (projectiles[i].mState == Weapon::Projectile::BulletState::Disabled)
@@ -83,6 +94,12 @@ void Game::render()
             if (Enemies[j].mSprite.getGlobalBounds().intersects(projectiles[i].bullet.getGlobalBounds()))
             {
                 Enemies[j].takeDamage(player1.getWeapon().getWepDmg());
+
+                if (Enemies[i].mState == Entity::EntityState::Dead)
+                    hudOverlay.setCurrPoints(15); // Extra points on death
+                else
+                    hudOverlay.setCurrPoints(5); // Normal hit points
+
                 projectiles.erase(projectiles.begin() + i);
                 --i;
                 break;
@@ -96,7 +113,12 @@ void Game::render()
         if (Enemies[k].mState == Entity::EntityState::Alive)
             allDead = false;
     if (allDead)
+    {
         ++LEVEL;
+        hudOverlay.setCurrLevel(LEVEL);
+    }
+
+    hudOverlay.setCurrHealth(player1.getHealth());
 
     mWindow.display();
 }

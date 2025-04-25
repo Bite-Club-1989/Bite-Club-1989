@@ -56,6 +56,8 @@
      };
  
      std::vector<Weapon::Projectile> mProjectiles;
+
+     int mBulletsFired;
  
     //  std::vector<Weapon::Projectile> &getProjectiles()
     //  {

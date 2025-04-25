@@ -1,10 +1,10 @@
 #include "enemy.hpp"
 
-
-
 // Deals damage to the player if their sprites intersect
 void Enemy::enemyDealDamage(Player &p)
 {
+    if (p.mState == Entity::EntityState::Dead)
+        return;
     if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
     {
         std::cout << "Player Hit" << std::endl;
@@ -63,7 +63,6 @@ void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
     else
     {
         enemyDeath(window);
-        
     }
 }
 void Enemy::enemyDeath(sf::RenderWindow &window)
