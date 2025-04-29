@@ -57,21 +57,40 @@ void Player::playerMove(float dt)
             dir.x -= 1.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
             dir.x += 1.f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && mStamina > 1)
+        if (mIsFatigued)
         {
-            mBoostSpeed = 1.4f;
-            mStamina -= mStaminaDrainRate * dt;
+            mFatigueTimer += dt;                   // penalty timer
+            if (mFatigueTimer >= mFatigueDuration) // penalty is over
+            {
+
+                mIsFatigued = false; // penalty is over reset fatigue
+                mFatigueTimer = 0.f; // reset timer
+            }
         }
         else
         {
-            mBoostSpeed = 1.0f;
-            if(mStamina < mMaxStamina)
+            // If not fatigued, allow sprinting
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && mStamina > 0.f)
             {
-                mStamina += mStaminaRecoverRate * dt;
+                mSpeedboost = 1.4f;
+                mStamina -= mStaminaDrainRate * dt;
+
+                if (mStamina <= 0.f)
+                {
+                    mStamina = 0.f;
+                    mIsFatigued = true; // PLAYER BECOMES FATIGUED
+                    mFatigueTimer = 0.f;
+                }
             }
-            
+            else
+            {
+                // Recover stamina if NOT holding Shift
+                mStamina += mStaminaRecoverRate * dt;
+                if (mStamina > mMaxStamina)
+                    mStamina = mMaxStamina;
+            }
         }
-        std::cout<<"Stamina: " << mStamina << std::endl;
+        std::cout << "Stamina: " << mStamina << std::endl;
         // use this function to move the player in the desired direction with consistent speed
         if (dir.x != 0.f || dir.y != 0.f)
         {
@@ -80,7 +99,7 @@ void Player::playerMove(float dt)
             dir /= length; // level the vector to 1 for even movement
 
             // move based on gamespeed * setspeed (mSpped) * speedboost condition
-            dir *= mSpeed * dt * mBoostSpeed;
+            dir *= mSpeed * dt * mSpeedboost;
 
             mSprite.move(dir);
         }
