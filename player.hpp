@@ -31,10 +31,21 @@ public:
     void draw(sf::RenderWindow &window, float dt); // Draw the player
     void setWpnDmg(float d) { weapon.setWepDmg(d); };
 
-    Weapon &getWeapon(){ return weapon; };
+    Weapon &getWeapon() { return weapon; };
+    float getStamina() const {return mStamina;}; // get stamina to update hud
+
 
 private:
-    Weapon weapon; // Weapon object
+    Weapon weapon;                    // Weapon object
+    float mStamina = 100.f;           // current stamina value
+    float mSpeedboost = 1.0f;
+    float mMaxStamina = 100.f;        // max stamina
+    float mStaminaDrainRate = 40.f;   //how much stamina drains per when sprinting
+    float mStaminaRecoverRate = 20.f; // how much stamina recovers when not sprinting
+    bool mIsFatigued = false;     // true if player ised all of boost
+    float mFatigueTimer = 0.f;     // tracks tired recovery time
+    float mFatigueDuration = 2.f;  // 2 second penalt for going to 0 stamina
+
 };
 
 #endif

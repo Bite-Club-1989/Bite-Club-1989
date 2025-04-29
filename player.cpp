@@ -24,6 +24,7 @@ Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 2, 1, 7
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
     mSprite.setTexture(mTexture);                       // Set the texture
     mSprite.setPosition(400, 400);                      // Set the position inside the window
+    mSpeed *= 1.2f;                                     // Set the speed of the player
 
     setWpnDmg(30);
 };
@@ -43,17 +44,65 @@ void Player::playerMove(float dt)
 {
     if (mState == EntityState::Alive)
     {
+        // initialize speedboost with shift key
+        float mBoostSpeed = 1.0f;
+        // initialize vector 2f for movement
+        sf::Vector2f dir(0.f, 0.f);
+        // will take keyboard input to determine direction of player
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 0)
-            mSprite.move(0, -mSpeed * dt); // move up
-
+            dir.y -= 1.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 800)
-            mSprite.move(0, mSpeed * dt); // move down
-
+            dir.y += 1.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 0)
-            mSprite.move(-mSpeed * dt, 0); // move left
-
+            dir.x -= 1.f;
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
-            mSprite.move(mSpeed * dt, 0); // move right
+            dir.x += 1.f;
+        if (mIsFatigued)
+        {
+            mFatigueTimer += dt;                   // penalty timer
+            if (mFatigueTimer >= mFatigueDuration) // penalty is over
+            {
+
+                mIsFatigued = false; // penalty is over reset fatigue
+                mFatigueTimer = 0.f; // reset timer
+            }
+        }
+        else
+        {
+            // If not fatigued, allow sprinting
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && mStamina > 0.f)
+            {
+                mSpeedboost = 1.4f;
+                mStamina -= mStaminaDrainRate * dt;
+
+                if (mStamina <= 0.f)
+                {
+                    mStamina = 0.f;
+                    mIsFatigued = true; // PLAYER BECOMES FATIGUED
+                    mFatigueTimer = 0.f;
+                }
+            }
+            else
+            {
+                // Recover stamina if NOT holding Shift
+                mStamina += mStaminaRecoverRate * dt;
+                if (mStamina > mMaxStamina)
+                    mStamina = mMaxStamina;
+            }
+        }
+        std::cout << "Stamina: " << mStamina << std::endl;
+        // use this function to move the player in the desired direction with consistent speed
+        if (dir.x != 0.f || dir.y != 0.f)
+        {
+            // use pythag theorem to find length like the enemy
+            float length = std::sqrt(dir.x * dir.x + dir.y * dir.y);
+            dir /= length; // level the vector to 1 for even movement
+
+            // move based on gamespeed * setspeed (mSpped) * speedboost condition
+            dir *= mSpeed * dt * mSpeedboost;
+
+            mSprite.move(dir);
+        }
     }
 }
 
