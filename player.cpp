@@ -88,6 +88,7 @@ void Player::playerMove(float dt)
                 mStamina += mStaminaRecoverRate * dt;
                 if (mStamina > mMaxStamina)
                     mStamina = mMaxStamina;
+                mSpeedboost = 1.0f;
             }
         }
         std::cout << "Stamina: " << mStamina << std::endl;
