@@ -31,10 +31,16 @@ public:
     void draw(sf::RenderWindow &window, float dt); // Draw the player
     void setWpnDmg(float d) { weapon.setWepDmg(d); };
 
-    Weapon &getWeapon(){ return weapon; };
+    Weapon &getWeapon() { return weapon; };
+    float getStamina() const {return mStamina;}; // get stamina to update hud
+
 
 private:
-    Weapon weapon; // Weapon object
+    Weapon weapon;                    // Weapon object
+    float mStamina = 100.f;           // current stamina value
+    float mMaxStamina = 100.f;        // max stamina
+    float mStaminaDrainRate = 40.f;   //how much stamina drains per when sprinting
+    float mStaminaRecoverRate = 20.f; // how much stamina recovers when not sprinting
 };
 
 #endif

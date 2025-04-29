@@ -59,6 +59,7 @@ void Game::update(float dt)
 void Game::render()
 {
     mWindow.clear(sf::Color::Black);
+    hudOverlay.setCurrPower(player1.getStamina());
 
     // Draw HUD Display
     mWindow.draw(hudOverlay.getHealthBar());

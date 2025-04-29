@@ -38,7 +38,7 @@ void Enemy::enemyMove(Player &p, float dt)
     // multiply to set speed diredtion with frame rate
     mSprite.move(direction * mSpeed * dt);
     // cout to verify movement
-    std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
+    //std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
 }
 
 // Override the base class draw method.
