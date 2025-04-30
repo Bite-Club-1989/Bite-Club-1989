@@ -6,6 +6,7 @@
 #include "enemy.hpp"
 #include "weapon.h"
 #include "hud.hpp"
+#include "splashscreens.h"
 #include <SFML/Audio.hpp>
 
 class Game
@@ -18,7 +19,10 @@ public:
     void update(float);
     void render();
     bool isDone() const;
-    void checkCollision();
+    void updateCamView();
+    void checkProjCollision();
+    void checkAllEnemiesDead();
+    void playSplash();
 
     float mDT;
 
@@ -36,8 +40,11 @@ private:
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
     sf::Sprite mSpriteBackground;
-    bool mIsDone;
+    sf::View view = mWindow.getDefaultView();
     sf::Music mMusic;
+
+    bool mIsDone;
+
     // add button for quick restart
 };
 

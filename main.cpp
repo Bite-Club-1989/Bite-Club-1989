@@ -16,16 +16,9 @@
 
 int main()
 {
-
-  sf::RenderWindow window({800, 800}, "Bite Club");
-  {
-    SplashScreen splash(
-        "assets/textures/splash/transitions/image0.jpg",
-        "assets/fonts/Meta-Courage-TTF.ttf");
-    splash.display(window);
-  }
   sf::Clock gameClock;
   Game game;
+  game.playSplash();
   while (!game.isDone())
   {
     game.handleInput();

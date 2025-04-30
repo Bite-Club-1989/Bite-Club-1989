@@ -55,7 +55,7 @@ struct SplashScreen
                 if (evt.type == sf::Event::KeyPressed &&
                     evt.key.code == sf::Keyboard::Enter)
                 {
-                    window.close(); // close window after enter is pressed
+                    // window.close(); // close window after enter is pressed
                     return;  // exit splash
                 }
             }
