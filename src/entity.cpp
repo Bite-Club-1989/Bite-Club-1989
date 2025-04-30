@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2025
  *
  */
-#include "entity.hpp"
+#include "../header/entity.hpp"
 
 /**
  * @brief Construct a new Entity:: Entity object
@@ -18,7 +18,7 @@
 Entity::Entity()
 {
     // Texture and sprite
-    mTexture.loadFromFile("assets/textures/ZombieShooter/Sprites/Zombie/Zombie.png"); // Load the texture from file
+    mTexture.loadFromFile("../assets/textures/ZombieShooter/Sprites/Zombie/Zombie.png"); // Load the texture from file
     sf::IntRect textureRect(42, 10, 13, 20);                                          // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
     mSprite.setTextureRect(textureRect);                                              // Set the texture rectangle
     mSprite.setTexture(mTexture);                                                     // Set the texture

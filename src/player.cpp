@@ -8,9 +8,9 @@
  * @copyright Copyright (c) 2025
  *
  */
-#include "player.hpp"
-#include "weapon.h"
-#include "enemy.hpp"
+#include "../header/player.hpp"
+#include "../header/weapon.h"
+#include "../header/enemy.hpp"
 
 /**
  * @brief Construct a new Player:: Player object
@@ -18,7 +18,7 @@
  *          passes texture to entity constructor
  *
  */
-Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 0.25, 0.25, 750, true)
+Player::Player() : Entity("../assets/textures/Bodyedit.png"), weapon("gun", 0.25, 0.25, 750, true)
 {
     // Set the texture rectangle
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)

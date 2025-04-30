@@ -9,10 +9,10 @@
  *
  */
 #include <SFML/Graphics.hpp>
-#include "game.h"
-#include "player.hpp"
-#include "weapon.h"
-#include "splashscreens.h"
+#include "../header/game.h"
+#include "../header/player.hpp"
+#include "../header/weapon.h"
+#include "../header/splashscreens.h"
 
 int main()
 {

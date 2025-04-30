@@ -1,4 +1,4 @@
-#include "enemy.hpp"
+#include "../header/enemy.hpp"
 
 // Deals damage to the player if their sprites intersect
 void Enemy::enemyDealDamage(Player &p)

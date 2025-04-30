@@ -12,7 +12,7 @@ public:
     Hud()
     {
         // assets/fonts/Meta-Courage-TTF.ttf
-        if (!mFont.loadFromFile("assets/fonts/Meta-Courage-TTF.ttf"))
+        if (!mFont.loadFromFile("../assets/fonts/Meta-Courage-TTF.ttf"))
             throw std::runtime_error("Failed to load font");
 
         // Set variables

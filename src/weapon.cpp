@@ -1,4 +1,4 @@
-#include "weapon.h"
+#include "../header/weapon.h"
 /**
  * @file weapon.cpp
  * @author Joe Davitt (jjdavitt@nic.edu)
