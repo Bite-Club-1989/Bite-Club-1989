@@ -53,11 +53,18 @@ void Game::update(float dt)
     {
         // clear old enemies
         Enemies.clear();
+        srand(time(NULL)); // random number seed
         // spawn new enemies based on level
         for (int i = 0; i < LEVEL; ++i)
         {
-            // position them however you like:
-            e.position({100.f * (i + 1), 100.f});
+
+            while (spawnDuration >= spawnTimer)
+            {
+                spawnTimer += dt;
+            }
+            // reset timer
+            spawnTimer = 0.f;
+            e.position(randomSpawn(i));
             Enemies.push_back(e);
         }
         lastSpawnedLevel = LEVEL;
@@ -187,4 +194,25 @@ void Game::playSplash()
         "../assets/fonts/Meta-Courage-TTF.ttf");
 
     splash.display(mWindow);
+}
+
+sf::Vector2f Game::randomSpawn(int i)
+{                                        
+    int randomNumber = (rand() % 4) + 1; // rand num 1-4
+    if (randomNumber == 1)
+    {
+        return sf::Vector2f({0.f + (50.f * (i)), 0.f});
+    }
+    else if (randomNumber == 2)
+    {
+        return sf::Vector2f({0.f + (50.f * (i)), 1000.f});
+    }
+    else if (randomNumber == 3)
+    {
+        return sf::Vector2f({1200.f, 0.f + (50.f * (i))});
+    }
+    else
+    {
+        return sf::Vector2f({1200.f, 1000.f - (50.f * i)});
+    }
 }
