@@ -31,9 +31,12 @@ private:
     Player player1;
     std::vector<Enemy> Enemies;
     Enemy e;
+    sf::Vector2f randomSpawn(int i);
 
     int LEVEL = 1;
     int lastSpawnedLevel = 0;
+    float spawnTimer = 0.f;
+    float spawnDuration = 5.f;
 
     Hud hudOverlay;
 
