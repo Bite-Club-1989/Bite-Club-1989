@@ -63,7 +63,9 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
         {
             // Get player and mouse positions
             sf::Vector2f playerPosition = sprite.getPosition();
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+            sf::Vector2i pixelPosition = sf::Mouse::getPosition(window);
+            sf::Vector2f mousePosition = window.mapPixelToCoords(pixelPosition);
 
             // Calculate angle between player and mouse
             float angle = std::atan2(static_cast<float>(mousePosition.y) - playerPosition.y,

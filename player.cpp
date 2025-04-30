@@ -18,7 +18,7 @@
  *          passes texture to entity constructor
  *
  */
-Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 2, 1, 750, true)
+Player::Player() : Entity("assets/textures/Bodyedit.png"), weapon("gun", 0.25, 0.25, 750, true)
 {
     // Set the texture rectangle
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
@@ -49,13 +49,13 @@ void Player::playerMove(float dt)
         // initialize vector 2f for movement
         sf::Vector2f dir(0.f, 0.f);
         // will take keyboard input to determine direction of player
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 0)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 30)
             dir.y -= 1.f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 800)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 920)
             dir.y += 1.f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 0)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 35)
             dir.x -= 1.f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 800)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 1140)
             dir.x += 1.f;
         if (mIsFatigued)
         {
