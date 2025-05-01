@@ -14,7 +14,6 @@ void Enemy::enemyDealDamage(Player &p)
         }
         mDamageClock.restart();
     }
-
 }
 
 // Updates enemy movement toward the player using delta time.
@@ -62,7 +61,9 @@ void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
 {
     if (mState == EntityState::Alive)
     {
-        enemyMove(p, dt);     // Update enemy position toward the player.
+        enemyMove(p, dt); // Update enemy position toward the player.
+        updateHealthBar();
+        window.draw(healthBar);
         window.draw(mSprite); // Draw the enemy.
     }
     else
