@@ -20,6 +20,13 @@
 class Weapon
 {
 public:
+    enum class WpnSoundState
+    {
+        Gun,
+        Laser,
+        Plasma
+    };
+
     Weapon(std::string name, float d, float r, float b, bool ranged);
     ~Weapon() {}
 
@@ -29,6 +36,7 @@ public:
 
     void attack(sf::RenderWindow &window, sf::Sprite &sprite);
     void attackRender(sf::RenderWindow &window, float dt);
+    void loadSoundBuffer(WpnSoundState w);
 
     float getRate() { return mRate; }
     float getWepDmg() { return mWepDmg; }
@@ -72,6 +80,7 @@ public:
         return mBulletSpeed;
     };
 
+    WpnSoundState mBulletSound;
 protected:
     sf::Texture mTexture;
     sf::Clock mFireClock;
@@ -85,6 +94,8 @@ protected:
     std::string mName;
     int mID;
     float mWepDmg, mRate;
+    std::string mGunshotLocation;
+    std::string mLasershotLocation;
     int mSoundIndex = 0;
 };
 

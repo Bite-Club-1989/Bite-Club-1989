@@ -21,8 +21,21 @@
 class Enemy : public Entity
 {
 public:
-    Enemy() : mSpeed(100.0f) {} // set speed just for testing
-    ~Enemy() {}
+    Enemy() : mSpeed(100.0f)
+    {
+        mDamageRate = 0.25;
+
+        sf::FloatRect bounds = mSprite.getGlobalBounds();
+
+        // Health Bar
+        healthBar.setSize(sf::Vector2f(50, 5));
+        healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
+        sf::Color healthBarColor = sf::Color(255, 0, 0);
+        healthBar.setFillColor(healthBarColor);
+    } // set speed just for testing
+    ~Enemy()
+    {
+    }
 
     // Deals damage to the player if their sprites intersect
     void enemyDealDamage(Player &p);
@@ -45,8 +58,20 @@ public:
     void updateAndDraw(sf::RenderWindow &window, Player &p, float dt);
     void enemyDeath(sf::RenderWindow &window);
 
+    void updateHealthBar()
+    {
+        sf::FloatRect bounds = mSprite.getGlobalBounds();
+        healthBar.setSize(sf::Vector2f(this->mHealth / 2, 5));
+        healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
+        sf::Color healthBarColor = sf::Color(255, 0, 0);
+        healthBar.setFillColor(healthBarColor);
+    }
+
 private:
+    sf::RectangleShape healthBar;
     float mSpeed; // Enemy movement speed.
+    float mDamageRate;
+    sf::Clock mDamageClock;
 };
 
 #endif

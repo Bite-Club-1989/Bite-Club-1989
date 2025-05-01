@@ -13,11 +13,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
     {
         std::cerr << "Failed to load music\n";
     }
-    else
-    {
-        mMusic.setLoop(true);
-        mMusic.play();
-    }
+    mMusic.setVolume(50.0f);
 
     mBackground.loadFromFile("../assets/textures/topDown.png");
 
@@ -184,6 +180,7 @@ void Game::checkAllEnemiesDead()
     {
         ++LEVEL;
         hudOverlay.setCurrLevel(LEVEL);
+        player1.mHealth = 100;
     }
 }
 
@@ -194,10 +191,12 @@ void Game::playSplash()
         "../assets/fonts/Meta-Courage-TTF.ttf");
 
     splash.display(mWindow);
+    mMusic.setLoop(true);
+    mMusic.play();
 }
 
 sf::Vector2f Game::randomSpawn(int i)
-{                                        
+{
     int randomNumber = (rand() % 4) + 1; // rand num 1-4
     if (randomNumber == 1)
     {

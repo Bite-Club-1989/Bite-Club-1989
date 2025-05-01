@@ -5,10 +5,14 @@ void Enemy::enemyDealDamage(Player &p)
 {
     if (p.mState == Entity::EntityState::Dead)
         return;
-    if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
+    if (mDamageClock.getElapsedTime().asSeconds() >= mDamageRate)
     {
-        std::cout << "Player Hit" << std::endl;
-        p.takeDamage(10);
+        if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
+        {
+            std::cout << "Player Hit" << std::endl;
+            p.takeDamage(10);
+        }
+        mDamageClock.restart();
     }
 }
 
@@ -38,7 +42,7 @@ void Enemy::enemyMove(Player &p, float dt)
     // multiply to set speed diredtion with frame rate
     mSprite.move(direction * mSpeed * dt);
     // cout to verify movement
-    //std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
+    // std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
 }
 
 // Override the base class draw method.
@@ -57,7 +61,9 @@ void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
 {
     if (mState == EntityState::Alive)
     {
-        enemyMove(p, dt);     // Update enemy position toward the player.
+        enemyMove(p, dt); // Update enemy position toward the player.
+        updateHealthBar();
+        window.draw(healthBar);
         window.draw(mSprite); // Draw the enemy.
     }
     else

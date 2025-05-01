@@ -28,19 +28,8 @@ Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
     mRanged = ranged;
     mBulletsFired = 0;
     mSoundIndex = 0;
-
-    if (!mGunshotBuffer.loadFromFile("../assets/sounds/gunShot.ogg"))
-    {
-        std::cerr << "Failed to load gunshot\n";
-    }
-    else
-    {
-        mGunshots.resize(5);
-        for (int i = 0; i < 5; i++)
-        {
-            mGunshots[i].setBuffer(mGunshotBuffer);
-        }
-    }
+    mBulletSound = WpnSoundState::Gun;
+    loadSoundBuffer(mBulletSound);
 }
 
 /**
@@ -139,4 +128,33 @@ void Weapon::attackRender(sf::RenderWindow &window, float dt)
     {
         // melee attack render will go here.
     }
+}
+
+void Weapon::loadSoundBuffer(Weapon::WpnSoundState w)
+{
+    std::string filePath;
+
+    switch (w)
+    {
+    case Weapon::WpnSoundState::Gun:
+        filePath = "../assets/sounds/gunShot.ogg";
+        break;
+    case Weapon::WpnSoundState::Laser:
+        filePath = "../assets/sounds/laserShot.ogg";
+        break;
+    case Weapon::WpnSoundState::Plasma:
+        break;
+    }
+
+    if (!mGunshotBuffer.loadFromFile(filePath))
+    {
+        std::cerr << "Failed to load gunshot\n";
+    }
+    mGunshots.resize(5);
+    for (int i = 0; i < 5; i++)
+    {
+        mGunshots[i].setBuffer(mGunshotBuffer);
+    }
+
+    mBulletSound = w;
 }
