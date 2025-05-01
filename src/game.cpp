@@ -180,6 +180,7 @@ void Game::checkAllEnemiesDead()
     {
         ++LEVEL;
         hudOverlay.setCurrLevel(LEVEL);
+        player1.mHealth = 100;
     }
 }
 

@@ -171,7 +171,7 @@ void Player::draw(sf::RenderWindow &window, float dt)
         playerDeath(window);
     }
 
-    // Choppy because draw is running fast, but you can still time it to change sounds
+    // Chopy because draw is running fast, but you can still time it to change sounds
     // Concept to build off and not to keep
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
     {

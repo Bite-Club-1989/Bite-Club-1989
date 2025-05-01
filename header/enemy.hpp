@@ -21,8 +21,10 @@
 class Enemy : public Entity
 {
 public:
-    Enemy() : mSpeed(100.0f) {} // set speed just for testing
-    ~Enemy() {}
+    Enemy() : mSpeed(100.0f) { mDamageRate = 0.25; } // set speed just for testing
+    ~Enemy()
+    {
+    }
 
     // Deals damage to the player if their sprites intersect
     void enemyDealDamage(Player &p);
@@ -47,6 +49,8 @@ public:
 
 private:
     float mSpeed; // Enemy movement speed.
+    float mDamageRate;
+    sf::Clock mDamageClock;
 };
 
 #endif

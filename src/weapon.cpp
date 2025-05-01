@@ -30,22 +30,6 @@ Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
     mSoundIndex = 0;
     mBulletSound = WpnSoundState::Gun;
     loadSoundBuffer(mBulletSound);
-
-    // mGunshotLocation = "../assets/sounds/gunShot.ogg";
-    // mLasershotLocation = "../assets/sounds/laserShot.ogg";
-
-    // if (!mGunshotBuffer.loadFromFile(mGunshotLocation))
-    // {
-    //     std::cerr << "Failed to load gunshot\n";
-    // }
-    // else
-    // {
-    //     mGunshots.resize(5);
-    //     for (int i = 0; i < 5; i++)
-    //     {
-    //         mGunshots[i].setBuffer(mGunshotBuffer);
-    //     }
-    // }
 }
 
 /**
