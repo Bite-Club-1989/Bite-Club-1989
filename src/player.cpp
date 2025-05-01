@@ -27,6 +27,21 @@ Player::Player() : Entity("../assets/textures/Bodyedit.png"), weapon("gun", 0.25
     mSpeed *= 1.2f;                                     // Set the speed of the player
 
     setWpnDmg(30);
+
+    mSoundIndex = 0;
+
+    if (!mDamageBuffer.loadFromFile("../assets/sounds/impact.ogg"))
+    {
+        std::cerr << "Failed to load gunshot\n";
+    }
+    else
+    {
+        mDamageSounds.resize(5);
+        for (int i = 0; i < 5; i++)
+        {
+            mDamageSounds[i].setBuffer(mDamageBuffer);
+        }
+    }
 };
 
 /**
@@ -154,5 +169,25 @@ void Player::draw(sf::RenderWindow &window, float dt)
     if (mState == EntityState::Dead)
     {
         playerDeath(window);
+    }
+}
+
+/**
+ * @brief This function is used to take damage from an attack
+ *
+ * @param amount The amount of damage to take
+ */
+void Player::takeDamage(int amount)
+{
+    mHealth -= amount;
+    if (mHealth <= 0)
+        mState = EntityState::Dead;
+
+    // Damage sound play
+    if (mSoundIndex >= 0 && mSoundIndex < mDamageSounds.size())
+    {
+        mDamageSounds[mSoundIndex].stop();
+        mDamageSounds[mSoundIndex].play();
+        mSoundIndex = (mSoundIndex + 1) % mDamageSounds.size();
     }
 }
