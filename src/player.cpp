@@ -91,7 +91,7 @@ void Player::playerMove(float dt)
                 mSpeedboost = 1.0f;
             }
         }
-        std::cout << "Stamina: " << mStamina << std::endl;
+        // std::cout << "Stamina: " << mStamina << std::endl;
         // use this function to move the player in the desired direction with consistent speed
         if (dir.x != 0.f || dir.y != 0.f)
         {

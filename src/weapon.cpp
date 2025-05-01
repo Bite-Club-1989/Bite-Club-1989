@@ -27,6 +27,20 @@ Weapon::Weapon(std::string name, float d, float r, float b, bool ranged)
     mBulletSpeed = b;
     mRanged = ranged;
     mBulletsFired = 0;
+    mSoundIndex = 0;
+
+    if (!mGunshotBuffer.loadFromFile("../assets/sounds/gunShot.ogg"))
+    {
+        std::cerr << "Failed to load gunshot\n";
+    }
+    else
+    {
+        mGunshots.resize(5);
+        for (int i = 0; i < 5; i++)
+        {
+            mGunshots[i].setBuffer(mGunshotBuffer);
+        }
+    }
 }
 
 /**
@@ -83,6 +97,14 @@ void Weapon::attack(sf::RenderWindow &window, sf::Sprite &sprite)
                 mBulletsFired = 0;
 
             mFireClock.restart();
+
+            // Gunshot sound play
+            if (mSoundIndex >= 0 && mSoundIndex < mGunshots.size())
+            {
+                mGunshots[mSoundIndex].stop();
+                mGunshots[mSoundIndex].play();
+                mSoundIndex = (mSoundIndex + 1) % mGunshots.size();
+            }
         }
     }
     else
