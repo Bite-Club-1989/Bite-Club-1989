@@ -13,6 +13,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
     {
         std::cerr << "Failed to load music\n";
     }
+    mMusic.setVolume(50.0f);
 
     mBackground.loadFromFile("../assets/textures/topDown.png");
 
