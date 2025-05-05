@@ -74,14 +74,16 @@ void Game::render()
 
     // Draw world
     mWindow.draw(mSpriteBackground);
-    player1.draw(mWindow, mDT);
-
+    
     // loop through all enemies to draw and check damage
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
         Enemies[i].updateAndDraw(mWindow, player1, mDT);
         Enemies[i].enemyDealDamage(player1);
     }
+    
+    // Draw player
+    player1.draw(mWindow, mDT);
 
     checkProjCollision();
     checkAllEnemiesDead();
