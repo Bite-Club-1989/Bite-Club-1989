@@ -18,13 +18,21 @@ int main()
 {
   sf::Clock gameClock;
   Game game;
-  game.playSplash();
-  while (!game.isDone())
+  while (1)
   {
-    game.handleInput();
-    float dt = gameClock.restart().asSeconds();
-    game.update(dt);
-    game.render();
+    game.playSplash();
+    while (!game.isDone())
+    {
+      game.handleInput();
+      float dt = gameClock.restart().asSeconds();
+      game.update(dt);
+      game.render();
+      if(game.isDone()){
+        game.playEnd();
+      }
+
+    }
+    game.resetGame();
   }
 
   return 0;

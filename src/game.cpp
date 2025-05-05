@@ -65,6 +65,9 @@ void Game::update(float dt)
         }
         lastSpawnedLevel = LEVEL;
     }
+    if(player1.mState == Entity::EntityState::Dead){
+        mIsDone = true;
+    }
 }
 
 void Game::render()
@@ -195,6 +198,33 @@ void Game::playSplash()
     splash.display(mWindow);
     mMusic.setLoop(true);
     mMusic.play();
+}
+
+void Game::playEnd()
+{
+    SplashScreen splash(
+        "../assets/textures/splash/transitions/image0.jpg",
+        "../assets/fonts/Meta-Courage-TTF.ttf");
+    splash.mSprite.setColor(sf::Color::Red);
+    splash.mPrompt.setString("GAME OVER");
+    splash.mPrompt.setCharacterSize(50);
+    splash.display(mWindow);
+    mMusic.setLoop(true);
+    mMusic.play();
+}
+
+void Game::resetGame()
+{
+    mIsDone = false;
+    player1.changeState(Entity::EntityState::Alive);
+    player1.health(100);
+    while(Enemies.size()){
+        Enemies.pop_back();
+    }
+    LEVEL = 1;
+    hudOverlay.resetCurrPoints();
+    hudOverlay.setCurrLevel(LEVEL);
+    player1.getWeapon().setBulletsFired(0);
 }
 
 sf::Vector2f Game::randomSpawn(int i)

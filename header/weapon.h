@@ -38,6 +38,8 @@ public:
     void attackRender(sf::RenderWindow &window, float dt);
     void loadSoundBuffer(WpnSoundState w);
 
+    void setBulletsFired(int i){ mBulletsFired = i; }
+
     float getRate() { return mRate; }
     float getWepDmg() { return mWepDmg; }
     std::string getWepName() { return mName; }
