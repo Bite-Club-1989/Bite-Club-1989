@@ -23,11 +23,12 @@ public:
     void checkProjCollision();
     void checkAllEnemiesDead();
     void playSplash();
+    void resetGame();
+    void playEnd();
 
     float mDT;
 
 private:
-    void resetGame(); // allows for restarting game
     Player player1;
     std::vector<Enemy> Enemies;
     Enemy e;

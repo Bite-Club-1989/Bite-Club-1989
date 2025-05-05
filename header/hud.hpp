@@ -85,6 +85,11 @@ public:
         updatePointText();
     };
 
+    void resetCurrPoints(){
+        currPoints = 0;
+        updatePointText();
+    }
+
     const sf::RectangleShape &getHealthBar() const { return healthBar; };
     const sf::RectangleShape &getPowerupBar() const { return powerupBar; };
     const sf::Text &getLevelText() const { return mLevel; }

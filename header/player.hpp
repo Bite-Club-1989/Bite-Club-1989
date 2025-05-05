@@ -31,6 +31,8 @@ public:
     void draw(sf::RenderWindow &window, float dt); // Draw the player
     void setWpnDmg(float d) { weapon.setWepDmg(d); };
     void takeDamage(int amount);
+    virtual void changeState(EntityState state);    // Change the state of the player
+
 
     Weapon &getWeapon() { return weapon; };
     float getStamina() const { return mStamina; }; // get stamina to update hud

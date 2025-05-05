@@ -138,7 +138,7 @@ void Player::playerAttack(sf::RenderWindow &window)
  */
 void Player::playerDeath(sf::RenderWindow &window)
 {
-    mSprite.setTextureRect(sf::IntRect(0, 0, 35, 35));
+    // mSprite.setTextureRect(sf::IntRect(0, 0, 35, 35));
     mSprite.setColor(sf::Color::Red);
     mSprite.setRotation(90);
     mSprite.move(0, 0);
@@ -205,5 +205,15 @@ void Player::takeDamage(int amount)
         mDamageSounds[mSoundIndex].stop();
         mDamageSounds[mSoundIndex].play();
         mSoundIndex = (mSoundIndex + 1) % mDamageSounds.size();
+    }
+}
+
+void Player::changeState(EntityState state)
+{
+    mState = state;
+    if (state == Entity::EntityState::Alive)
+    {
+        mSprite.setColor(sf::Color::White);
+        mSprite.setRotation(0);
     }
 }
