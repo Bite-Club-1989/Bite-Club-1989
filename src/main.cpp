@@ -30,7 +30,6 @@ int main()
       if(game.isDone()){
         game.playEnd();
       }
-
     }
     game.resetGame();
   }

@@ -221,9 +221,11 @@ void Game::resetGame()
     while(Enemies.size()){
         Enemies.pop_back();
     }
+
     LEVEL = 1;
-    hudOverlay.resetCurrPoints();
+    lastSpawnedLevel = 0;
     hudOverlay.setCurrLevel(LEVEL);
+    hudOverlay.resetCurrPoints();
     player1.getWeapon().setBulletsFired(0);
 }
 
