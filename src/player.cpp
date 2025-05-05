@@ -171,17 +171,19 @@ void Player::draw(sf::RenderWindow &window, float dt)
         playerDeath(window);
     }
 
-    // Chopy because draw is running fast, but you can still time it to change sounds
-    // Concept to build off and not to keep
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
     {
-        if (weapon.mBulletSound == Weapon::WpnSoundState::Laser)
+        if (mWpnChangeClock.getElapsedTime().asSeconds() >= 0.5)
         {
-            weapon.loadSoundBuffer(Weapon::WpnSoundState::Gun);
-        }
-        else
-        {
-            weapon.loadSoundBuffer(Weapon::WpnSoundState::Laser);
+            if (weapon.mBulletSound == Weapon::WpnSoundState::Laser)
+            {
+                weapon.loadSoundBuffer(Weapon::WpnSoundState::Gun);
+            }
+            else
+            {
+                weapon.loadSoundBuffer(Weapon::WpnSoundState::Laser);
+            }
+            mWpnChangeClock.restart();
         }
     }
 }

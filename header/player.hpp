@@ -49,6 +49,8 @@ private:
     std::vector<sf::Sound> mDamageSounds;
     sf::SoundBuffer mDamageBuffer;
     int mSoundIndex;
+
+    sf::Clock mWpnChangeClock;
 };
 
 #endif
