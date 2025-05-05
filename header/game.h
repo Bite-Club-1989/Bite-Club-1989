@@ -42,7 +42,9 @@ private:
 
     sf::RenderWindow mWindow;
     sf::Texture mBackground;
+    sf::Texture mRoofOne;
     sf::Sprite mSpriteBackground;
+    sf::Sprite mSpriteRoofOne;
     sf::View view = mWindow.getDefaultView();
     sf::Music mMusic;
 

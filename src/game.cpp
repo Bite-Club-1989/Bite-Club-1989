@@ -15,7 +15,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
     }
     mMusic.setVolume(50.0f);
 
-    mBackground.loadFromFile("../assets/textures/topDown.png");
+    mBackground.loadFromFile("../assets/textures/topDownNew.png");
 
     mSpriteBackground.setTexture(mBackground);
     mSpriteBackground.setOrigin(0, 0);
@@ -74,14 +74,14 @@ void Game::render()
 
     // Draw world
     mWindow.draw(mSpriteBackground);
-    
+
     // loop through all enemies to draw and check damage
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
         Enemies[i].updateAndDraw(mWindow, player1, mDT);
         Enemies[i].enemyDealDamage(player1);
     }
-    
+
     // Draw player
     player1.draw(mWindow, mDT);
 
