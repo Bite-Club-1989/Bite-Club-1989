@@ -81,6 +81,7 @@ public:
     };
 
     WpnSoundState mBulletSound;
+
 protected:
     sf::Texture mTexture;
     sf::Clock mFireClock;
