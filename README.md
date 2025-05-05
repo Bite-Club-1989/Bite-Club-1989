@@ -37,7 +37,7 @@ $ cd BiteClub1989
 ```
 3. Go to source file
 ''
-cd src
+$ cd src
 ''
 4. Compile the project (Mac)
 ```
@@ -45,7 +45,7 @@ $ g++ -std=c++11 *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system -
 ```
 5. Run the game 
 ``
-./sfml-app
+$ ./sfml-app
 ``
 ## Game description
 Game will greet player with a splash screen. They will be able to press enter to start the game.
