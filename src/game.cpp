@@ -2,18 +2,13 @@
 #include "../header/player.hpp"
 #include "../header/weapon.h"
 #include "../header/hud.hpp"
+#include <SFML/System.hpp>
 #include <ctime>
+#include <cstdlib>
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
-
-    // can add soundtrack(s) here
-    if (!mMusic.openFromFile("../assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
-    {
-        std::cerr << "Failed to load music\n";
-    }
-    mMusic.setVolume(50.0f);
 
     mBackground.loadFromFile("../assets/textures/topDownNew.png");
 
@@ -29,14 +24,13 @@ void Game::handleInput()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            mWindow.close();
-            break;
 
-        default:
-            break;
+        if (event.type == sf::Event::Closed)
+        {
+            mSplashMusic.stop();
+            mMusic.stop();
+            mWindow.close();
+            std::exit(0);
         }
     }
 }
@@ -65,7 +59,8 @@ void Game::update(float dt)
         }
         lastSpawnedLevel = LEVEL;
     }
-    if(player1.mState == Entity::EntityState::Dead){
+    if (player1.mState == Entity::EntityState::Dead)
+    {
         mIsDone = true;
     }
 }
@@ -191,12 +186,26 @@ void Game::checkAllEnemiesDead()
 
 void Game::playSplash()
 {
+    // 1) load & play splash only
+    if (!mSplashMusic.openFromFile("../assets/sounds/Intro storm.mp3"))
+        std::cerr << "Failed to load splash music\n";
+    mSplashMusic.setLoop(false);
+    mSplashMusic.play();
+    mSplashMusic.setVolume(75.f);
+
+    // 2) display the screen (blocks until Enter)
     SplashScreen splash(
         "../assets/textures/splash/transitions/image0.jpg",
         "../assets/fonts/Meta-Courage-TTF.ttf");
-
     splash.display(mWindow);
+
+    // 3) stop splash and immediately start game music
+    mSplashMusic.stop();
+
+    if (!mMusic.openFromFile("../assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
+        std::cerr << "Failed to load game music\n";
     mMusic.setLoop(true);
+    mMusic.setVolume(50.f);
     mMusic.play();
 }
 
@@ -205,9 +214,26 @@ void Game::playEnd()
     SplashScreen splash(
         "../assets/textures/splash/transitions/image0.jpg",
         "../assets/fonts/Meta-Courage-TTF.ttf");
+
+    // configure your two texts
     splash.mSprite.setColor(sf::Color::Red);
+
     splash.mPrompt.setString("GAME OVER");
     splash.mPrompt.setCharacterSize(50);
+    sf::FloatRect bounds = splash.mPrompt.getLocalBounds();
+    // center the origin
+    splash.mPrompt.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+
+    // get the window size
+    sf::Vector2u windowSize = mWindow.getSize();
+    // position it
+    splash.mPrompt.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 40.f);
+
+    splash.mPrompt2.setString("Play Again? (ENTER)");
+    splash.mPrompt2.setCharacterSize(32);
+    sf::FloatRect bounds2 = splash.mPrompt2.getLocalBounds();
+    splash.mPrompt2.setOrigin(bounds2.left + bounds2.width / 2.f, bounds2.top + bounds2.height / 2.f);
+    splash.mPrompt2.setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 20.f);
     splash.display(mWindow);
     mMusic.setLoop(true);
     mMusic.play();
@@ -218,7 +244,8 @@ void Game::resetGame()
     mIsDone = false;
     player1.changeState(Entity::EntityState::Alive);
     player1.health(100);
-    while(Enemies.size()){
+    while (Enemies.size())
+    {
         Enemies.pop_back();
     }
 
