@@ -63,6 +63,7 @@ void Game::update(float dt)
     {
         mIsDone = true;
     }
+    separateEnemies();
 }
 
 void Game::render()
@@ -76,8 +77,19 @@ void Game::render()
     // loop through all enemies to draw and check damage
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        Enemies[i].updateAndDraw(mWindow, player1, mDT);
-        Enemies[i].enemyDealDamage(player1);
+        if(Enemies[i].mState == Entity::EntityState::Dead)
+        {
+            Enemies[i].updateAndDraw(mWindow, player1, mDT);
+        }
+            
+    }
+    for (std::size_t i = 0; i < Enemies.size(); i++)
+    {
+        if(Enemies[i].mState == Entity::EntityState::Alive)
+        {
+            Enemies[i].updateAndDraw(mWindow, player1, mDT);
+            Enemies[i].enemyDealDamage(player1);
+        }
     }
 
     // Draw player
@@ -272,5 +284,33 @@ sf::Vector2f Game::randomSpawn(int i)
     else
     {
         return sf::Vector2f({1200.f, 1000.f - (50.f * i)});
+    }
+}
+void Game::separateEnemies()
+{
+    const float minDist   = 30.f;  // desired minimum spacing
+    const float minDist2  = minDist*minDist;
+    const float pushStr   = 0.5f;  // how hard to push them apart
+
+    for (size_t i = 0; i < Enemies.size(); ++i)
+    {
+        for (size_t j = i+1; j < Enemies.size(); ++j)
+        {
+            auto &A = Enemies[i].mSprite;
+            auto &B = Enemies[j].mSprite;
+
+            sf::Vector2f d = A.getPosition() - B.getPosition();
+            float dist2 = d.x*d.x + d.y*d.y;
+            if (dist2 > 0 && dist2 < minDist2 &&  Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+            {
+                float dist = std::sqrt(dist2);
+                // normalized direction
+                d /= dist;
+                float overlap = (minDist - dist) * pushStr;
+                // push each sprite half the overlap in opposite directions
+                A.move( d * (overlap * 0.5f) );
+                B.move(-d * (overlap * 0.5f) );
+            }
+        }
     }
 }

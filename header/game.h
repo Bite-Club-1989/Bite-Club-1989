@@ -25,7 +25,7 @@ public:
     void playSplash();
     void resetGame();
     void playEnd();
-
+    void separateEnemies();
     float mDT;
 
 private:
