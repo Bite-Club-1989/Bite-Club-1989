@@ -235,8 +235,6 @@ void Game::playEnd()
     splash.mPrompt2.setOrigin(bounds2.left + bounds2.width / 2.f, bounds2.top + bounds2.height / 2.f);
     splash.mPrompt2.setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 20.f);
     splash.display(mWindow);
-    mMusic.setLoop(true);
-    mMusic.play();
 }
 
 void Game::resetGame()
