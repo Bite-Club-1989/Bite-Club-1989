@@ -25,7 +25,7 @@ public:
     void playSplash();
     void resetGame();
     void playEnd();
-
+    void separateEnemies();
     float mDT;
 
 private:
@@ -48,7 +48,7 @@ private:
     sf::Sprite mSpriteRoofOne;
     sf::View view = mWindow.getDefaultView();
     sf::Music mMusic;
-
+    sf::Music mSplashMusic;
     bool mIsDone;
 
     // add button for quick restart

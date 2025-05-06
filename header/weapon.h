@@ -43,7 +43,7 @@ public:
     float getRate() { return mRate; }
     float getWepDmg() { return mWepDmg; }
     std::string getWepName() { return mName; }
-
+    
     std::vector<float> mAngles;
 
     struct Projectile

@@ -66,6 +66,12 @@ public:
     // State and action
     EntityState mState;   // Member variable for the state
     EntityAction mAction; // Member variable for the action
+    void setFacingRight(bool right);
+    void centerOrigin();
+
+    protected:
+
+    bool mFacingRight = true;
 };
 
 #endif

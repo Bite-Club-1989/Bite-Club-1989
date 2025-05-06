@@ -18,9 +18,9 @@ int main()
 {
   sf::Clock gameClock;
   Game game;
+  game.playSplash();
   while (1)
   {
-    game.playSplash();
     while (!game.isDone())
     {
       game.handleInput();

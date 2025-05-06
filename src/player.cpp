@@ -23,8 +23,10 @@ Player::Player() : Entity("../assets/textures/Bodyedit.png"), weapon("gun", 0.25
     // Set the texture rectangle
     mSprite.setTextureRect(sf::IntRect(10, 0, 11, 20)); // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
     mSprite.setTexture(mTexture);                       // Set the texture
-    mSprite.setPosition(400, 400);                      // Set the position inside the window
-    mSpeed *= 1.2f;                                     // Set the speed of the player
+    auto bounds = mSprite.getLocalBounds();
+    mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f); // Set the origin to the center of the sprite
+    mSprite.setPosition(400, 400);                              // Set the position inside the window
+    mSpeed *= 1.2f;                                             // Set the speed of the player
 
     setWpnDmg(30);
 
@@ -118,10 +120,17 @@ void Player::playerMove(float dt)
             dir *= mSpeed * dt * mSpeedboost;
 
             mSprite.move(dir);
+            if (dir.x < 0)
+            {
+                setFacingRight(false);
+            }
+            else if (dir.x > 0)
+            {
+                setFacingRight(true);
+            }
         }
     }
 }
-
 /**
  * @brief This function is used to attack
  *

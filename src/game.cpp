@@ -2,20 +2,15 @@
 #include "../header/player.hpp"
 #include "../header/weapon.h"
 #include "../header/hud.hpp"
+#include <SFML/System.hpp>
 #include <ctime>
+#include <cstdlib>
 
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
 
-    // can add soundtrack(s) here
-    if (!mMusic.openFromFile("../assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
-    {
-        std::cerr << "Failed to load music\n";
-    }
-    mMusic.setVolume(50.0f);
-
-    mBackground.loadFromFile("../assets/textures/topDownNew.png");
+    mBackground.loadFromFile("../assets/textures/topDown2.png");
 
     mSpriteBackground.setTexture(mBackground);
     mSpriteBackground.setOrigin(0, 0);
@@ -29,14 +24,13 @@ void Game::handleInput()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
-            mWindow.close();
-            break;
 
-        default:
-            break;
+        if (event.type == sf::Event::Closed)
+        {
+            mSplashMusic.stop();
+            mMusic.stop();
+            mWindow.close();
+            std::exit(0);
         }
     }
 }
@@ -51,7 +45,7 @@ void Game::update(float dt)
         Enemies.clear();
         srand(time(NULL)); // random number seed
         // spawn new enemies based on level
-        for (int i = 0; i < LEVEL; ++i)
+        for (int i = 0; i < LEVEL*3; ++i)
         {
 
             while (spawnDuration >= spawnTimer)
@@ -65,9 +59,11 @@ void Game::update(float dt)
         }
         lastSpawnedLevel = LEVEL;
     }
-    if(player1.mState == Entity::EntityState::Dead){
+    if (player1.mState == Entity::EntityState::Dead)
+    {
         mIsDone = true;
     }
+    separateEnemies();
 }
 
 void Game::render()
@@ -81,8 +77,19 @@ void Game::render()
     // loop through all enemies to draw and check damage
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        Enemies[i].updateAndDraw(mWindow, player1, mDT);
-        Enemies[i].enemyDealDamage(player1);
+        if(Enemies[i].mState == Entity::EntityState::Dead)
+        {
+            Enemies[i].updateAndDraw(mWindow, player1, mDT);
+        }
+            
+    }
+    for (std::size_t i = 0; i < Enemies.size(); i++)
+    {
+        if(Enemies[i].mState == Entity::EntityState::Alive)
+        {
+            Enemies[i].updateAndDraw(mWindow, player1, mDT);
+            Enemies[i].enemyDealDamage(player1);
+        }
     }
 
     // Draw player
@@ -191,12 +198,26 @@ void Game::checkAllEnemiesDead()
 
 void Game::playSplash()
 {
+    // 1) load & play splash only
+    if (!mSplashMusic.openFromFile("../assets/sounds/Intro storm.mp3"))
+        std::cerr << "Failed to load splash music\n";
+    mSplashMusic.setLoop(false);
+    mSplashMusic.play();
+    mSplashMusic.setVolume(75.f);
+
+    // 2) display the screen (blocks until Enter)
     SplashScreen splash(
         "../assets/textures/splash/transitions/image0.jpg",
         "../assets/fonts/Meta-Courage-TTF.ttf");
-
     splash.display(mWindow);
+
+    // 3) stop splash and immediately start game music
+    mSplashMusic.stop();
+
+    if (!mMusic.openFromFile("../assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
+        std::cerr << "Failed to load game music\n";
     mMusic.setLoop(true);
+    mMusic.setVolume(50.f);
     mMusic.play();
 }
 
@@ -205,12 +226,27 @@ void Game::playEnd()
     SplashScreen splash(
         "../assets/textures/splash/transitions/image0.jpg",
         "../assets/fonts/Meta-Courage-TTF.ttf");
+
+    // configure your two texts
     splash.mSprite.setColor(sf::Color::Red);
+
     splash.mPrompt.setString("GAME OVER");
     splash.mPrompt.setCharacterSize(50);
+    sf::FloatRect bounds = splash.mPrompt.getLocalBounds();
+    // center the origin
+    splash.mPrompt.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+
+    // get the window size
+    sf::Vector2u windowSize = mWindow.getSize();
+    // position it
+    splash.mPrompt.setPosition(windowSize.x / 2.f, windowSize.y / 2.f - 40.f);
+
+    splash.mPrompt2.setString("Play Again? (ENTER)");
+    splash.mPrompt2.setCharacterSize(32);
+    sf::FloatRect bounds2 = splash.mPrompt2.getLocalBounds();
+    splash.mPrompt2.setOrigin(bounds2.left + bounds2.width / 2.f, bounds2.top + bounds2.height / 2.f);
+    splash.mPrompt2.setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 20.f);
     splash.display(mWindow);
-    mMusic.setLoop(true);
-    mMusic.play();
 }
 
 void Game::resetGame()
@@ -218,7 +254,8 @@ void Game::resetGame()
     mIsDone = false;
     player1.changeState(Entity::EntityState::Alive);
     player1.health(100);
-    while(Enemies.size()){
+    while (Enemies.size())
+    {
         Enemies.pop_back();
     }
 
@@ -247,5 +284,33 @@ sf::Vector2f Game::randomSpawn(int i)
     else
     {
         return sf::Vector2f({1200.f, 1000.f - (50.f * i)});
+    }
+}
+void Game::separateEnemies()
+{
+    const float minDist   = 20.f;  // desired minimum spacing
+    const float minDist2  = minDist*minDist;
+    const float pushStr   = 0.5f;  // how hard to push them apart
+
+    for (size_t i = 0; i < Enemies.size(); ++i)
+    {
+        for (size_t j = i+1; j < Enemies.size(); ++j)
+        {
+            auto &A = Enemies[i].mSprite;
+            auto &B = Enemies[j].mSprite;
+
+            sf::Vector2f d = A.getPosition() - B.getPosition();
+            float dist2 = d.x*d.x + d.y*d.y;
+            if (dist2 > 0 && dist2 < minDist2 &&  Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+            {
+                float dist = std::sqrt(dist2);
+                // normalized direction
+                d /= dist;
+                float overlap = (minDist - dist) * pushStr;
+                // push each sprite half the overlap in opposite directions
+                A.move( d * (overlap * 0.5f) );
+                B.move(-d * (overlap * 0.5f) );
+            }
+        }
     }
 }

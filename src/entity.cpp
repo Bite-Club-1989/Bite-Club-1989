@@ -19,9 +19,9 @@ Entity::Entity()
 {
     // Texture and sprite
     mTexture.loadFromFile("../assets/textures/ZombieShooter/Sprites/Zombie/Zombie.png"); // Load the texture from file
-    sf::IntRect textureRect(42, 10, 13, 20);                                          // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
-    mSprite.setTextureRect(textureRect);                                              // Set the texture rectangle
-    mSprite.setTexture(mTexture);                                                     // Set the texture
+    sf::IntRect textureRect(42, 10, 13, 20);                                             // Set the texture rectangle (int rectLeft, int rectTop, int rectWidth, int rectHeight)
+    mSprite.setTextureRect(textureRect);                                                 // Set the texture rectangle
+    mSprite.setTexture(mTexture);                                                        // Set the texture
 
     // Positioning and scaling
     mSprite.setPosition(200, 400); // Set the position inside the window
@@ -158,3 +158,18 @@ void Entity::changeState(EntityState state) { mState = state; };
  * @param action The action to change to
  */
 void Entity::changeAction(EntityAction action) { mAction = action; };
+void Entity::setFacingRight(bool right)
+{
+    if (right == mFacingRight)
+    {
+        return;
+    }
+    mFacingRight = right;
+    auto s = mSprite.getScale();
+    mSprite.setScale((right ? +1.f : -1.f) * std::abs(s.x), std::abs(s.y));
+}
+void Entity::centerOrigin()
+{
+  auto b = mSprite.getLocalBounds();
+  mSprite.setOrigin(b.width/2.f, b.height/2.f);
+}
