@@ -45,7 +45,7 @@ void Game::update(float dt)
         Enemies.clear();
         srand(time(NULL)); // random number seed
         // spawn new enemies based on level
-        for (int i = 0; i < LEVEL; ++i)
+        for (int i = 0; i < LEVEL*3; ++i)
         {
 
             while (spawnDuration >= spawnTimer)
