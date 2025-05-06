@@ -288,7 +288,7 @@ sf::Vector2f Game::randomSpawn(int i)
 }
 void Game::separateEnemies()
 {
-    const float minDist   = 30.f;  // desired minimum spacing
+    const float minDist   = 20.f;  // desired minimum spacing
     const float minDist2  = minDist*minDist;
     const float pushStr   = 0.5f;  // how hard to push them apart
 
