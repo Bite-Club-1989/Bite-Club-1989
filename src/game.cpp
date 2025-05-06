@@ -10,7 +10,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
 
-    mBackground.loadFromFile("../assets/textures/topDownNew.png");
+    mBackground.loadFromFile("../assets/textures/topDown2.png");
 
     mSpriteBackground.setTexture(mBackground);
     mSpriteBackground.setOrigin(0, 0);

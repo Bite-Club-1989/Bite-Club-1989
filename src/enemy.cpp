@@ -41,6 +41,16 @@ void Enemy::enemyMove(Player &p, float dt)
     // Move enemy along the normalized direction.
     // multiply to set speed diredtion with frame rate
     mSprite.move(direction * mSpeed * dt);
+    if (direction.x < 0)
+    {
+
+        setFacingRight(false);
+    }
+    else if (direction.x > 0)
+    {
+
+        setFacingRight(true);
+    }
     // cout to verify movement
     // std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
 }
