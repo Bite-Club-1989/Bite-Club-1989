@@ -5,13 +5,16 @@
 #include <string>
 #include <sstream>
 #include <SFML/Graphics.hpp>
-
+/**
+ * @brief Heads up display class that handles the health bar, level, ammo, stamina, and points
+ *
+ */
 class Hud
 {
 public:
     Hud()
     {
-        // assets/fonts/Meta-Courage-TTF.ttf
+
         if (!mFont.loadFromFile("../assets/fonts/Meta-Courage-TTF.ttf"))
             throw std::runtime_error("Failed to load font");
 
@@ -85,11 +88,12 @@ public:
         updatePointText();
     };
 
-    void resetCurrPoints(){
+    void resetCurrPoints()
+    {
         currPoints = 0;
         updatePointText();
     }
-
+    // Getters to set Hud displays based on player stats
     const sf::RectangleShape &getHealthBar() const { return healthBar; };
     const sf::RectangleShape &getPowerupBar() const { return powerupBar; };
     const sf::Text &getLevelText() const { return mLevel; }
@@ -109,7 +113,10 @@ private:
     int currLevel;
     int currBullets;
     int currPoints;
-
+    /**
+     * @brief Updates health bar size based on current health
+     *
+     */
     void updateHealthBar()
     {
         healthBar.setSize(sf::Vector2f(currHealth, 10));
@@ -117,7 +124,10 @@ private:
         sf::Color healthBarColor = sf::Color(255, 0, 0);
         healthBar.setFillColor(healthBarColor);
     }
-
+    /**
+     * @brief updates stamina bar size based on current stamina
+     *
+     */
     void updatePowerupBar()
     {
         powerupBar.setSize(sf::Vector2f(currPower, 10));
@@ -125,17 +135,26 @@ private:
         sf::Color powerupBarColor = sf::Color(0, 255, 255);
         powerupBar.setFillColor(powerupBarColor);
     }
-
+    /**
+     * @brief Updates level text based on current level
+     *
+     */
     void updateLevelText()
     {
         mLevel.setString("Level: " + std::to_string(currLevel));
     }
-
+    /**
+     * @brief Updates cartridge fraction text based on current ammo
+     *
+     */
     void updateBulletText()
     {
         mBullet.setString("Ammo: " + std::to_string(currBullets) + "/30");
     }
-
+    /**
+     * @brief updates points text based on collisions
+     *
+     */
     void updatePointText()
     {
         mPoint.setString("Points: " + std::to_string(currPoints));

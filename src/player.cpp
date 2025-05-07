@@ -67,13 +67,22 @@ void Player::playerMove(float dt)
         sf::Vector2f dir(0.f, 0.f);
         // will take keyboard input to determine direction of player
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && mSprite.getPosition().y > 30)
+        {
             dir.y -= 1.f;
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && mSprite.getPosition().y < 920)
+        {
             dir.y += 1.f;
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && mSprite.getPosition().x > 35)
+        {
             dir.x -= 1.f;
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && mSprite.getPosition().x < 1140)
+        {
+
             dir.x += 1.f;
+        }
         if (mIsFatigued)
         {
             mFatigueTimer += dt;                   // penalty timer
@@ -104,7 +113,9 @@ void Player::playerMove(float dt)
                 // Recover stamina if NOT holding Shift
                 mStamina += mStaminaRecoverRate * dt;
                 if (mStamina > mMaxStamina)
+                {
                     mStamina = mMaxStamina;
+                }
                 mSpeedboost = 1.0f;
             }
         }
@@ -118,7 +129,7 @@ void Player::playerMove(float dt)
 
             // move based on gamespeed * setspeed (mSpped) * speedboost condition
             dir *= mSpeed * dt * mSpeedboost;
-
+            // flip sprite flag based on direction
             mSprite.move(dir);
             if (dir.x < 0)
             {

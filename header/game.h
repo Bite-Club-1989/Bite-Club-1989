@@ -1,3 +1,13 @@
+/**
+ * @file game.h
+ * @authors Chris Joe and Tyler
+ * @brief 
+ * @version 0.1
+ * @date 05-06-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #ifndef GAME_H
 #define GAME_H
 
@@ -9,23 +19,27 @@
 #include "splashscreens.h"
 #include <SFML/Audio.hpp>
 
+/**
+ * @brief Game class that handles the game loop, input, update, and rendering.
+ * 
+ */
 class Game
 {
 public:
     Game();
     ~Game() {};
 
-    void handleInput();
-    void update(float);
-    void render();
-    bool isDone() const;
-    void updateCamView();
-    void checkProjCollision();
-    void checkAllEnemiesDead();
-    void playSplash();
-    void resetGame();
-    void playEnd();
-    void separateEnemies();
+    void handleInput(); //from user
+    void update(float); // update all game objects and logic
+    void render(); //render sprites to window
+    bool isDone() const; // game is done
+    void updateCamView(); //move camera perspective to player
+    void checkProjCollision(); // check collisions progectiles and enemy vector
+    void checkAllEnemiesDead(); // check if all enemies dead to increase level
+    void playSplash(); // play splash screen
+    void resetGame(); // reset all game variables/ obiects
+    void playEnd(); //play end screen 
+    void separateEnemies(); // keep enemies from 100% overlapping
     float mDT;
 
 private:
@@ -45,7 +59,6 @@ private:
     sf::Texture mBackground;
     sf::Texture mRoofOne;
     sf::Sprite mSpriteBackground;
-    sf::Sprite mSpriteRoofOne;
     sf::View view = mWindow.getDefaultView();
     sf::Music mMusic;
     sf::Music mSplashMusic;

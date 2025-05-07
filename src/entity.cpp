@@ -168,8 +168,12 @@ void Entity::setFacingRight(bool right)
     auto s = mSprite.getScale();
     mSprite.setScale((right ? +1.f : -1.f) * std::abs(s.x), std::abs(s.y));
 }
+/**
+ * @brief find and set the center axis for movement
+ * 
+ */
 void Entity::centerOrigin()
 {
-  auto b = mSprite.getLocalBounds();
-  mSprite.setOrigin(b.width/2.f, b.height/2.f);
+  auto b = mSprite.getLocalBounds(); //bounds of the sprite b data auto detected based on return type
+  mSprite.setOrigin(b.width/2.f, b.height/2.f); // middle, middle
 }

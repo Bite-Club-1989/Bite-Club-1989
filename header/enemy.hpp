@@ -43,19 +43,9 @@ public:
     // Updates enemy movement toward the player using delta time.
     void enemyMove(Player &p, float dt);
 
-    // Override the base class draw method.
-    // This function must match the signature in Entity.
-    /* virtual void draw(sf::RenderWindow &window) override
-    {
-
-       std::cout << "updating enemu" <<std:: endl;
-
-       std::cout << "Drawing Enemy" << std::endl;
-       window.draw(mSprite);
-    } */
-
     // needed to create new function to be able to pass player object.
     void updateAndDraw(sf::RenderWindow &window, Player &p, float dt);
+    // draws deaad enemy to window
     void enemyDeath(sf::RenderWindow &window);
 
     void updateHealthBar()
@@ -70,8 +60,8 @@ public:
 private:
     sf::RectangleShape healthBar;
     float mSpeed; // Enemy movement speed.
-    float mDamageRate;
-    sf::Clock mDamageClock;
+    float mDamageRate; 
+    sf::Clock mDamageClock; 
 };
 
 #endif

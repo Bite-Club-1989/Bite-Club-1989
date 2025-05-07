@@ -16,7 +16,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
-
+/**
+ * @brief Holds the weapon class that will be used for the player and enemies
+ *
+ */
 class Weapon
 {
 public:
@@ -27,25 +30,28 @@ public:
         Plasma
     };
 
-    Weapon(std::string name, float d, float r, float b, bool ranged);
+    Weapon(std::string name, float d, float r, float b, bool ranged); // weapon constructor
     ~Weapon() {}
 
-    void setRate(float r) { mRate = r; }
-    void setWepDmg(float d) { mWepDmg = d; }
-    void setWeapon(std::string name, float d, float r, float b, bool ranged);
+    void setRate(float r) { mRate = r; }                                      // fire rate
+    void setWepDmg(float d) { mWepDmg = d; }                                  // weapon damage
+    void setWeapon(std::string name, float d, float r, float b, bool ranged); // select weapon (later feature not implemented)
 
-    void attack(sf::RenderWindow &window, sf::Sprite &sprite);
-    void attackRender(sf::RenderWindow &window, float dt);
-    void loadSoundBuffer(WpnSoundState w);
+    void attack(sf::RenderWindow &window, sf::Sprite &sprite); // attack function
+    void attackRender(sf::RenderWindow &window, float dt);     // render attack
+    void loadSoundBuffer(WpnSoundState w);                     // sound loading
 
-    void setBulletsFired(int i){ mBulletsFired = i; }
+    void setBulletsFired(int i) { mBulletsFired = i; } // set bullets fired
 
-    float getRate() { return mRate; }
-    float getWepDmg() { return mWepDmg; }
-    std::string getWepName() { return mName; }
-    
-    std::vector<float> mAngles;
+    float getRate() { return mRate; }          // fire rate
+    float getWepDmg() { return mWepDmg; }      // weapon damage
+    std::string getWepName() { return mName; } // weapon name (unused-later feature)
 
+    std::vector<float> mAngles; // determines the angle of the bullets
+    /**
+     * @brief weapon projectile class that will be used for the bullets
+     *
+     */
     struct Projectile
     {
         Projectile(const sf::Vector2f &pos, float ang) : angle(ang)
@@ -59,8 +65,8 @@ public:
 
         enum class BulletState
         {
-            Active,
-            Disabled
+            Active, //while fired
+            Disabled // when not fired/hit enemy
         };
 
         sf::CircleShape bullet;
@@ -71,11 +77,6 @@ public:
     std::vector<Weapon::Projectile> mProjectiles;
 
     int mBulletsFired;
-
-    //  std::vector<Weapon::Projectile> &getProjectiles()
-    //  {
-    //      return mProjectiles;
-    //  }
 
     double getBulletSpeed()
     {
@@ -89,8 +90,6 @@ protected:
     sf::Clock mFireClock;
     std::vector<sf::Sound> mGunshots;
     sf::SoundBuffer mGunshotBuffer;
-    // sf::Sprite mSprite; // this is commented out for now until in use
-    // std::vector<sf::CircleShape> mBullets; // this stores the bullets in a vector to be drawn to screen
     double mBulletSpeed; // bullet speed
     bool mRanged;        // flag that will be used for ranged attacks
 
