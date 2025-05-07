@@ -1,5 +1,6 @@
 /**
  * @file enemy.cpp
+
  * @author Chris, Joe, Tyler
  * @brief This file contains the implementation of the enemy class
  * @version 0.1
@@ -31,27 +32,32 @@ Enemy::Enemy() : mSpeed(100.0f)
  * @brief This function deals damage to the player if their sprites intersect.
  *
  * @param p The player object to check for collision with.
+
  */
 void Enemy::enemyDealDamage(Player &p)
 {
     if (p.mState == Entity::EntityState::Dead)
+    {
         return;
+    }
     if (mDamageClock.getElapsedTime().asSeconds() >= mDamageRate)
     {
         if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
         {
-            std::cout << "Player Hit" << std::endl;
+           
             p.takeDamage(10);
         }
         mDamageClock.restart();
     }
 }
 
+
 /**
  * @brief This function updates the enemy movement toward the player using delta time.
  *
  * @param p The player object to chase.
  * @param dt The delta time since the last frame.
+
  */
 void Enemy::enemyMove(Player &p, float dt)
 {
@@ -73,16 +79,16 @@ void Enemy::enemyMove(Player &p, float dt)
     // Move enemy along the normalized direction.
     // multiply to set speed diredtion with frame rate
     mSprite.move(direction * mSpeed * dt);
-    if (direction.x < 0)
+    if (direction.x < 0) // if enemy is chasing left
+    {
+        setFacingRight(false); // flip sprite
+    }
+    else if (direction.x > 0) // if enemy is chasing right
     {
 
-        setFacingRight(false);
+        setFacingRight(true); // normal sprite
     }
-    else if (direction.x > 0)
-    {
 
-        setFacingRight(true);
-    }
 }
 
 /**
@@ -92,6 +98,7 @@ void Enemy::enemyMove(Player &p, float dt)
  * @param p The player object to chase.
  * @param dt The delta time since the last frame.
  */
+
 // needed to create new function to be able to pass player object.
 void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
 {
@@ -108,10 +115,12 @@ void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
     }
 }
 
+
 /**
  * @brief This function handles the enemy's death state and look.
  *
  * @param window The window to draw the enemy on.
+
  */
 void Enemy::enemyDeath(sf::RenderWindow &window)
 {

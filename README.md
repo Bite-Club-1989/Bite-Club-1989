@@ -1,8 +1,5 @@
 # Bite-Club-1989
 
-## Mac Compile Command
-g++ -std=c++11 *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -I/opt/homebrew/opt/sfml@2/include -L/opt/homebrew/opt/sfml@2/lib
-
 ## Authors:
     Chris Bailey
     Tyler Osso
@@ -36,9 +33,9 @@ $ git clone https://github.com/Bite-Club-1989/Bite-Club-1989.git BiteClub1989
 $ cd BiteClub1989
 ```
 3. Go to source file
-''
+```
 $ cd src
-''
+```
 4. Compile the project (Mac)
 ```
 $ g++ -std=c++11 *.cpp -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -I/opt/homebrew/opt/sfml@2/include -L/opt/homebrew/opt/sfml@2/lib
@@ -56,10 +53,10 @@ Game will greet player with a splash screen. They will be able to press enter to
 
 ### Controls
 The game will allow players to:
-    '#000000' **W A S D** '#ffffff' to move
-    '#000000' **SHIFT** '#ffffff' to sprint
-    '#000000' **L-Click** '#ffffff' to shoot
-    '#000000' **Mouse Direction** '#ffffff' shoot direcrtion
+    #f03c15 ``**W A S D**`` #ffffff to move
+    #f03c15 ``**SHIFT**`` #ffffff to sprint
+    #f03c15 ``**L-Click**`` #ffffff to shoot
+    #f03c15 ``**Mouse Direction**`` #ffffff shoot direcrtion
 
 ### Gameplay/Hud
 Player must avoid enemies while eliminating all enemies for that level to continue

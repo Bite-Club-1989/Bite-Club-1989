@@ -5,11 +5,16 @@
 #include <string>
 #include <sstream>
 #include <SFML/Graphics.hpp>
-
+/**
+ * @brief Heads up display class that handles the health bar, level, ammo, stamina, and points
+ *
+ */
 class Hud
 {
 public:
+
     Hud(); // Constructor
+
 
     void setCurrHealth(int h);  // Set current health
     void setCurrPower(int p);   // Set current power

@@ -30,17 +30,21 @@ struct SplashScreen
     SplashScreen(const std::string &texturePath,
                  const std::string &fontPath)
     {
-        // Load splash image
+        // Load splash image/ error handling
         if (!mTexture.loadFromFile(texturePath))
+        {
             throw std::runtime_error("Failed to load splash texture");
+        }
         mSprite.setTexture(mTexture);
 
-        // Load font & setup prompt text
+        // Load font & setup prompt text /error handling
         if (!mFont.loadFromFile(fontPath))
+        {
             throw std::runtime_error("Failed to load font");
+        }
         mPrompt.setFont(mFont);
         mPrompt2.setFont(mFont);
-        mPrompt.setString("Press Enter to Start");
+        mPrompt.setString("Press Enter to Start"); // default text
         mPrompt.setCharacterSize(32);
         mPrompt.setFillColor(sf::Color::White);
 
@@ -58,11 +62,9 @@ struct SplashScreen
      */
     void display(sf::RenderWindow &window)
     {
-
         sf::Clock clock;
         while (window.isOpen())
         {
-
             float dt = clock.restart().asSeconds();
 
             // Handle close / Enter
@@ -70,6 +72,7 @@ struct SplashScreen
             while (window.pollEvent(evt))
 
             {
+                // ensure windows close and game/program exits cleanly
                 if (evt.type == sf::Event::Closed)
                 {
                     window.close();
@@ -92,13 +95,12 @@ struct SplashScreen
             // Render splash
             window.clear();
             window.draw(mSprite);
+            // needed for blinking logic text
             if (mShowPrompt)
             {
                 window.draw(mPrompt);
             }
-
             window.draw(mPrompt2);
-
             window.display();
         }
     }
