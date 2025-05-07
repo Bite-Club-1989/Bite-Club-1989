@@ -150,6 +150,8 @@ void Game::render()
     mWindow.draw(hudOverlay.getLevelText());
     mWindow.draw(hudOverlay.getBulletText());
     mWindow.draw(hudOverlay.getPointText());
+    mWindow.draw(hudOverlay.getHealthText());
+    mWindow.draw(hudOverlay.getPowerUpText());
 
     mWindow.display();
 }
