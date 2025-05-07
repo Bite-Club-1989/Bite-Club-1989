@@ -51,7 +51,7 @@ public:
     std::vector<float> mAngles; // Vector of angles for bullets
 
 
-    std::vector<float> mAngles; // determines the angle of the bullets
+
     /**
      * @brief weapon projectile class that will be used for the bullets
      *
