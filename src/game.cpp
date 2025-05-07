@@ -16,6 +16,7 @@
 #include <ctime>
 #include <cstdlib>
 
+
 /**
  * @brief Construct a new Game:: Game object
  *
@@ -32,6 +33,7 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 
     view.setSize(800.f, 800.f);
 }
+
 
 /**
  * @brief This function handles the input for the game
@@ -53,6 +55,7 @@ void Game::handleInput()
     }
 }
 
+
 /**
  * @brief This function updates the game state
  *
@@ -70,18 +73,19 @@ void Game::update(float dt)
         // spawn new enemies based on level
         for (int i = 0; i < LEVEL * 3; ++i)
         {
-
+            //spawn delay/stagger
             while (spawnDuration >= spawnTimer)
             {
                 spawnTimer += dt;
             }
             // reset timer
             spawnTimer = 0.f;
-            e.position(randomSpawn(i));
-            Enemies.push_back(e);
+            e.position(randomSpawn(i)); // set position 
+            Enemies.push_back(e); //push back new enemy into vector
         }
-        lastSpawnedLevel = LEVEL;
+        lastSpawnedLevel = LEVEL; //set last level to current level
     }
+    // if player is dead, end game
     if (player1.mState == Entity::EntityState::Dead)
     {
         mIsDone = true;
@@ -90,8 +94,10 @@ void Game::update(float dt)
             Enemies.pop_back();
         }
     }
+    // keep enemies from overlapping
     separateEnemies();
 }
+
 
 /**
  * @brief This function renders the game
@@ -99,13 +105,14 @@ void Game::update(float dt)
  */
 void Game::render()
 {
-    updateCamView();
+    updateCamView(); //to player position
     mWindow.clear(sf::Color::Black);
 
     // Draw world
     mWindow.draw(mSpriteBackground);
 
     // loop through all enemies to draw and check damage
+    // draw dead enemies first
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
         if (Enemies[i].mState == Entity::EntityState::Dead)
@@ -113,6 +120,7 @@ void Game::render()
             Enemies[i].updateAndDraw(mWindow, player1, mDT);
         }
     }
+    // draw alive enemies on top
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
         if (Enemies[i].mState == Entity::EntityState::Alive)
@@ -124,8 +132,9 @@ void Game::render()
 
     // Draw player
     player1.draw(mWindow, mDT);
-
+    // check bullet collisions
     checkProjCollision();
+    // check if all enemies are dead (level up)
     checkAllEnemiesDead();
 
     // Set hud from player stats
@@ -145,6 +154,7 @@ void Game::render()
     mWindow.display();
 }
 
+
 /**
  * @brief This function checks if the game is done
  *
@@ -155,6 +165,7 @@ bool Game::isDone() const
 {
     return (!mWindow.isOpen() || mIsDone);
 }
+
 
 /**
  * @brief This function updates the camera view based on the player position
@@ -177,18 +188,31 @@ void Game::updateCamView()
 
     // Logic to avoid camera view outside the map
     if (playerCenter.x < halfWidth)
+    {
         centerCam.x = halfWidth;
+
+    }
     else if (playerCenter.x > worldSize.x - halfWidth)
+    {
+
         centerCam.x = worldSize.x - halfWidth;
+    }
 
     if (playerCenter.y < halfHeight)
+    {
         centerCam.y = halfHeight;
+
+    }
     else if (playerCenter.y > worldSize.y - halfHeight)
+    {
         centerCam.y = worldSize.y - halfHeight;
+
+    }
 
     view.setCenter(centerCam);
     mWindow.setView(view);
 }
+
 
 /**
  * @brief This function checks for projectile collision with enemies
@@ -222,6 +246,7 @@ void Game::checkProjCollision()
     }
 }
 
+
 /**
  * @brief This function checks if all enemies are dead
  *
@@ -232,7 +257,7 @@ void Game::checkAllEnemiesDead()
     bool allDead = true;
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        if (Enemies[i].mState == Entity::EntityState::Alive)
+        if (Enemies[i].mState == Entity::EntityState::Alive) // if any alive
             allDead = false;
     }
 
@@ -244,26 +269,27 @@ void Game::checkAllEnemiesDead()
     }
 }
 
+
 /**
  * @brief This function plays the splash screen and music
  *
  */
 void Game::playSplash()
 {
-    // 1) load & play splash only
+    // load & play splash only and error handling
     if (!mSplashMusic.openFromFile("../assets/sounds/Intro storm.mp3"))
+    {
         std::cerr << "Failed to load splash music\n";
+    }
     mSplashMusic.setLoop(false);
     mSplashMusic.play();
     mSplashMusic.setVolume(75.f);
 
-    // 2) display the screen (blocks until Enter)
-    SplashScreen splash(
-        "../assets/textures/splash/transitions/image0.jpg",
-        "../assets/fonts/Meta-Courage-TTF.ttf");
+    // display the screen (blocks until Enter is pressed) image and font
+    SplashScreen splash("../assets/textures/splash/transitions/image0.jpg", "../assets/fonts/Meta-Courage-TTF.ttf");
     splash.display(mWindow);
 
-    // 3) stop splash and immediately start game music
+    //stop splash and immediately start game music
     mSplashMusic.stop();
 
     if (!mMusic.openFromFile("../assets/sounds/For Whom The Bell Tolls (Remastered).mp3"))
@@ -273,17 +299,16 @@ void Game::playSplash()
     mMusic.play();
 }
 
+
 /**
  * @brief This function plays the end screen and music
  *
  */
 void Game::playEnd()
 {
-    SplashScreen splash(
-        "../assets/textures/splash/transitions/image0.jpg",
-        "../assets/fonts/Meta-Courage-TTF.ttf");
+    SplashScreen splash("../assets/textures/splash/transitions/image0.jpg", "../assets/fonts/Meta-Courage-TTF.ttf");
 
-    // configure your two texts
+    // set text variables
     splash.mSprite.setColor(sf::Color::Red);
 
     splash.mPrompt.setString("GAME OVER");
@@ -305,6 +330,7 @@ void Game::playEnd()
     splash.display(mWindow);
 }
 
+
 /**
  * @brief This function resets the game state
  *
@@ -325,6 +351,7 @@ void Game::resetGame()
     hudOverlay.resetCurrPoints();
     player1.getWeapon().setBulletsFired(0);
 }
+
 
 /**
  * @brief This function generates a random spawn point for the enemies
@@ -353,6 +380,7 @@ sf::Vector2f Game::randomSpawn(int i)
     }
 }
 
+
 /**
  * @brief This function separates the enemies to avoid overlap
  *
@@ -363,24 +391,29 @@ void Game::separateEnemies()
     const float minDist2 = minDist * minDist;
     const float pushStr = 0.5f; // how hard to push them apart
 
+
     for (size_t i = 0; i < Enemies.size(); ++i)
     {
         for (size_t j = i + 1; j < Enemies.size(); ++j)
         {
-            auto &A = Enemies[i].mSprite;
+            auto &A = Enemies[i].mSprite; //auto data type set a and b
             auto &B = Enemies[j].mSprite;
-
+            // subtract the positions of the two sprites to get the distance vector
             sf::Vector2f d = A.getPosition() - B.getPosition();
+
             float dist2 = d.x * d.x + d.y * d.y;
             if (dist2 > 0 && dist2 < minDist2 && Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+
             {
-                float dist = std::sqrt(dist2);
+                float dist = std::sqrt(dist2); // finish pythag
                 // normalized direction
-                d /= dist;
-                float overlap = (minDist - dist) * pushStr;
+                d /= dist; // normalize the distance vector
+                float overlap = (minDist - dist) * pushStr; // calculate overlap
                 // push each sprite half the overlap in opposite directions
+
                 A.move(d * (overlap * 0.5f));
                 B.move(-d * (overlap * 0.5f));
+
             }
         }
     }

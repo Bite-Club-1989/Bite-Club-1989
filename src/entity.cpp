@@ -180,6 +180,7 @@ void Entity::setFacingRight(bool right)
     mSprite.setScale((right ? +1.f : -1.f) * std::abs(s.x), std::abs(s.y));
 }
 
+
 /**
  * @brief This function is used to center the origin of the entity
  *
@@ -188,4 +189,5 @@ void Entity::centerOrigin()
 {
     auto b = mSprite.getLocalBounds();
     mSprite.setOrigin(b.width / 2.f, b.height / 2.f);
+
 }

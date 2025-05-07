@@ -16,7 +16,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
-
+/**
+ * @brief Holds the weapon class that will be used for the player and enemies
+ *
+ */
 class Weapon
 {
 public:
@@ -26,6 +29,7 @@ public:
         Laser,
         Plasma
     };
+
 
     Weapon(std::string name, float d, float r, float b, bool ranged); // Constructor
     ~Weapon() {}                                                      // Destructor
@@ -46,6 +50,12 @@ public:
 
     std::vector<float> mAngles; // Vector of angles for bullets
 
+
+
+    /**
+     * @brief weapon projectile class that will be used for the bullets
+     *
+     */
     struct Projectile
     {
         /**
@@ -65,8 +75,8 @@ public:
 
         enum class BulletState
         {
-            Active,
-            Disabled
+            Active, //while fired
+            Disabled // when not fired/hit enemy
         };
 
         sf::CircleShape bullet; // Bullet shape
@@ -76,6 +86,7 @@ public:
 
     std::vector<Weapon::Projectile> mProjectiles; // Vector of projectiles
 
+
     int mBulletsFired; // Number of bullets fired
 
     /**
@@ -83,6 +94,7 @@ public:
      *
      * @return double The bullet speed
      */
+
     double getBulletSpeed()
     {
         return mBulletSpeed;
@@ -91,6 +103,7 @@ public:
     WpnSoundState mBulletSound; // Bullet sound state
 
 protected:
+
     sf::Texture mTexture;             // Texture for the weapon
     sf::Clock mFireClock;             // Clock for firing
     std::vector<sf::Sound> mGunshots; // Vector of gunshot sounds
@@ -104,6 +117,7 @@ protected:
     std::string mGunshotLocation;   // Gunshot sound location
     std::string mLasershotLocation; // Laser sound location
     int mSoundIndex = 0;            // Index of the current sound
+
 };
 
 #endif

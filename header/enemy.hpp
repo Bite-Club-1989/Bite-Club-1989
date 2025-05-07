@@ -23,6 +23,7 @@ class Enemy : public Entity
 public:
     Enemy(); // Constructor
 
+
     void enemyDealDamage(Player &p);                                   // Deals damage to the player if their sprites intersect
     void enemyMove(Player &p, float dt);                               // Updates enemy movement toward the player using delta time.
     void updateAndDraw(sf::RenderWindow &window, Player &p, float dt); // Override the base class draw method
@@ -34,6 +35,7 @@ private:
     float mSpeed;                 // Enemy movement speed.
     float mDamageRate;            // Damage rate for the enemy
     sf::Clock mDamageClock;       // Clock to track damage time
+
 };
 
 #endif

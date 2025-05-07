@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @author your name (you@domain.com)
+ * @author Chris Joe and Tyler
  * @brief
  * @version 0.1
  * @date 2025-03-24
@@ -16,14 +16,14 @@
 
 int main()
 {
-  sf::Clock gameClock;
-  Game game;
-  game.playSplash();
-  game.resetGame();
-  gameClock.restart();
+  sf::Clock gameClock; //initialize game clock
+  Game game; //initialize game object
+  game.playSplash(); //play splash screen
+  game.resetGame(); // upon starting game (enter) reset all variables
+  gameClock.restart(); //restart the clock
   while (1)
   {
-    while (!game.isDone())
+    while (!game.isDone()) 
     {
       game.handleInput();
       float dt = gameClock.restart().asSeconds();
@@ -32,9 +32,9 @@ int main()
       
       
     }
-    game.playEnd();
-    game.resetGame();
-    gameClock.restart();
+    game.playEnd(); //end splash screen
+    game.resetGame(); //reset the game after enter is pressed 
+    gameClock.restart(); // restart the clock
   }
 
   return 0;

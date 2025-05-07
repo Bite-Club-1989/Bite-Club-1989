@@ -1,3 +1,13 @@
+/**
+ * @file game.h
+ * @authors Chris Joe and Tyler
+ * @brief 
+ * @version 0.1
+ * @date 05-06-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #ifndef GAME_H
 #define GAME_H
 
@@ -9,9 +19,14 @@
 #include "splashscreens.h"
 #include <SFML/Audio.hpp>
 
+/**
+ * @brief Game class that handles the game loop, input, update, and rendering.
+ * 
+ */
 class Game
 {
 public:
+
     Game(); // Constructor
 
     void handleInput();         // Handle input from the player
@@ -49,6 +64,7 @@ private:
     sf::Music mMusic;                         // Background music
     sf::Music mSplashMusic;                   // Splash screen music
     bool mIsDone;                             // Game state
+
 };
 
 #endif
