@@ -19,6 +19,8 @@ int main()
   sf::Clock gameClock;
   Game game;
   game.playSplash();
+  game.resetGame();
+  gameClock.restart();
   while (1)
   {
     while (!game.isDone())
@@ -27,11 +29,12 @@ int main()
       float dt = gameClock.restart().asSeconds();
       game.update(dt);
       game.render();
-      if(game.isDone()){
-        game.playEnd();
-      }
+      
+      
     }
+    game.playEnd();
     game.resetGame();
+    gameClock.restart();
   }
 
   return 0;
