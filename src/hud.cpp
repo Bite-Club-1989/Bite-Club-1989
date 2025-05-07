@@ -25,18 +25,30 @@ Hud::Hud()
     currLevel = 1;
     currBullets = 0;
     currPoints = 0;
+    currHealth = 100;
+    currPower = 100;
 
     // Health Bar
     healthBar.setSize(sf::Vector2f(100, 10));
     healthBar.setPosition(10, 10);
     sf::Color healthBarColor = sf::Color(255, 0, 0);
     healthBar.setFillColor(healthBarColor);
+    mHealth.setFont(mFont);
+    mHealth.setCharacterSize(10);
+    mHealth.setPosition(120, 10);
+    mHealth.setFillColor(sf::Color::White);
+    updateHealthText();
 
     // Power-up Bar
     powerupBar.setSize(sf::Vector2f(100, 10));
     powerupBar.setPosition(10, 22);
     sf::Color powerupBarColor = sf::Color(0, 255, 255);
     powerupBar.setFillColor(powerupBarColor);
+    mPowerup.setFont(mFont);
+    mPowerup.setCharacterSize(10);
+    mPowerup.setPosition(120, 22);
+    mPowerup.setFillColor(sf::Color::White);
+    updatePowerUpText();
 
     // Level indicator
     mLevel.setFont(mFont);
@@ -55,7 +67,7 @@ Hud::Hud()
     // Player points
     mPoint.setFont(mFont);
     mPoint.setCharacterSize(20);
-    mPoint.setPosition(350, 10);
+    mPoint.setPosition(330, 10);
     mPoint.setFillColor(sf::Color::White);
     updatePointText();
 };
@@ -69,6 +81,7 @@ void Hud::setCurrHealth(int h)
 {
     currHealth = h;
     updateHealthBar();
+    updateHealthText();
 }
 
 /**
@@ -80,6 +93,7 @@ void Hud::setCurrPower(int p)
 {
     currPower = p;
     updatePowerupBar();
+    updatePowerUpText();
 }
 
 /**
@@ -174,4 +188,22 @@ void Hud::updateBulletText()
 void Hud::updatePointText()
 {
     mPoint.setString("Points: " + std::to_string(currPoints));
+}
+
+/**
+ * @brief This function updates the health text with the current health of the player
+ *
+ */
+void Hud::updateHealthText()
+{
+    mHealth.setString(std::to_string(currHealth) + "/100");
+}
+
+/**
+ * @brief This function updates the power-up text with the current power of the player
+ *
+ */
+void Hud::updatePowerUpText()
+{
+    mPowerup.setString(std::to_string(currPower) + "/100");
 }
