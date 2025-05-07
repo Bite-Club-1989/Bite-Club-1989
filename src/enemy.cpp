@@ -1,6 +1,37 @@
+/**
+ * @file enemy.cpp
+ * @author Chris, Joe, Tyler
+ * @brief This file contains the implementation of the enemy class
+ * @version 0.1
+ * @date 2025-05-06
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "../header/enemy.hpp"
 
-// Deals damage to the player if their sprites intersect
+/**
+ * @brief Construct a new Enemy object
+ *
+ */
+Enemy::Enemy() : mSpeed(100.0f)
+{
+    mDamageRate = 0.25;
+
+    sf::FloatRect bounds = mSprite.getGlobalBounds();
+
+    // Health Bar
+    healthBar.setSize(sf::Vector2f(50, 5));
+    healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
+    sf::Color healthBarColor = sf::Color(255, 0, 0);
+    healthBar.setFillColor(healthBarColor);
+}
+
+/**
+ * @brief This function deals damage to the player if their sprites intersect.
+ *
+ * @param p The player object to check for collision with.
+ */
 void Enemy::enemyDealDamage(Player &p)
 {
     if (p.mState == Entity::EntityState::Dead)
@@ -16,17 +47,18 @@ void Enemy::enemyDealDamage(Player &p)
     }
 }
 
-// Updates enemy movement toward the player using delta time.
+/**
+ * @brief This function updates the enemy movement toward the player using delta time.
+ *
+ * @param p The player object to chase.
+ * @param dt The delta time since the last frame.
+ */
 void Enemy::enemyMove(Player &p, float dt)
 {
     // Get positions
-    // Initialize vector 2f with enemy position
-    sf::Vector2f enemyPos = mSprite.getPosition();
-    // Initialize vector 2f with player position
-    sf::Vector2f playerPos = p.mSprite.getPosition();
-
-    // Find direction the enemy should move to intercept the player
-    sf::Vector2f direction = playerPos - enemyPos;
+    sf::Vector2f enemyPos = mSprite.getPosition();    // Initialize vector 2f with enemy position
+    sf::Vector2f playerPos = p.mSprite.getPosition(); // Initialize vector 2f with player position
+    sf::Vector2f direction = playerPos - enemyPos;    // Find direction the enemy should move to intercept the player
 
     // Normalize the direction vector
     // calculate the length of the vector using Pythag ttheorem
@@ -51,21 +83,15 @@ void Enemy::enemyMove(Player &p, float dt)
 
         setFacingRight(true);
     }
-    // cout to verify movement
-    // std::cout << "Enemy Position: " << mSprite.getPosition().x << ", " << mSprite.getPosition().y << std::endl;
 }
 
-// Override the base class draw method.
-// This function must match the signature in Entity.
-/* virtual void draw(sf::RenderWindow &window) override
-{
-
-   std::cout << "updating enemu" <<std:: endl;
-
-   std::cout << "Drawing Enemy" << std::endl;
-   window.draw(mSprite);
-} */
-
+/**
+ * @brief This function updates the enemy and draws it to the window.
+ *
+ * @param window The window to draw the enemy on.
+ * @param p The player object to chase.
+ * @param dt The delta time since the last frame.
+ */
 // needed to create new function to be able to pass player object.
 void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
 {
@@ -81,6 +107,12 @@ void Enemy::updateAndDraw(sf::RenderWindow &window, Player &p, float dt)
         enemyDeath(window);
     }
 }
+
+/**
+ * @brief This function handles the enemy's death state and look.
+ *
+ * @param window The window to draw the enemy on.
+ */
 void Enemy::enemyDeath(sf::RenderWindow &window)
 {
     mSprite.setTextureRect(sf::IntRect(0, 0, 35, 35));
@@ -89,4 +121,17 @@ void Enemy::enemyDeath(sf::RenderWindow &window)
     mSprite.move(0, 0);
     window.draw(mSprite);
     mState = EntityState::Dead;
+}
+
+/**
+ * @brief This function is used to update the health bar position and size
+ *
+ */
+void Enemy::updateHealthBar()
+{
+    sf::FloatRect bounds = mSprite.getGlobalBounds();
+    healthBar.setSize(sf::Vector2f(this->mHealth / 2, 5));
+    healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
+    sf::Color healthBarColor = sf::Color(255, 0, 0);
+    healthBar.setFillColor(healthBarColor);
 }

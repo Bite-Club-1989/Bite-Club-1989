@@ -64,14 +64,13 @@ public:
     sf::Sprite mSprite;   // Member variable for the sprite
 
     // State and action
-    EntityState mState;   // Member variable for the state
-    EntityAction mAction; // Member variable for the action
-    void setFacingRight(bool right);
-    void centerOrigin();
+    EntityState mState;              // Member variable for the state
+    EntityAction mAction;            // Member variable for the action
+    void setFacingRight(bool right); // Set the facing direction of the entity
+    void centerOrigin();             // Center the origin of the sprite
 
-    protected:
-
-    bool mFacingRight = true;
+protected:
+    bool mFacingRight = true; // Member variable for the facing direction of the entity
 };
 
 #endif
