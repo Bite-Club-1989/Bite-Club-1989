@@ -35,6 +35,7 @@ public:
 
     Weapon &getWeapon() { return weapon; };        // get weapon to update hud
     float getStamina() const { return mStamina; }; // get stamina to update hud
+    void resetStamina() { mStamina = 100.f; }
 
 private:
     Weapon weapon;                    // Weapon object
