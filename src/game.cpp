@@ -342,6 +342,7 @@ void Game::resetGame()
     mIsDone = false;
     player1.changeState(Entity::EntityState::Alive);
     player1.health(100);
+    player1.resetStamina();
     while (Enemies.size())
     {
         Enemies.pop_back();
