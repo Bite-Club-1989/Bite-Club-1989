@@ -83,6 +83,7 @@ void Player::playerMove(float dt)
 
             dir.x += 1.f;
         }
+        // If player is fatigued, apply penalty
         if (mIsFatigued)
         {
             mFatigueTimer += dt;                   // penalty timer
@@ -93,6 +94,7 @@ void Player::playerMove(float dt)
                 mFatigueTimer = 0.f; // reset timer
             }
         }
+        // allow sprinting if player is not fatigued
         else
         {
             // If not fatigued, allow sprinting
@@ -175,7 +177,7 @@ void Player::draw(sf::RenderWindow &window, float dt)
 {
     playerMove(dt);
     window.draw(mSprite);
-
+    // allow attack if alive
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mState == EntityState::Alive)
     {
         mAction = EntityAction::Attack;

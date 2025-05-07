@@ -26,7 +26,7 @@ void Enemy::enemyDealDamage(Player &p)
     {
         if (p.mSprite.getGlobalBounds().intersects(mSprite.getGlobalBounds()) && mState == EntityState::Alive)
         {
-            std::cout << "Player Hit" << std::endl;
+           
             p.takeDamage(10);
         }
         mDamageClock.restart();
