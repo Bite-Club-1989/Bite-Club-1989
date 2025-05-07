@@ -92,6 +92,11 @@ void Entity::hitPoints(int hp) { mHP = hp; };
  */
 void Entity::health(int health) { mHealth = health; };
 
+/**
+ * @brief This function is used to get the member health points of the entity
+ *
+ * @return int The health points of the entity
+ */
 int Entity::getHealth() { return mHealth; };
 
 /**
@@ -158,6 +163,12 @@ void Entity::changeState(EntityState state) { mState = state; };
  * @param action The action to change to
  */
 void Entity::changeAction(EntityAction action) { mAction = action; };
+
+/**
+ * @brief This function is used to set the facing direction of the entity
+ *
+ * @param right The direction to face
+ */
 void Entity::setFacingRight(bool right)
 {
     if (right == mFacingRight)
@@ -168,12 +179,15 @@ void Entity::setFacingRight(bool right)
     auto s = mSprite.getScale();
     mSprite.setScale((right ? +1.f : -1.f) * std::abs(s.x), std::abs(s.y));
 }
+
+
 /**
- * @brief find and set the center axis for movement
- * 
+ * @brief This function is used to center the origin of the entity
+ *
  */
 void Entity::centerOrigin()
 {
-  auto b = mSprite.getLocalBounds(); //bounds of the sprite b data auto detected based on return type
-  mSprite.setOrigin(b.width/2.f, b.height/2.f); // middle, middle
+    auto b = mSprite.getLocalBounds();
+    mSprite.setOrigin(b.width / 2.f, b.height / 2.f);
+
 }

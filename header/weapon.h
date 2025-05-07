@@ -30,22 +30,26 @@ public:
         Plasma
     };
 
-    Weapon(std::string name, float d, float r, float b, bool ranged); // weapon constructor
-    ~Weapon() {}
 
-    void setRate(float r) { mRate = r; }                                      // fire rate
-    void setWepDmg(float d) { mWepDmg = d; }                                  // weapon damage
-    void setWeapon(std::string name, float d, float r, float b, bool ranged); // select weapon (later feature not implemented)
+    Weapon(std::string name, float d, float r, float b, bool ranged); // Constructor
+    ~Weapon() {}                                                      // Destructor
 
-    void attack(sf::RenderWindow &window, sf::Sprite &sprite); // attack function
-    void attackRender(sf::RenderWindow &window, float dt);     // render attack
-    void loadSoundBuffer(WpnSoundState w);                     // sound loading
+    void setRate(float r) { mRate = r; }                                      // Set rate of fire
+    void setWepDmg(float d) { mWepDmg = d; }                                  // Set weapon damage
+    void setWeapon(std::string name, float d, float r, float b, bool ranged); // Set weapon properties
 
-    void setBulletsFired(int i) { mBulletsFired = i; } // set bullets fired
+    void attack(sf::RenderWindow &window, sf::Sprite &sprite); // Attack function
+    void attackRender(sf::RenderWindow &window, float dt);     // Render attack
+    void loadSoundBuffer(WpnSoundState w);                     // Load sound buffer
 
-    float getRate() { return mRate; }          // fire rate
-    float getWepDmg() { return mWepDmg; }      // weapon damage
-    std::string getWepName() { return mName; } // weapon name (unused-later feature)
+    void setBulletsFired(int i) { mBulletsFired = i; } // Set bullets fired
+
+    float getRate() { return mRate; }          // Get rate of fire
+    float getWepDmg() { return mWepDmg; }      // Get weapon damage
+    std::string getWepName() { return mName; } // Get weapon name
+
+    std::vector<float> mAngles; // Vector of angles for bullets
+
 
     std::vector<float> mAngles; // determines the angle of the bullets
     /**
@@ -54,6 +58,12 @@ public:
      */
     struct Projectile
     {
+        /**
+         * @brief Construct a new Projectile object
+         *
+         * @param pos The position of the projectile
+         * @param ang The angle of the projectile
+         */
         Projectile(const sf::Vector2f &pos, float ang) : angle(ang)
         {
             bullet.setRadius(2);
@@ -69,36 +79,45 @@ public:
             Disabled // when not fired/hit enemy
         };
 
-        sf::CircleShape bullet;
-        float angle;
-        BulletState mState;
+        sf::CircleShape bullet; // Bullet shape
+        float angle;            // Angle of the bullet
+        BulletState mState;     // State of the bullet
     };
 
-    std::vector<Weapon::Projectile> mProjectiles;
+    std::vector<Weapon::Projectile> mProjectiles; // Vector of projectiles
 
-    int mBulletsFired;
+
+    int mBulletsFired; // Number of bullets fired
+
+    /**
+     * @brief Get the Bullet Speed object
+     *
+     * @return double The bullet speed
+     */
 
     double getBulletSpeed()
     {
         return mBulletSpeed;
     };
 
-    WpnSoundState mBulletSound;
+    WpnSoundState mBulletSound; // Bullet sound state
 
 protected:
-    sf::Texture mTexture;
-    sf::Clock mFireClock;
-    std::vector<sf::Sound> mGunshots;
-    sf::SoundBuffer mGunshotBuffer;
-    double mBulletSpeed; // bullet speed
-    bool mRanged;        // flag that will be used for ranged attacks
 
-    std::string mName;
-    int mID;
-    float mWepDmg, mRate;
-    std::string mGunshotLocation;
-    std::string mLasershotLocation;
-    int mSoundIndex = 0;
+    sf::Texture mTexture;             // Texture for the weapon
+    sf::Clock mFireClock;             // Clock for firing
+    std::vector<sf::Sound> mGunshots; // Vector of gunshot sounds
+    sf::SoundBuffer mGunshotBuffer;   // Sound buffer for gunshot sounds
+    double mBulletSpeed;              // bullet speed
+    bool mRanged;                     // flag that will be used for ranged attacks
+
+    std::string mName;              // Name of the weapon
+    int mID;                        // ID of the weapon
+    float mWepDmg, mRate;           // Weapon damage and rate of fire
+    std::string mGunshotLocation;   // Gunshot sound location
+    std::string mLasershotLocation; // Laser sound location
+    int mSoundIndex = 0;            // Index of the current sound
+
 };
 
 #endif

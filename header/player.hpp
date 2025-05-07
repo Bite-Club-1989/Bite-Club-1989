@@ -25,22 +25,21 @@ public:
     ~Player(); // Destructor
 
     // Functions
-    void playerMove(float dt);                     // Move the player
-    void playerAttack(sf::RenderWindow &window);   // Player attacks
-    void playerDeath(sf::RenderWindow &window);    // Player death
-    void draw(sf::RenderWindow &window, float dt); // Draw the player
-    void setWpnDmg(float d) { weapon.setWepDmg(d); };
-    void takeDamage(int amount);
-    virtual void changeState(EntityState state);    // Change the state of the player
+    void playerMove(float dt);                        // Move the player
+    void playerAttack(sf::RenderWindow &window);      // Player attacks
+    void playerDeath(sf::RenderWindow &window);       // Player death
+    void draw(sf::RenderWindow &window, float dt);    // Draw the player
+    void setWpnDmg(float d) { weapon.setWepDmg(d); }; // Set weapon damage
+    void takeDamage(int amount);                      // Take damage from an attack
+    virtual void changeState(EntityState state);      // Change the state of the player
 
-
-    Weapon &getWeapon() { return weapon; };
+    Weapon &getWeapon() { return weapon; };        // get weapon to update hud
     float getStamina() const { return mStamina; }; // get stamina to update hud
 
 private:
-    Weapon weapon;          // Weapon object
-    float mStamina = 100.f; // current stamina value
-    float mSpeedboost = 1.0f;
+    Weapon weapon;                    // Weapon object
+    float mStamina = 100.f;           // current stamina value
+    float mSpeedboost = 1.0f;         // speed boost value
     float mMaxStamina = 100.f;        // max stamina
     float mStaminaDrainRate = 40.f;   // how much stamina drains per when sprinting
     float mStaminaRecoverRate = 20.f; // how much stamina recovers when not sprinting
@@ -48,11 +47,11 @@ private:
     float mFatigueTimer = 0.f;        // tracks tired recovery time
     float mFatigueDuration = 2.f;     // 2 second penalt for going to 0 stamina
 
-    std::vector<sf::Sound> mDamageSounds;
-    sf::SoundBuffer mDamageBuffer;
-    int mSoundIndex;
+    std::vector<sf::Sound> mDamageSounds; // Vector of sound objects
+    sf::SoundBuffer mDamageBuffer;        // Sound buffer for damage sounds
+    int mSoundIndex;                      // Index of the current sound
 
-    sf::Clock mWpnChangeClock;
+    sf::Clock mWpnChangeClock; // Clock for weapon change
 };
 
 #endif

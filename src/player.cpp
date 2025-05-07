@@ -144,6 +144,7 @@ void Player::playerMove(float dt)
         }
     }
 }
+
 /**
  * @brief This function is used to attack
  *

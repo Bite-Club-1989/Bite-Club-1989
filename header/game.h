@@ -26,45 +26,45 @@
 class Game
 {
 public:
-    Game();
-    ~Game() {};
 
-    void handleInput(); //from user
-    void update(float); // update all game objects and logic
-    void render(); //render sprites to window
-    bool isDone() const; // game is done
-    void updateCamView(); //move camera perspective to player
-    void checkProjCollision(); // check collisions progectiles and enemy vector
-    void checkAllEnemiesDead(); // check if all enemies dead to increase level
-    void playSplash(); // play splash screen
-    void resetGame(); // reset all game variables/ obiects
-    void playEnd(); //play end screen 
-    void separateEnemies(); // keep enemies from 100% overlapping
-    float mDT;
+    Game(); // Constructor
+
+    void handleInput();         // Handle input from the player
+    void update(float);         // Update the game state
+    void render();              // Render the game
+    bool isDone() const;        // Check if the game is done
+    void updateCamView();       // Update the camera view
+    void checkProjCollision();  // Check for projectile collisions
+    void checkAllEnemiesDead(); // Check if all enemies are dead
+    void playSplash();          // Play the splash screen
+    void resetGame();           // Reset the game state
+    void playEnd();             // Play the end screen
+    void separateEnemies();     // Separate enemies from each other
+    float mDT;                  // delta time
 
 private:
-    Player player1;
-    std::vector<Enemy> Enemies;
-    Enemy e;
-    sf::Vector2f randomSpawn(int i);
+    Player player1;                  // Player object
+    std::vector<Enemy> Enemies;      // Vector of enemy objects
+    Enemy e;                         // Enemy object for spawning
+    sf::Vector2f randomSpawn(int i); // Random spawn position for enemies
 
-    int LEVEL = 1;
-    int lastSpawnedLevel = 0;
-    float spawnTimer = 0.f;
-    float spawnDuration = 5.f;
+    int LEVEL = 1;             // Current level
+    int lastSpawnedLevel = 0;  // Last level spawned
+    float spawnTimer = 0.f;    // Timer for spawning enemies
+    float spawnDuration = 5.f; // Duration for spawning enemies
 
-    Hud hudOverlay;
+    Hud hudOverlay; // HUD overlay object
 
-    sf::RenderWindow mWindow;
-    sf::Texture mBackground;
-    sf::Texture mRoofOne;
-    sf::Sprite mSpriteBackground;
-    sf::View view = mWindow.getDefaultView();
-    sf::Music mMusic;
-    sf::Music mSplashMusic;
-    bool mIsDone;
+    sf::RenderWindow mWindow;                 // Render window object
+    sf::Texture mBackground;                  // Background texture
+    sf::Texture mRoofOne;                     // Roof texture
+    sf::Sprite mSpriteBackground;             // Background sprite
+    sf::Sprite mSpriteRoofOne;                // Roof sprite
+    sf::View view = mWindow.getDefaultView(); // Camera view
+    sf::Music mMusic;                         // Background music
+    sf::Music mSplashMusic;                   // Splash screen music
+    bool mIsDone;                             // Game state
 
-    // add button for quick restart
 };
 
 #endif

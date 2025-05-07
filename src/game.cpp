@@ -1,3 +1,13 @@
+/**
+ * @file game.cpp
+ * @author ...
+ * @brief This file contains the implementation of the Game class, which is responsible for managing the game state, rendering, and handling input.
+ * @version 0.1
+ * @date 2025-05-06
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "../header/game.h"
 #include "../header/player.hpp"
 #include "../header/weapon.h"
@@ -5,9 +15,11 @@
 #include <SFML/System.hpp>
 #include <ctime>
 #include <cstdlib>
+
+
 /**
  * @brief Construct a new Game:: Game object
- * 
+ *
  */
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
@@ -21,9 +33,11 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 
     view.setSize(800.f, 800.f);
 }
+
+
 /**
- * @brief hand input function
- * 
+ * @brief This function handles the input for the game
+ *
  */
 void Game::handleInput()
 {
@@ -40,10 +54,12 @@ void Game::handleInput()
         }
     }
 }
+
+
 /**
- * @brief update game objects and logic
- * 
- * @param dt delta time
+ * @brief This function updates the game state
+ *
+ * @param dt The delta time since the last frame
  */
 void Game::update(float dt)
 {
@@ -55,7 +71,7 @@ void Game::update(float dt)
         Enemies.clear();
         srand(time(NULL)); // random number seed
         // spawn new enemies based on level
-        for (int i = 0; i < LEVEL*3; ++i)
+        for (int i = 0; i < LEVEL * 3; ++i)
         {
             //spawn delay/stagger
             while (spawnDuration >= spawnTimer)
@@ -73,13 +89,19 @@ void Game::update(float dt)
     if (player1.mState == Entity::EntityState::Dead)
     {
         mIsDone = true;
+        while (Enemies.size())
+        {
+            Enemies.pop_back();
+        }
     }
     // keep enemies from overlapping
     separateEnemies();
 }
+
+
 /**
- * @brief render game objects to window
- * 
+ * @brief This function renders the game
+ *
  */
 void Game::render()
 {
@@ -93,16 +115,15 @@ void Game::render()
     // draw dead enemies first
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        if(Enemies[i].mState == Entity::EntityState::Dead)
+        if (Enemies[i].mState == Entity::EntityState::Dead)
         {
             Enemies[i].updateAndDraw(mWindow, player1, mDT);
         }
-            
     }
     // draw alive enemies on top
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        if(Enemies[i].mState == Entity::EntityState::Alive)
+        if (Enemies[i].mState == Entity::EntityState::Alive)
         {
             Enemies[i].updateAndDraw(mWindow, player1, mDT);
             Enemies[i].enemyDealDamage(player1);
@@ -132,20 +153,23 @@ void Game::render()
 
     mWindow.display();
 }
+
+
 /**
- * @brief if player is dead, end game
- * 
- * @return true 
- * @return false 
+ * @brief This function checks if the game is done
+ *
+ * @return true True if the game is done
+ * @return false True if the game is not done
  */
-// if player is dead, end game
 bool Game::isDone() const
 {
     return (!mWindow.isOpen() || mIsDone);
 }
+
+
 /**
- * @brief update camera view to player position
- * 
+ * @brief This function updates the camera view based on the player position
+ *
  */
 void Game::updateCamView()
 {
@@ -188,9 +212,11 @@ void Game::updateCamView()
     view.setCenter(centerCam);
     mWindow.setView(view);
 }
+
+
 /**
- * @brief check bullet collisions with enemies
- * 
+ * @brief This function checks for projectile collision with enemies
+ *
  */
 void Game::checkProjCollision()
 {
@@ -219,9 +245,11 @@ void Game::checkProjCollision()
         }
     }
 }
+
+
 /**
- * @brief if all enemies are dead, level up
- * 
+ * @brief This function checks if all enemies are dead
+ *
  */
 void Game::checkAllEnemiesDead()
 {
@@ -240,9 +268,11 @@ void Game::checkAllEnemiesDead()
         player1.mHealth = 100;
     }
 }
+
+
 /**
- * @brief play splash screen
- * 
+ * @brief This function plays the splash screen and music
+ *
  */
 void Game::playSplash()
 {
@@ -268,9 +298,11 @@ void Game::playSplash()
     mMusic.setVolume(50.f);
     mMusic.play();
 }
+
+
 /**
- * @brief endscreen (post death) splash screen
- * 
+ * @brief This function plays the end screen and music
+ *
  */
 void Game::playEnd()
 {
@@ -297,9 +329,11 @@ void Game::playEnd()
     splash.mPrompt2.setPosition(windowSize.x / 2.f, windowSize.y / 2.f + 20.f);
     splash.display(mWindow);
 }
+
+
 /**
- * @brief reset all game variables and objects
- * 
+ * @brief This function resets the game state
+ *
  */
 void Game::resetGame()
 {
@@ -317,11 +351,13 @@ void Game::resetGame()
     hudOverlay.resetCurrPoints();
     player1.getWeapon().setBulletsFired(0);
 }
+
+
 /**
- * @brief random spawn function for enemies
- * 
- * @param i based on random number 1-4 (direction of spawn)
- * @return sf::Vector2f 
+ * @brief This function generates a random spawn point for the enemies
+ *
+ * @param i The index of the enemy
+ * @return sf::Vector2f The random spawn point
  */
 sf::Vector2f Game::randomSpawn(int i)
 {
@@ -343,36 +379,41 @@ sf::Vector2f Game::randomSpawn(int i)
         return sf::Vector2f({1200.f, 1000.f - (50.f * i)});
     }
 }
+
+
 /**
- * @brief keep enemies from overlapping
- * 
+ * @brief This function separates the enemies to avoid overlap
+ *
  */
 void Game::separateEnemies()
 {
-    const float minDist   = 20.f;  // desired minimum spacing
-    const float minDist2  = minDist*minDist;
-    const float pushStr   = 0.5f;  // how hard to push them apart
-    // loop through all enemies and check distance
+    const float minDist = 20.f; // desired minimum spacing
+    const float minDist2 = minDist * minDist;
+    const float pushStr = 0.5f; // how hard to push them apart
+
+
     for (size_t i = 0; i < Enemies.size(); ++i)
     {
-        for (size_t j = i+1; j < Enemies.size(); ++j)
+        for (size_t j = i + 1; j < Enemies.size(); ++j)
         {
             auto &A = Enemies[i].mSprite; //auto data type set a and b
             auto &B = Enemies[j].mSprite;
             // subtract the positions of the two sprites to get the distance vector
             sf::Vector2f d = A.getPosition() - B.getPosition();
-            // use pythagorean theorem to get the distance squared
-            float dist2 = d.x*d.x + d.y*d.y;
-            //if distance is greater than 0 and less than minDist2 (20) AND theyre alive
-            if (dist2 > 0 && dist2 < minDist2 &&  Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+
+            float dist2 = d.x * d.x + d.y * d.y;
+            if (dist2 > 0 && dist2 < minDist2 && Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+
             {
                 float dist = std::sqrt(dist2); // finish pythag
                 // normalized direction
                 d /= dist; // normalize the distance vector
                 float overlap = (minDist - dist) * pushStr; // calculate overlap
                 // push each sprite half the overlap in opposite directions
-                A.move( d * (overlap * 0.5f) ); //push A away from B depending on direction and overlap
-                B.move(-d * (overlap * 0.5f) );
+
+                A.move(d * (overlap * 0.5f));
+                B.move(-d * (overlap * 0.5f));
+
             }
         }
     }

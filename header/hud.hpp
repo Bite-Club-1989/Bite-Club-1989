@@ -12,153 +12,43 @@
 class Hud
 {
 public:
-    Hud()
-    {
 
-        if (!mFont.loadFromFile("../assets/fonts/Meta-Courage-TTF.ttf"))
-            throw std::runtime_error("Failed to load font");
+    Hud(); // Constructor
 
-        // Set variables
-        currLevel = 1;
-        currBullets = 0;
-        currPoints = 0;
 
-        // Health Bar
-        healthBar.setSize(sf::Vector2f(100, 10));
-        healthBar.setPosition(10, 10);
-        sf::Color healthBarColor = sf::Color(255, 0, 0);
-        healthBar.setFillColor(healthBarColor);
+    void setCurrHealth(int h);  // Set current health
+    void setCurrPower(int p);   // Set current power
+    void setCurrLevel(int l);   // Set current level
+    void setCurrBullets(int b); // Set current bullets
+    void setCurrPoints(int p);  // Set current points
+    void resetCurrPoints();     // Reset current points
 
-        // Power-up Bar
-        powerupBar.setSize(sf::Vector2f(100, 10));
-        powerupBar.setPosition(10, 22);
-        sf::Color powerupBarColor = sf::Color(0, 255, 255);
-        powerupBar.setFillColor(powerupBarColor);
-
-        // Level indicator
-        mLevel.setFont(mFont);
-        mLevel.setCharacterSize(20);
-        mLevel.setPosition(650, 10);
-        mLevel.setFillColor(sf::Color::White);
-        updateLevelText();
-
-        // Wpn / bullet indicator
-        mBullet.setFont(mFont);
-        mBullet.setCharacterSize(20);
-        mBullet.setPosition(650, 720);
-        mBullet.setFillColor(sf::Color::White);
-        updateBulletText();
-
-        // Player points
-        mPoint.setFont(mFont);
-        mPoint.setCharacterSize(20);
-        mPoint.setPosition(350, 10);
-        mPoint.setFillColor(sf::Color::White);
-        updatePointText();
-    };
-    ~Hud() {};
-
-    void setCurrHealth(int h)
-    {
-        currHealth = h;
-        updateHealthBar();
-    }
-
-    void setCurrPower(int p)
-    {
-        currPower = p;
-        updatePowerupBar();
-    }
-
-    void setCurrLevel(int l)
-    {
-        currLevel = l;
-        updateLevelText();
-    };
-
-    void setCurrBullets(int b)
-    {
-        currBullets = b;
-        updateBulletText();
-    };
-
-    void setCurrPoints(int p)
-    {
-        currPoints += p;
-        updatePointText();
-    };
-
-    void resetCurrPoints()
-    {
-        currPoints = 0;
-        updatePointText();
-    }
-    // Getters to set Hud displays based on player stats
-    const sf::RectangleShape &getHealthBar() const { return healthBar; };
-    const sf::RectangleShape &getPowerupBar() const { return powerupBar; };
-    const sf::Text &getLevelText() const { return mLevel; }
-    const sf::Text &getBulletText() const { return mBullet; }
-    const sf::Text &getPointText() const { return mPoint; }
+    const sf::RectangleShape &getHealthBar() const { return healthBar; }    // Get health bar
+    const sf::RectangleShape &getPowerupBar() const { return powerupBar; }; // Get powerup bar
+    const sf::Text &getLevelText() const { return mLevel; };                // Get level text
+    const sf::Text &getBulletText() const { return mBullet; };              // Get bullet text
+    const sf::Text &getPointText() const { return mPoint; };                // Get point text
 
 private:
-    sf::RectangleShape healthBar;
-    sf::RectangleShape powerupBar;
-    sf::Font mFont;
-    sf::Text mLevel;
-    sf::Text mBullet;
-    sf::Text mPoint;
+    sf::RectangleShape healthBar;  // Health bar
+    sf::RectangleShape powerupBar; // Powerup bar
+    sf::Font mFont;                // Font for text
+    sf::Text mLevel;               // Player level
+    sf::Text mBullet;              // Player bullets
+    sf::Text mPoint;               // Player points
 
-    int currHealth;
-    int currPower;
-    int currLevel;
-    int currBullets;
-    int currPoints;
-    /**
-     * @brief Updates health bar size based on current health
-     *
-     */
-    void updateHealthBar()
-    {
-        healthBar.setSize(sf::Vector2f(currHealth, 10));
-        healthBar.setPosition(10, 10);
-        sf::Color healthBarColor = sf::Color(255, 0, 0);
-        healthBar.setFillColor(healthBarColor);
-    }
-    /**
-     * @brief updates stamina bar size based on current stamina
-     *
-     */
-    void updatePowerupBar()
-    {
-        powerupBar.setSize(sf::Vector2f(currPower, 10));
-        powerupBar.setPosition(10, 22);
-        sf::Color powerupBarColor = sf::Color(0, 255, 255);
-        powerupBar.setFillColor(powerupBarColor);
-    }
-    /**
-     * @brief Updates level text based on current level
-     *
-     */
-    void updateLevelText()
-    {
-        mLevel.setString("Level: " + std::to_string(currLevel));
-    }
-    /**
-     * @brief Updates cartridge fraction text based on current ammo
-     *
-     */
-    void updateBulletText()
-    {
-        mBullet.setString("Ammo: " + std::to_string(currBullets) + "/30");
-    }
-    /**
-     * @brief updates points text based on collisions
-     *
-     */
-    void updatePointText()
-    {
-        mPoint.setString("Points: " + std::to_string(currPoints));
-    }
+    int currHealth;  // Current health
+    int currPower;   // Current power
+    int currLevel;   // Current level
+    int currBullets; // Current bullets
+    int currPoints;  // Current points
+
+    void updateHealthBar();  // Update health bar
+    void updatePowerupBar(); // Update powerup bar
+    void updateLevelText();  // Update level text
+    void updateBulletText(); // Update bullet text
+    void updatePointText();  // Update point text
+
 };
 
 #endif

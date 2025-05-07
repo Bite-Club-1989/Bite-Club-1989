@@ -21,47 +21,21 @@
 class Enemy : public Entity
 {
 public:
-    Enemy() : mSpeed(100.0f)
-    {
-        mDamageRate = 0.25;
+    Enemy(); // Constructor
 
-        sf::FloatRect bounds = mSprite.getGlobalBounds();
 
-        // Health Bar
-        healthBar.setSize(sf::Vector2f(50, 5));
-        healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
-        sf::Color healthBarColor = sf::Color(255, 0, 0);
-        healthBar.setFillColor(healthBarColor);
-    } // set speed just for testing
-    ~Enemy()
-    {
-    }
-
-    // Deals damage to the player if their sprites intersect
-    void enemyDealDamage(Player &p);
-
-    // Updates enemy movement toward the player using delta time.
-    void enemyMove(Player &p, float dt);
-
-    // needed to create new function to be able to pass player object.
-    void updateAndDraw(sf::RenderWindow &window, Player &p, float dt);
-    // draws deaad enemy to window
-    void enemyDeath(sf::RenderWindow &window);
-
-    void updateHealthBar()
-    {
-        sf::FloatRect bounds = mSprite.getGlobalBounds();
-        healthBar.setSize(sf::Vector2f(this->mHealth / 2, 5));
-        healthBar.setPosition(bounds.left - 10 / 1.0f, bounds.top - 10 / 1.0f);
-        sf::Color healthBarColor = sf::Color(255, 0, 0);
-        healthBar.setFillColor(healthBarColor);
-    }
+    void enemyDealDamage(Player &p);                                   // Deals damage to the player if their sprites intersect
+    void enemyMove(Player &p, float dt);                               // Updates enemy movement toward the player using delta time.
+    void updateAndDraw(sf::RenderWindow &window, Player &p, float dt); // Override the base class draw method
+    void enemyDeath(sf::RenderWindow &window);                         // Draw the enemy and health bar
+    void updateHealthBar();                                            // Update the health bar position and size
 
 private:
-    sf::RectangleShape healthBar;
-    float mSpeed; // Enemy movement speed.
-    float mDamageRate; 
-    sf::Clock mDamageClock; 
+    sf::RectangleShape healthBar; // Health bar for the enemy
+    float mSpeed;                 // Enemy movement speed.
+    float mDamageRate;            // Damage rate for the enemy
+    sf::Clock mDamageClock;       // Clock to track damage time
+
 };
 
 #endif

@@ -4,19 +4,29 @@
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
 
+/**
+ * @brief This struct handles the splash screen for the game.
+ *
+ */
 struct SplashScreen
 {
-    sf::Texture mTexture;
-    sf::Sprite mSprite;
+    sf::Texture mTexture; // Texture for the splash screen
+    sf::Sprite mSprite;   // Sprite for the splash screen
 
-    sf::Font mFont;
+    sf::Font mFont;    // Font for the splash screen text
     sf::Text mPrompt;  // blinking “Press Enter/gameover”
     sf::Text mPrompt2; // press enter (to replay)
 
-    float mBlinkTimer = 0.f;
-    bool mShowPrompt = true;
-    const float BLINK_PERIOD = 0.5f;
+    float mBlinkTimer = 0.f;         // Timer for blinking effect
+    bool mShowPrompt = true;         // Flag to show/hide prompt text
+    const float BLINK_PERIOD = 0.5f; // Blink period in seconds
 
+    /**
+     * @brief Construct a new Splash Screen object
+     *
+     * @param texturePath The path to the splash screen texture
+     * @param fontPath The path to the font file
+     */
     SplashScreen(const std::string &texturePath,
                  const std::string &fontPath)
     {
@@ -45,7 +55,11 @@ struct SplashScreen
         mPrompt.setPosition(400.f, 600.f);
     }
 
-    // Block here until Enter is pressed
+    /**
+     * @brief This function displays the splash screen and handles user input.
+     *
+     * @param window The render window to display the splash screen
+     */
     void display(sf::RenderWindow &window)
     {
         sf::Clock clock;
@@ -66,7 +80,6 @@ struct SplashScreen
                 }
                 if (evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Enter)
                 {
-                    //restart game loop
                     return; // exit splash
                 }
             }
