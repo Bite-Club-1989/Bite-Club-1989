@@ -1,4 +1,3 @@
-#include "../header/weapon.h"
 /**
  * @file weapon.cpp
  * @author Joe Davitt (jjdavitt@nic.edu)
@@ -9,6 +8,7 @@
  * @copyright Copyright (c) 2025
  *
  */
+#include "../header/weapon.h"
 
 /**
  * @brief Construct a new Weapon:: Weapon object. This constructor will require the following variables passed to it.

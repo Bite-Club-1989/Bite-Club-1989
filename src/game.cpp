@@ -1,3 +1,13 @@
+/**
+ * @file game.cpp
+ * @author ...
+ * @brief This file contains the implementation of the Game class, which is responsible for managing the game state, rendering, and handling input.
+ * @version 0.1
+ * @date 2025-05-06
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
 #include "../header/game.h"
 #include "../header/player.hpp"
 #include "../header/weapon.h"
@@ -6,6 +16,10 @@
 #include <ctime>
 #include <cstdlib>
 
+/**
+ * @brief Construct a new Game:: Game object
+ *
+ */
 Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
 {
     mIsDone = false;
@@ -19,6 +33,10 @@ Game::Game() : mWindow(sf::VideoMode(800, 800), "Bite Club 1989"), player1()
     view.setSize(800.f, 800.f);
 }
 
+/**
+ * @brief This function handles the input for the game
+ *
+ */
 void Game::handleInput()
 {
     sf::Event event;
@@ -35,6 +53,11 @@ void Game::handleInput()
     }
 }
 
+/**
+ * @brief This function updates the game state
+ *
+ * @param dt The delta time since the last frame
+ */
 void Game::update(float dt)
 {
     mDT = dt;
@@ -45,7 +68,7 @@ void Game::update(float dt)
         Enemies.clear();
         srand(time(NULL)); // random number seed
         // spawn new enemies based on level
-        for (int i = 0; i < LEVEL*3; ++i)
+        for (int i = 0; i < LEVEL * 3; ++i)
         {
 
             while (spawnDuration >= spawnTimer)
@@ -62,10 +85,18 @@ void Game::update(float dt)
     if (player1.mState == Entity::EntityState::Dead)
     {
         mIsDone = true;
+        while (Enemies.size())
+        {
+            Enemies.pop_back();
+        }
     }
     separateEnemies();
 }
 
+/**
+ * @brief This function renders the game
+ *
+ */
 void Game::render()
 {
     updateCamView();
@@ -77,15 +108,14 @@ void Game::render()
     // loop through all enemies to draw and check damage
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        if(Enemies[i].mState == Entity::EntityState::Dead)
+        if (Enemies[i].mState == Entity::EntityState::Dead)
         {
             Enemies[i].updateAndDraw(mWindow, player1, mDT);
         }
-            
     }
     for (std::size_t i = 0; i < Enemies.size(); i++)
     {
-        if(Enemies[i].mState == Entity::EntityState::Alive)
+        if (Enemies[i].mState == Entity::EntityState::Alive)
         {
             Enemies[i].updateAndDraw(mWindow, player1, mDT);
             Enemies[i].enemyDealDamage(player1);
@@ -115,11 +145,21 @@ void Game::render()
     mWindow.display();
 }
 
+/**
+ * @brief This function checks if the game is done
+ *
+ * @return true True if the game is done
+ * @return false True if the game is not done
+ */
 bool Game::isDone() const
 {
     return (!mWindow.isOpen() || mIsDone);
 }
 
+/**
+ * @brief This function updates the camera view based on the player position
+ *
+ */
 void Game::updateCamView()
 {
     sf::FloatRect bounds = player1.mSprite.getGlobalBounds();
@@ -150,6 +190,10 @@ void Game::updateCamView()
     mWindow.setView(view);
 }
 
+/**
+ * @brief This function checks for projectile collision with enemies
+ *
+ */
 void Game::checkProjCollision()
 {
     std::vector<Weapon::Projectile> &projectiles = player1.getWeapon().mProjectiles;
@@ -178,6 +222,10 @@ void Game::checkProjCollision()
     }
 }
 
+/**
+ * @brief This function checks if all enemies are dead
+ *
+ */
 void Game::checkAllEnemiesDead()
 {
     // if enemies are alldead level up
@@ -196,6 +244,10 @@ void Game::checkAllEnemiesDead()
     }
 }
 
+/**
+ * @brief This function plays the splash screen and music
+ *
+ */
 void Game::playSplash()
 {
     // 1) load & play splash only
@@ -221,6 +273,10 @@ void Game::playSplash()
     mMusic.play();
 }
 
+/**
+ * @brief This function plays the end screen and music
+ *
+ */
 void Game::playEnd()
 {
     SplashScreen splash(
@@ -249,6 +305,10 @@ void Game::playEnd()
     splash.display(mWindow);
 }
 
+/**
+ * @brief This function resets the game state
+ *
+ */
 void Game::resetGame()
 {
     mIsDone = false;
@@ -266,6 +326,12 @@ void Game::resetGame()
     player1.getWeapon().setBulletsFired(0);
 }
 
+/**
+ * @brief This function generates a random spawn point for the enemies
+ *
+ * @param i The index of the enemy
+ * @return sf::Vector2f The random spawn point
+ */
 sf::Vector2f Game::randomSpawn(int i)
 {
     int randomNumber = (rand() % 4) + 1; // rand num 1-4
@@ -286,30 +352,35 @@ sf::Vector2f Game::randomSpawn(int i)
         return sf::Vector2f({1200.f, 1000.f - (50.f * i)});
     }
 }
+
+/**
+ * @brief This function separates the enemies to avoid overlap
+ *
+ */
 void Game::separateEnemies()
 {
-    const float minDist   = 20.f;  // desired minimum spacing
-    const float minDist2  = minDist*minDist;
-    const float pushStr   = 0.5f;  // how hard to push them apart
+    const float minDist = 20.f; // desired minimum spacing
+    const float minDist2 = minDist * minDist;
+    const float pushStr = 0.5f; // how hard to push them apart
 
     for (size_t i = 0; i < Enemies.size(); ++i)
     {
-        for (size_t j = i+1; j < Enemies.size(); ++j)
+        for (size_t j = i + 1; j < Enemies.size(); ++j)
         {
             auto &A = Enemies[i].mSprite;
             auto &B = Enemies[j].mSprite;
 
             sf::Vector2f d = A.getPosition() - B.getPosition();
-            float dist2 = d.x*d.x + d.y*d.y;
-            if (dist2 > 0 && dist2 < minDist2 &&  Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
+            float dist2 = d.x * d.x + d.y * d.y;
+            if (dist2 > 0 && dist2 < minDist2 && Enemies[i].mState == Entity::EntityState::Alive && Enemies[j].mState == Entity::EntityState::Alive)
             {
                 float dist = std::sqrt(dist2);
                 // normalized direction
                 d /= dist;
                 float overlap = (minDist - dist) * pushStr;
                 // push each sprite half the overlap in opposite directions
-                A.move( d * (overlap * 0.5f) );
-                B.move(-d * (overlap * 0.5f) );
+                A.move(d * (overlap * 0.5f));
+                B.move(-d * (overlap * 0.5f));
             }
         }
     }

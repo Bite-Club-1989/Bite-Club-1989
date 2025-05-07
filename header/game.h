@@ -12,46 +12,43 @@
 class Game
 {
 public:
-    Game();
-    ~Game() {};
+    Game(); // Constructor
 
-    void handleInput();
-    void update(float);
-    void render();
-    bool isDone() const;
-    void updateCamView();
-    void checkProjCollision();
-    void checkAllEnemiesDead();
-    void playSplash();
-    void resetGame();
-    void playEnd();
-    void separateEnemies();
-    float mDT;
+    void handleInput();         // Handle input from the player
+    void update(float);         // Update the game state
+    void render();              // Render the game
+    bool isDone() const;        // Check if the game is done
+    void updateCamView();       // Update the camera view
+    void checkProjCollision();  // Check for projectile collisions
+    void checkAllEnemiesDead(); // Check if all enemies are dead
+    void playSplash();          // Play the splash screen
+    void resetGame();           // Reset the game state
+    void playEnd();             // Play the end screen
+    void separateEnemies();     // Separate enemies from each other
+    float mDT;                  // delta time
 
 private:
-    Player player1;
-    std::vector<Enemy> Enemies;
-    Enemy e;
-    sf::Vector2f randomSpawn(int i);
+    Player player1;                  // Player object
+    std::vector<Enemy> Enemies;      // Vector of enemy objects
+    Enemy e;                         // Enemy object for spawning
+    sf::Vector2f randomSpawn(int i); // Random spawn position for enemies
 
-    int LEVEL = 1;
-    int lastSpawnedLevel = 0;
-    float spawnTimer = 0.f;
-    float spawnDuration = 5.f;
+    int LEVEL = 1;             // Current level
+    int lastSpawnedLevel = 0;  // Last level spawned
+    float spawnTimer = 0.f;    // Timer for spawning enemies
+    float spawnDuration = 5.f; // Duration for spawning enemies
 
-    Hud hudOverlay;
+    Hud hudOverlay; // HUD overlay object
 
-    sf::RenderWindow mWindow;
-    sf::Texture mBackground;
-    sf::Texture mRoofOne;
-    sf::Sprite mSpriteBackground;
-    sf::Sprite mSpriteRoofOne;
-    sf::View view = mWindow.getDefaultView();
-    sf::Music mMusic;
-    sf::Music mSplashMusic;
-    bool mIsDone;
-
-    // add button for quick restart
+    sf::RenderWindow mWindow;                 // Render window object
+    sf::Texture mBackground;                  // Background texture
+    sf::Texture mRoofOne;                     // Roof texture
+    sf::Sprite mSpriteBackground;             // Background sprite
+    sf::Sprite mSpriteRoofOne;                // Roof sprite
+    sf::View view = mWindow.getDefaultView(); // Camera view
+    sf::Music mMusic;                         // Background music
+    sf::Music mSplashMusic;                   // Splash screen music
+    bool mIsDone;                             // Game state
 };
 
 #endif
